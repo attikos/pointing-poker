@@ -1,22 +1,20 @@
 import React from 'react';
-import logo from './logo.svg';
+import { Route, Switch } from "react-router-dom";
 import s from './App.module.scss';
-import cn from 'classnames';
+import Footer from './components/Footer/Footer';
+import Header from './components/Header/Header';
+import MainContainer from './pages/Main/MainContainer';
+
 
 function App() {
-  const isValid = true;
-
   return (
-    <div className={s.app}>
-      <header className={cn(s.appHeader, {
-        'someClass' : isValid,
-      })}>
-        <img src={logo} className={s.appLogo} alt="logo" />
-
-        <h1>Установленная версия Bootstrap: 5.1</h1>
-        <h2><a href="https://getbootstrap.com/docs/5.0/layout/grid/" target="_blank" rel="noreferrer">Документация</a></h2>
-
-      </header>
+    <div className={s.wrapper}>
+      <Header />
+      <Switch>
+      <Route exact path="/" render={() => <MainContainer />} />
+      {/* <Route exact path="/lobby-master" render={() => <LobbyForMaster />} /> */}
+      </Switch>
+      <Footer />
     </div>
   );
 }
