@@ -1,4 +1,4 @@
-export interface Values {
+export interface User{
     firstName: string;
     lastName: string;
     job: string;

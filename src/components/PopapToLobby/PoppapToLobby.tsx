@@ -3,6 +3,7 @@ import s from './PoppapToLobby.module.scss';
 import cn from 'classnames'
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from "yup"
+import { User } from "../../interface";
 
 
 const SignupSchema = Yup.object().shape({
@@ -13,7 +14,7 @@ const SignupSchema = Yup.object().shape({
 
 });
 const PoppapToLobby = (props: { active: any; setActive: (arg0: boolean) => void; handleSubmit: (arg0: { isObserver: boolean; firstName: string; lastName: string; job: string; foto: string; }) => void; getIinitials: (arg0: any, arg1: any) => boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; state: { formData: { firstName: any; lastName: any; }; }; }) => {
-    const initialValues = {
+    const initialValues: User = {
         isObserver: false,
         firstName: '',
         lastName: '',

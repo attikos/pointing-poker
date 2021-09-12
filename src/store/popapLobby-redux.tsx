@@ -3,7 +3,7 @@
 // const UPDATE_JOB = 'UPDATE_JOB'
 // const UPDATE_ISOBSERVER = 'UPDATE_ISOBSERVER'
 // const UPDATE_FOTO = 'UPDATE_FOTO'
-const UPDATE_DATA = 'UPDATE_DATA'
+const UPDATE_USER = 'UPDATE_USER'
 
 let init = {
     isObserver: false,
@@ -13,9 +13,9 @@ let init = {
     foto: '',
 
 }
-export const updateDataAC = (value: any) => {
+export const updateUserAC = (value: any) => {
     return {
-        type: UPDATE_DATA,
+        type: UPDATE_USER,
         value: value
     }
 }
@@ -38,13 +38,10 @@ const popapLobbyReducer = (state: {
     }) => {
     let stateCopy
     switch (action.type) {
-        case UPDATE_DATA:
+        case UPDATE_USER:
             stateCopy = {
-                // ...state,
                 ...action.value
-
             }
-
             return stateCopy
         default:
             return state

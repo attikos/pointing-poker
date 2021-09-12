@@ -3,8 +3,8 @@ import s from './Footer.module.scss';
 import { AiOutlineGithub } from "react-icons/ai"
 
 const Footer = () => {
-return (
-    <footer className={s.footer}>
+    return (
+        <footer className={s.footer}>
             <div className={s.footerContainer}>
                 <div className={s.footerGithub}>
                     <a className={s.link} href="https://github.com/AnnaKoliada"><AiOutlineGithub /></a>
@@ -17,6 +17,6 @@ return (
                 </div>
             </div>
         </footer>
-)
+    )
 }
 export default Footer
