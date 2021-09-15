@@ -1,3 +1,4 @@
+
 .main {
   max-width: 1000px;
   margin: 0.5rem auto;
@@ -11,6 +12,13 @@
   .logoImg {
     margin: auto;
     display: block;
+  }
+  a{
+    text-decoration: none;
+    color: inherit;
+  }
+  a:hover{
+    color: inherit;
   }
 
   .startHeader {

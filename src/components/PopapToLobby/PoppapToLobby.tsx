@@ -19,11 +19,15 @@ const PoppapToLobby = (
         setActive: (arg0: boolean) => void;
         handleSubmit: (arg0: User) => void;
         getIinitials: (arg0: string, arg1: string) => string;
+        openTheLobby: (arg0: string) => void;
         state: {
             formData: {
                 firstName: any;
                 lastName: any;
             };
+            game: {
+                game_nice_id: string;
+            }
         };
     }) => {
     return (
@@ -38,6 +42,7 @@ const PoppapToLobby = (
                         onSubmit={(values, { setSubmitting }
                         ) => {
                             props.handleSubmit(values);
+                            props.openTheLobby(props.state.game.game_nice_id)
                             setSubmitting(false);
                         }
                         }
@@ -68,7 +73,7 @@ const PoppapToLobby = (
                             <input type="file" className="select-foto-input input" name="photo"
                             />
                             <div className={s.foto}> <div className={s.noFoto}>{
-                            props.getIinitials(props.state.formData.firstName, props.state.formData.lastName)}</div></div>
+                            props.getIinitials(props.state.userData.firstName, props.state.userData.lastName)}</div></div>
                             <div className={s.buttonContainer}>
                                 <div className={s.confirm}>
                                     <button className={cn(s.buttonBlue, s.button)} type='submit' >Confirm</button>
