@@ -12,7 +12,6 @@ let reducers = combineReducers({
    members: membersReducer,
    issues: issuesReducer,
    // scores: scoresReducer,
-
 })
 let store = createStore(reducers)
 export default store

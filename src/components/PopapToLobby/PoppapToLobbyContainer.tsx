@@ -1,12 +1,12 @@
 import { connect } from "react-redux";
 import { updateUserAC } from "../../store/popapLobby-redux";
 import PoppapToLobby from "./PoppapToLobby";
-import { User } from "../../interface";
+import { User, TGameNiceId } from "../../interface";
+import api from '../../services/api';
+import {websocket} from '../../services/socket';
 
 let mapStateToProps = (state: any) => {
-    return {
-        state
-    }
+    return { state }
 }
 
 let mapDispatchToProps = (
@@ -17,15 +17,23 @@ let mapDispatchToProps = (
     }
 ) => {
     return {
-        handleSubmit(value: User) {
-            dispatch(updateUserAC(value));
-            props.setActive(true);
+        async handleSubmit(values: { user: User, gameNiceId: TGameNiceId }) {
+            dispatch(updateUserAC(values.user))
+            // props.setActive(true);
+
+            const success = await api.newGame(values);
+            if ( success ) {
+                await websocket.connect();
+                websocket.on('allData', (data:any) => console.log('!!!! ALL-DATA', data) );
+                websocket.emit('getAllData');
+            }
         },
-        openTheLobby(id: string, status: string) {
+        openTheLobby(id: TGameNiceId, status: string) {
             if (status === 'lobby') {
                 props.history.push(`/${id}`)
             }
         },
+
         getIinitials(firstName: string, lastName: string) {
             if (firstName && lastName) {
                 return firstName[0].toUpperCase() + lastName[0].toUpperCase()

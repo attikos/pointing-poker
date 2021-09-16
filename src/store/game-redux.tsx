@@ -4,7 +4,7 @@ const UPDATE_GAME = 'UPDATE_GAME'
 const UPDATE_GAME_STATUS = 'UPDATE_GAME_STATUS'
 
 let init: IGame = {
-    game_nice_id: 'ABC123',
+    gameNiceId: 'ABC123',
     diller_nice_id: '123ERT',
     status: 'lobby', // статусы могут быть такими ['lobby', 'game', 'result']
 }

@@ -5,11 +5,14 @@ export interface User {
     isObserver: boolean;
     foto: string;
 }
+
+export type TGameNiceId = string;
+
 export interface ValueURL {
-    url: string;
+    gameNiceId: TGameNiceId;
 }
 export interface IGame {
-    game_nice_id: string,
+    gameNiceId: string,
     diller_nice_id: string,
     status: string,
 }
@@ -29,5 +32,3 @@ export interface IIssues {
     priority: string,
 
 }
-
-

@@ -15,8 +15,8 @@ function App(props: any ) {
       <Header />
       <Switch>
       <Route exact path="/" render={() => <MainContainer history={props.history} />} />
-    
-      <Route exact path="/:game_nice_id" render={() => <LobbyContainer />} />
+
+      <Route exact path="/:gameNiceId" render={() => <LobbyContainer />} />
       </Switch>
       <Footer />
     </div>
