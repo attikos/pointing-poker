@@ -4,7 +4,7 @@ import cn from 'classnames'
 import { Formik, Field, Form, ErrorMessage } from 'formik';
 import * as Yup from "yup"
 import { User } from "../../interface";
-
+import { initialUserState } from '../../store/popapLobby-redux';
 
 const SignupSchema = Yup.object().shape({
     firstName: Yup.string()
@@ -13,14 +13,19 @@ const SignupSchema = Yup.object().shape({
         .required('Required'),
 
 });
-const PoppapToLobby = (props: { active: any; setActive: (arg0: boolean) => void; handleSubmit: (arg0: { isObserver: boolean; firstName: string; lastName: string; job: string; foto: string; }) => void; getIinitials: (arg0: any, arg1: any) => boolean | React.ReactChild | React.ReactFragment | React.ReactPortal | null | undefined; state: { formData: { firstName: any; lastName: any; }; }; }) => {
-    const initialValues: User = {
-        isObserver: false,
-        firstName: '',
-        lastName: '',
-        job: '',
-        foto: '',
-    }
+const PoppapToLobby = (
+    props: {
+        active: any;
+        setActive: (arg0: boolean) => void;
+        handleSubmit: (arg0: User) => void;
+        getIinitials: (arg0: string, arg1: string) => string;
+        state: {
+            formData: {
+                firstName: any;
+                lastName: any;
+            };
+        };
+    }) => {
     return (
         <div className={cn(s.formLobby,
             { [s.active]: !props.active }
@@ -28,7 +33,7 @@ const PoppapToLobby = (props: { active: any; setActive: (arg0: boolean) => void;
             <div className={s.body}>
                 <div className={s.content} onClick={(e) => e.stopPropagation()}>
                     <Formik
-                         initialValues = {initialValues}
+                        initialValues={initialUserState}
                         validationSchema={SignupSchema}
                         onSubmit={(values, { setSubmitting }
                         ) => {
@@ -59,8 +64,8 @@ const PoppapToLobby = (props: { active: any; setActive: (arg0: boolean) => void;
                             <label htmlFor="job">Your Job Position (optional)</label>
                             <Field id="job" name="job" className={s.input}
                             />
-                            <label htmlFor="jobName">Image:</label>
-                            <input type="file" className="select-foto-input input" name="jobName"
+                            <label htmlFor="photo">Image:</label>
+                            <input type="file" className="select-foto-input input" name="photo"
                             />
                             <div className={s.foto}> <div className={s.noFoto}>{
                             props.getIinitials(props.state.formData.firstName, props.state.formData.lastName)}</div></div>
@@ -78,4 +83,3 @@ const PoppapToLobby = (props: { active: any; setActive: (arg0: boolean) => void;
     )
 }
 export default PoppapToLobby
-
