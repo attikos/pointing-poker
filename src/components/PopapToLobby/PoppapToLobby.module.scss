@@ -27,6 +27,7 @@
   overflow-y: auto;
   overflow-x: hidden;
   transition: all 0.8s ease 0s;
+  z-index: 2;
   // display: flex;
   // align-items: center;
   // justify-content: center;
@@ -49,15 +50,16 @@
     color: #000;
     max-width: 870px;
     // height: 100%;
-    padding: 10px;
+    padding: 20px;
     position: relative;
+    border-radius: 4px;
   }
   .formLobbyTop {
     display: flex;
     justify-content: space-evenly;
     padding-bottom: 2rem;
   }
- 
+
 }
 .active {
   // opacity: 1;
@@ -76,12 +78,12 @@
 .form {
   display: flex;
   flex-direction: column;
- 
+
 }
 .input{
     max-width: 400px;
 
-   
+
 }
 .buttonContainer{
     padding-top: 100px;
@@ -127,20 +129,21 @@
   padding: 1rem ;
 }
 .noFoto {
-  width: 10%;
-  height: 5rem;
+  width: 74px;
+  height: 74px;
   border-radius: 50%;
   background: #60dabf;
   font-weight: bold;
-  box-shadow: inset 0px 4px 4px rgba(0, 0, 0, 25%);
-  font-size: 48px;
+  box-shadow: inset 0px 3px 3px rgba(0, 0, 0, 0.25);
+  font-size: 42px;
   line-height: 56px;
   display: flex;
   align-items: center;
   text-align: center;
   color: #ffffff;
-  text-shadow: 0px 4px 4px rgba(0, 0, 0, 25%);
+  text-shadow: -1px 3px 4px rgba(0, 0, 0, 0.25);
   justify-content: center;
+  border: 1px solid #009070;
 }
 .error{
   color: red;

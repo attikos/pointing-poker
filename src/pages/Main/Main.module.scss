@@ -4,6 +4,7 @@
   padding: 4rem 1rem;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
   min-height: 90vh;
+
   .logo {
     width: 100%;
   }
@@ -19,18 +20,6 @@
     line-height: 56px;
     color: #66999b;
     padding: 0.5rem 5rem 2rem 0;
-  }
-  label {
-    font-style: normal;
-    font-weight: 300;
-    font-size: 24px;
-    line-height: 28px;
-    display: flex;
-    justify-content: space-between;
-    color: #000000;
-    padding-top: 1rem;
-    padding-right: 1rem;
-    max-width: 500px;
   }
   .startButton {
     font-style: normal;
@@ -50,11 +39,30 @@
   }
   .url {
     max-width: 250px;
-    font-size: 24px;
+    // font-size: 24px;
   }
   .error{
     color: red;
     // width: 1rem;
   }
-  
+}
+
+// .label {
+//   font-style: normal;
+//   font-weight: 300;
+//   font-size: 24px;
+//   line-height: 28px;
+//   display: flex;
+//   justify-content: space-between;
+//   color: #000000;
+//   padding-top: 1rem;
+//   padding-right: 1rem;
+//   max-width: 500px;
+// }
+
+.label {
+  font-weight: 300;
+  font-size: 24px;
+  line-height: 28px;
+  color: #000;
 }

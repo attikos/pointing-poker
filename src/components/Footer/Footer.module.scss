@@ -1,10 +1,7 @@
 .footer {
   width: 100%;
   background: #66999b;
-  position: relative;
-  bottom: 0;
-  left: 0;
-  z-index: -1;
+  padding: 12px;
 }
 .footerContainer {
   display: flex;
@@ -25,11 +22,17 @@
 .link{
   color:#000;
   padding: 0 20px;
-}
-.link:hover{
-  cursor:pointer;
+
+  &:hover{
+    cursor:pointer;
+  }
 }
 .footerLogoSvg{
   width: 45%;
   z-index: -1;
+}
+.year {
+  font-size: 16px;
+  line-height: 20px;
+  color: #222;
 }

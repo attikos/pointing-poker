@@ -3,17 +3,20 @@ import ReactDOM from 'react-dom';
 import './index.scss';
 import App from './App';
 import { Provider } from 'react-redux'
-import 'bootstrap/dist/css/bootstrap.min.css';
+// import 'bootstrap/scss/bootstrap.scss';
+// import * as bootstrap from 'bootstrap';
+// import bootstrap from 'bootstrap/dist/js/bootstrap.esm.js';
 import * as bootstrap from 'bootstrap';
+import './bootstrap-theme.scss';
 import store from './store/store-redux';
 import { BrowserRouter } from "react-router-dom";
 
-// declare global {
-//   interface Window {
-//     api?: any;
-//     bootstrap: bootstrap,
-//   }
-// }
+declare global {
+  interface Window {
+    api?: any;
+    bootstrap: any,
+  }
+}
 
 window.bootstrap = bootstrap;
 
