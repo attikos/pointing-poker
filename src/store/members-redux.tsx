@@ -15,8 +15,16 @@ let init: IMembers[] = [
         nice_id: 'ABC123',
         first_name: 'Thn2',
         last_name: 'Фамилия участника2',
-        is_diller: false,
+        is_diller: true,
         is_player: true, // может голосовать
+        job: 'my work'
+    },
+    {
+        nice_id: 'ABC123',
+        first_name: 'Thn2',
+        last_name: 'GTG2',
+        is_diller: false,
+        is_player: false, // может голосовать
         job: 'my work'
     },
     {

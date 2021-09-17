@@ -9,7 +9,21 @@ let mapStateToProps = (state: any) => {
 }
 let mapDispatchToProps = (dispatch: (arg0: { type: string; value?: string | boolean; }) => void) => {
     return {
-
+        getInitials(firstName: string, lastName: string) {
+            if (firstName && lastName) {
+                return (firstName[0].toUpperCase() + lastName[0].toUpperCase())
+            }
+            if (firstName && !lastName) {
+                return (firstName[0].toUpperCase())
+            }
+            if (!firstName) {
+                return ""
+            }
+        },
+        isThisIssue(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+            let element = e.currentTarget.id
+            console.log(element)
+        }
     }
 }
 

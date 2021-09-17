@@ -3,7 +3,7 @@ import s from './PopapAddIssue.module.scss';
 import cn from 'classnames'
 import { ErrorMessage, Field, Form, Formik } from "formik";
 
-const PopapAddIssue = (props: { active: any; setActive: (arg0: boolean) => void; }) => {
+const PopapAddIssue = (props: { active: any; setActive: (arg0: boolean) => void; status: string; }) => {
     const initialValues = {
         title: '',
         link: '',
@@ -29,26 +29,28 @@ const PopapAddIssue = (props: { active: any; setActive: (arg0: boolean) => void;
                         <Form className={s.form}>
                             <div className={s.formLobbyTop}>
                                 <div className={s.formLobbyHeader}>
-                                    Create Issue
+                                    {(props.status === 'create') ? 'Create Issue' : "Edit Issue"}
                                 </div>
 
                             </div>
                             <div className={s.items}>
-                            <label htmlFor="title">Title:</label> <Field name="title" className={s.input}
-                            />
-</div>
+                                <label htmlFor="title">Title:</label>
+                                 <Field name="title" className={s.input} 
+                                //  value={(props.status === 'edit') ? `${props.state.issues.}`: ''}
+                                />
+                            </div>
                             <span className={s.error}><ErrorMessage name="title" /></span>
                             <div className={s.items}>
-                            <label htmlFor="link">Link:</label> <Field name="link" className={s.input}
+                                <label htmlFor="link">Link:</label> <Field name="link" className={s.input}
 
-                            /></div>
+                                /></div>
                             <div className={s.items}>
-                            <label htmlFor="link">Priopity: </label>
-                            <Field as="select" name="priopity" className={s.input}>
-                                <option value="low">Low</option>
-                                <option value="middle">Middle</option>
-                                <option value="hight">Hight</option>
-                            </Field>
+                                <label htmlFor="link">Priopity: </label>
+                                <Field as="select" name="priopity" className={s.input}>
+                                    <option value="low">Low</option>
+                                    <option value="middle">Middle</option>
+                                    <option value="hight">Hight</option>
+                                </Field>
                             </div>
                             <div className={s.buttonContainer}>
                                 <div className={s.confirm}>

@@ -16,14 +16,14 @@ let init: IIssues[] =
         {
             title: 'Заголовок2 задачи',
             nice_id: 'DSA432',
-            is_current: true, // текущая задача, над которой голосуют
+            is_current: false, // текущая задача, над которой голосуют
             link: 'ссылка на задачу',
             priority: 'low', // ['low', 'middle', 'high']
         },
         {
             title: 'Заголовок3 задачи',
             nice_id: 'DSA432',
-            is_current: true, // текущая задача, над которой голосуют
+            is_current: false, // текущая задача, над которой голосуют
             link: 'ссылка на задачу',
             priority: 'low', // ['low', 'middle', 'high']
         }

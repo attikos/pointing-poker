@@ -8,7 +8,7 @@ import MainContainer from './pages/Main/MainContainer';
 import LobbyContainer from './pages/Lobby/LobbyContainer';
 
 
-function App(props: any) {
+function App(props: any ) {
   console.log('App', props)
   return (
     <div className={s.wrapper}>
@@ -16,7 +16,7 @@ function App(props: any) {
       <Switch>
       <Route exact path="/" render={() => <MainContainer history={props.history} />} />
     
-      <Route exact path="/:game_nice_id" render={() => <LobbyContainer  />} />
+      <Route exact path="/:game_nice_id" render={() => <LobbyContainer />} />
       </Switch>
       <Footer />
     </div>
