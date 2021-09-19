@@ -44,7 +44,9 @@
   text-align: start;
 }
 .inputLinkLobby {
-  border-radius: 0 0 0 2px;
+  border-radius: 5px 0 0 5px;
+  border: 1px solid #000;
+  padding: .6rem .5rem;
 }
 .copyLinkLobby {
   display: flex;
@@ -153,30 +155,7 @@
   // max-width: 500px;
   text-align: start;
 }
-.button {
-  font-family: Ruda;
-  font-style: normal;
-  font-weight: bold;
-  font-size: 24px;
-  line-height: 30px;
-  display: flex;
-  align-items: center;
-  text-align: center;
-  text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  border: 1px solid #496a81;
-  box-sizing: border-box;
-  border-radius: 3px;
-  padding: 0.5rem 2rem;
-}
 
-.buttonBlue {
-  color: #ffffff;
-  background: #2b3a67;
-}
-.buttonWhite {
-  color: #2b3a67;
-  background: #ffffff;
-}
 .noFoto {
   width: 5rem;
   height: 5rem;

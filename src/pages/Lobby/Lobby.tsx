@@ -4,12 +4,23 @@ import s from './Lobby.module.scss';
 import { HiBan, HiOutlinePlus, HiOutlineTrash, HiPencil } from 'react-icons/hi';
 import { AiOutlineEye } from "react-icons/ai"
 import PoppapAddIssueContainer from "../../components/PopapAddIssue/PopapAddIssueContainer";
-import { IIssues, IMembers } from "../../interface";
+import { IGame, IIssues, IMembers } from "../../interface";
 
 
-const Lobby = (props: any) => {
+const Lobby = (props:
+    {
+        state: {
+            issues: IIssues[];
+            members: IMembers[];
+            playerOrMaster: { playerOrMaster: string; };
+            game: IGame;
+        };
+        getInitials: (arg0: string, arg1: string) => {} | null | undefined; isThisIssue: (arg0: React.MouseEvent<HTMLDivElement, MouseEvent>) => React.SetStateAction<string>;
+    }
+) => {
     const [popapActive, setPopapActive] = useState(true)
-    const [createOrEditIssue, setCreateOrEditIssue]=useState('')
+    const [createOrEditIssue, setCreateOrEditIssue] = useState('');
+    const [elementIssue, setElementIssue] = useState('')
     return (
         <div className={s.settings}>
             <div className={s.settingsTop}>
@@ -18,15 +29,17 @@ const Lobby = (props: any) => {
                         {props.state.issues.map((item: IIssues) => {
                             return item.title + ' '
                         }
-                            )}
+                        )}
                     </div>
-                    <div className={s.iconPencil}><HiPencil className={s.issuesChangeIcon} /></div>
+                    <div className={s.iconPencil}>
+                        {/* <HiPencil className={s.issuesChangeIcon} /> */}
+                    </div>
                 </div>
                 <div className={s.scramMaster}>
                     <h6>Scram master:</h6>
-                    {props.state.members.map((item: IMembers) => {
+                    {props.state.members.map((item: IMembers, i: number) => {
                         if (item.is_diller) {
-                            return (<div className={s.scramMasterCard}>
+                            return (<div className={s.scramMasterCard} key={i}>
                                 <div className={s.noFoto}>
                                     {props.getInitials(item.first_name, item.last_name)}
                                 </div>
@@ -47,27 +60,27 @@ const Lobby = (props: any) => {
                     <div className={s.linkLobby}>
                         <h3> <i><b>Link to lobby:</b></i></ h3>
                         <div className={s.copyLinkLobby}>
-                            <input className={s.inputLinkLobby} type="text" value={`http://localhost/${props.state.game.game_nice_id}`}  />
-                            <button className={cn(s.buttonBlue, s.button)}>Copy</button>
+                            <div className={s.inputLinkLobby} >{`http://localhost/${props.state.game.game_nice_id}`}</div>
+                            <button className={cn('btn btn-secondary btn-lg')}>Copy</button>
                         </div>
                     </div>
                     <div className={s.settingsTopButtons}>
-                        <button className={cn(s.buttonBlue, s.button)}>StartGame</button>
-                        <button className={cn(s.buttonWhite, s.button)}>Cancel</button>
+                        <button className={cn('btn btn-secondary btn-lg')}>StartGame</button>
+                        <button className={cn("btn btn-outline-secondary btn-lg")}>Cancel</button>
                     </div>
                 </div>) : (<div className={s.settingsPlayer}>
                     <div className={s.settingsTopButtons}>
-                        <button className={cn(s.buttonWhite, s.button)}>Exit</button>
+                        <button className={cn("btn btn-outline-secondary btn-lg")}>Exit</button>
                     </div>
                 </div>)
             }
             <div className={s.settingsMembers}>
                 <div className={s.memberTitle}> Members:</div>
-                {props.state.members.map(({ first_name, is_diller, is_player, job, last_name, nice_id }: IMembers) => {
+                {props.state.members.map(({ first_name, is_diller, is_player, job, last_name, nice_id }: IMembers, i: number) => {
                     return (
                         < div className={cn(s.memberCard,
                             { [s.isObserverCard]: (!is_diller && !is_player) }
-                        )}>
+                        )} key={i}>
                             <div className={s.noFoto}>{props.getInitials(first_name, last_name)}
                             </div>
                             <div className={s.memberInfo}>
@@ -88,14 +101,19 @@ const Lobby = (props: any) => {
                             <div className={s.issuesTitle}>
                                 Issues:
                             </div>
-                            {props.state.issues.map((item: IIssues) => {
+                            {props.state.issues.map((item: IIssues, i: number) => {
+                                console.log('i', i)
                                 return (
-                                    <div className={s.issuesCard}>
+                                    <div className={s.issuesCard} key={i}>
                                         <div className={s.issuesInfo}>
                                             <div className={s.issuesInfoName}>{item.title}</div>
                                             <div className={s.issuesPriority}>{item.priority}</div>
                                         </div>
-                                        <div className={s.issuesChange}  onClick={(e) =>{ setPopapActive(false); setCreateOrEditIssue('edit'); props.isThisIssue(e)}}>
+                                        <div className={s.issuesChange} id={`${i}`} 
+                                        onClick={(e) => {
+                                            setPopapActive(false); setCreateOrEditIssue('edit');
+                                            setElementIssue(props.isThisIssue(e));
+                                        }}>
                                             <HiPencil className={s.issuesChangeIcon} />
                                         </div>
                                         <div className={s.issuesDel}>
@@ -104,7 +122,11 @@ const Lobby = (props: any) => {
                                     </div>
                                 )
                             })}
-                            <div className={s.issuesCardAdd} onClick={() =>{ setPopapActive(false); setCreateOrEditIssue('create')}} >
+                            <div className={s.issuesCardAdd} 
+                            onClick={() => {
+                                setPopapActive(false);
+                                setCreateOrEditIssue('create')
+                            }} >
                                 <div className={s.issuesCardAddTitle}>Create new Issue</div>
 
                                 <div className={s.issuesAdd}>
@@ -128,8 +150,15 @@ const Lobby = (props: any) => {
                         </div>
                     </div>) : null
             }
+            <PoppapAddIssueContainer active={popapActive} status={createOrEditIssue} setActive={setPopapActive} element={elementIssue} />
+        </div >
 
-            {/* <div className={s.gameCards}>
+    )
+}
+export default Lobby
+
+ // eslint-disable-next-line no-lone-blocks
+ {/* <div className={s.gameCards}>
                 <div className={s.gameCardsTitle}>
                     Game Cards:
                 </div>
@@ -175,10 +204,3 @@ const Lobby = (props: any) => {
                     </div>
                 </div>
             </div> */}
-
-            <PoppapAddIssueContainer active={popapActive} status={createOrEditIssue} setActive={setPopapActive} />
-        </div >
-
-    )
-}
-export default Lobby

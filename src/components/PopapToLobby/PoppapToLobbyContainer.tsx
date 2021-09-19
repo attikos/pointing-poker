@@ -10,28 +10,30 @@ let mapStateToProps = (state: any) => {
 }
 
 let mapDispatchToProps = (
-    dispatch: (arg0: { type: string; value: User } ) => void, 
+    dispatch: (arg0: { type: string; value: User }) => void,
     props: {
-        setActive: (arg0: boolean) => void; 
-        history: string[]; 
+        setActive: (arg0: boolean) => void;
+        history: string[];
     }
-)  => {
+) => {
     return {
-        handleSubmit(value: User)  {
+        handleSubmit(value: User) {
             dispatch(updateUserAC(value));
             props.setActive(true);
         },
-        openTheLobby(id: string) {
-            props.history.push(`/${id}`)
+        openTheLobby(id: string, status: string) {
+            if (status === 'lobby') {
+                props.history.push(`/${id}`)
+            }
         },
         getIinitials(firstName: string, lastName: string) {
-            if (firstName && lastName){
+            if (firstName && lastName) {
                 return firstName[0].toUpperCase() + lastName[0].toUpperCase()
             }
-            if(firstName && !lastName){
+            if (firstName && !lastName) {
                 return firstName[0].toUpperCase()
             }
-            if (!firstName){
+            if (!firstName) {
                 return ''
             }
             return ''

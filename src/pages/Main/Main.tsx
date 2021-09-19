@@ -38,7 +38,7 @@ const Main = (props: { handleSubmit: (arg0: string) => void; validateID: any; hi
                     }
                 >
                     {({ errors, touched }) => (
-                        <Form className={s.form}>
+                        <Form className={s.form} >
                             <div className={s.startHeader}>Or:</div>
                             <label className={cn('mb-3', s.label)} htmlFor={s.startLobby}> Connect to lobby by ID: </label>
                             <div className="input-group has-validation mb-3">
@@ -52,8 +52,8 @@ const Main = (props: { handleSubmit: (arg0: string) => void; validateID: any; hi
                                     placeholder="Game ID like ABC123"
                                 />
                                 <button
-                                    className={cn('btn btn-secondary btn-lg'/*, s.startButton*/)}
-                                    type="button"
+                                    className={cn('btn btn-secondary btn-lg')}
+                                    type="submit"
                                 >Connect</button>
 
                                 <span className={cn('invalid-feedback', s.error)}>

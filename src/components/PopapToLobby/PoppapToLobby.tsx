@@ -19,14 +19,15 @@ const PoppapToLobby = (
         setActive: (arg0: boolean) => void;
         handleSubmit: (arg0: User) => void;
         getIinitials: (arg0: string, arg1: string) => string;
-        openTheLobby: (arg0: string) => void;
+        openTheLobby: ( arg0: string, arg1: string, ) => void;
         state: {
-            formData: {
+            userData: {
                 firstName: any;
                 lastName: any;
             };
             game: {
                 game_nice_id: string;
+                status: string;
             }
         };
     }) => {
@@ -42,7 +43,7 @@ const PoppapToLobby = (
                         onSubmit={(values, { setSubmitting }
                         ) => {
                             props.handleSubmit(values);
-                            props.openTheLobby(props.state.game.game_nice_id)
+                            props.openTheLobby(props.state.game.game_nice_id, props.state.game.status)
                             setSubmitting(false);
                         }
                         }
@@ -64,7 +65,6 @@ const PoppapToLobby = (
                             <span className={s.error}><ErrorMessage name="firstName" /></span>
                             <label htmlFor="lastName">Your Last Name (optional)</label>
                             <Field id="lastName" name="lastName" className={s.input}
-
                             />
                             <label htmlFor="job">Your Job Position (optional)</label>
                             <Field id="job" name="job" className={s.input}
@@ -73,12 +73,12 @@ const PoppapToLobby = (
                             <input type="file" className="select-foto-input input" name="photo"
                             />
                             <div className={s.foto}> <div className={s.noFoto}>{
-                            props.getIinitials(props.state.userData.firstName, props.state.userData.lastName)}</div></div>
+                                props.getIinitials(props.state.userData.firstName, props.state.userData.lastName)}</div></div>
                             <div className={s.buttonContainer}>
                                 <div className={s.confirm}>
-                                    <button className={cn(s.buttonBlue, s.button)} type='submit' >Confirm</button>
+                                    <button className={cn('btn btn-secondary btn-lg')} type='submit' >Confirm</button>
                                 </div>
-                                <div className={s.cancel}><button className={cn(s.buttonWhite, s.button)} onClick={() => props.setActive(true)} >Cancel</button></div>
+                                <div className={s.cancel}><button className={cn("btn btn-outline-secondary btn-lg")} onClick={() => props.setActive(true)} >Cancel</button></div>
                             </div>
                         </Form>
                     </Formik>
