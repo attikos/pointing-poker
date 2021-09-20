@@ -3,8 +3,38 @@ import {getToken} from './axios'
 
 const env = require(`../env/${ process.env.NODE_ENV }.env`)
 
-export const websocket = {
+interface ISubscription {
+    emit: (arg:string, arg1?:Object) => void
+    on: (arg:string, arg1:(data:any) => any) => void
+}
+
+interface IWebsocket {
+    callbackList: { [key: string]: () => void };
+    ws: null|{
+        emit: (arg:string, arg1?:Object) => void
+        on: (arg:string, arg1:() => void) => void
+        subscribe: (arg:string) => ISubscription
+        close: () => void
+    };
+    subscription: null|ISubscription;
+    roomId: String;
+    connect: () => Promise<void>;
+    subscribe: () => Promise<void|Object>;
+    on: (arg:string, arg1:() => void) => void;
+    off: (arg:string) => void;
+    setRoomId: (arg:string) => void;
+    setCallback: (arg:string, arg1?:() => void) => void;
+    emit: (arg:string, arg1?:Object) => void
+    runCallback: (arg:string) => void;
+    close: () => void;
+}
+
+export const websocket: IWebsocket = {
     callbackList : {},
+
+    ws : null,
+
+    subscription : null,
 
     roomId: '',
 
@@ -41,13 +71,13 @@ export const websocket = {
                     .withApiToken( token )
                     .connect()
 
-                this.ws.on('close', () => {
+                this.ws?.on('close', () => {
                     console.log('close --- close ALLL!!!')
                     this.close();
                     this.runCallback('close');
                 })
 
-                this.ws.on('open', async () => {
+                this.ws?.on('open', async () => {
                     console.log('connected')
                     this.runCallback('open');
 
@@ -55,7 +85,7 @@ export const websocket = {
                     resolve()
                 })
 
-                this.ws.on('error', () => {
+                this.ws?.on('error', () => {
                     this.runCallback('error');
                     reject()
                     console.log('disconnected')
@@ -72,9 +102,9 @@ export const websocket = {
     },
 
     close() {
-        this.ws && this.ws.close()
-        this.ws       = undefined;
-        this.subscription = undefined;
+        this.ws?.close()
+        this.ws = null;
+        this.subscription = null;
     },
 
     /**
@@ -90,28 +120,28 @@ export const websocket = {
             }
 
             try {
-                this.subscription = this.subscription || await this.ws.subscribe(`room:${ this.roomId }`)
+                this.subscription = this.subscription || await this.ws?.subscribe(`room:${ this.roomId }`)
             }
             catch(err) {
                 console.log(err)
             }
 
-            this.subscription.on('ready', () => {
+            this.subscription?.on('ready', () => {
                 console.log('ready')
                 resolve()
             })
 
-            this.subscription.on('all-data', (data) => {
-                console.log('all-data', data)
+            this.subscription?.on('all-data', (data) => {
+                console.log('allData', data)
                 resolve(data)
             })
 
-            this.subscription.on('error', (e) => {
+            this.subscription?.on('error', (e) => {
                 console.log('error', e)
                 reject(e)
             })
 
-            this.subscription.on('close', (e) => {
+            this.subscription?.on('close', (e) => {
                 console.log('close', e)
                 console.log('--- subscription close ---')
                 this.close();
@@ -136,7 +166,7 @@ export const websocket = {
         this.setCallback(eventName, handler)
     },
 
-    off(eventName) {
+    off(eventName:string) {
         if (!this.ws) {
             return;
         }
@@ -147,7 +177,7 @@ export const websocket = {
     runCallback(eventName) {
         console.log('run', eventName);
 
-        this.callbackList[ eventName ] && this.callbackList[ eventName ].call();
+        this.callbackList[ eventName ]?.();
     },
 
     setCallback(eventName, handler) {

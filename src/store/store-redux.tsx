@@ -1,11 +1,13 @@
 import { combineReducers, createStore } from 'redux'
 import gameReducer from './game-redux'
+import allDataReducer from './all-data-redux'
 import issuesReducer from './issues-redux'
 import membersReducer from './members-redux'
 import updatePlayerOrMasterReducer from './playerOrMaster-redux'
 import popapLobbyReducer from './popapLobby-redux'
 
 let reducers = combineReducers({
+   allData: allDataReducer,
    userData: popapLobbyReducer,
    playerOrMaster: updatePlayerOrMasterReducer,
    game: gameReducer,

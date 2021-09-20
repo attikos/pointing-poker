@@ -115,9 +115,18 @@ const PoppapToLobby = (props: Props) => {
 
                             <div className={s.buttonContainer}>
                                 <div className={s.confirm}>
-                                    <button className={cn('btn btn-secondary btn-lg')} type='submit' >Confirm</button>
+                                    <button
+                                        className={cn('btn btn-secondary btn-lg')}
+                                        type='submit'
+                                    >Confirm</button>
                                 </div>
-                                <div className={s.cancel}><button className={cn("btn btn-outline-secondary btn-lg")} onClick={() => props.setActive(true)} >Cancel</button></div>
+
+                                <div className={s.cancel}>
+                                    <div
+                                        className={cn("btn btn-outline-secondary btn-lg")}
+                                        onClick={() => props.setActive(true)}
+                                    >Cancel</div>
+                                </div>
                             </div>
                         </Form>
                     </Formik>
