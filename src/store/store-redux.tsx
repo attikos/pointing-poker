@@ -7,5 +7,7 @@ let reducers = combineReducers({
    playerOrMaster: updatePlayerOrMasterReducer,
    
 })
-let store = createStore(reducers)
+let store = createStore(reducers);
+export type RootState = ReturnType<typeof store.getState>;
+
 export default store
