@@ -25,11 +25,17 @@ const Game = () => {
             </button>
           )}
         </div>
-        <div>Issues</div>
+        <div className={s.issuesTitle}>Issues: </div>
         { (playerOrMaster.playerOrMaster === 'master') ? ( <div>
         <button className={cn('btn btn-secondary btn-lg')}>Run Round</button>
         <button className={cn('btn btn-secondary btn-lg')}>Restr Round</button>
         <button className={cn('btn btn-secondary btn-lg')}>Next ISSUE</button> </div>) : (<div />)}
+        <div className={s.statistic}>
+          <div className={s.cardWrapper}>
+          <div className={s.playingCard}>100</div>
+          <div className={s.statisticPercents}>40%</div>
+          </div>
+        </div>
       </div>
       <div className={s.score}>
         <div>Score</div>

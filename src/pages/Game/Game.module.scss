@@ -1,13 +1,49 @@
-
 .game {
-    display: flex;
+  display: flex;
+  max-width: 1000px;
+  margin: 0 auto;
+  color: #000;
 }
 
 .mainUnit {
   width: 70%;
- 
 }
 
 .score {
-   display: flex;
+  display: flex;
+}
+
+.issuesTitle {
+  font-size: 24px;
+}
+
+.cardWrapper {
+  text-align: center;
+  width: 83px;
+  height: auto;
+}
+
+.playingCard {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 83px;
+  height: 127px;
+  font-size: 48px;
+  border: 1px solid #e1e1e1;
+  border-radius: 12px;
+  box-shadow: 2px 2px 10px 0px rgba(30, 30, 30, 0.53);
+  margin-bottom: 10px;
+}
+
+.statisticPercents {
+  font-size: 24px;
+}
+
+.scoreCard {
+  width: 200px;
+  height: 51px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
