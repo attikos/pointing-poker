@@ -1,12 +1,12 @@
 const UPDATE_PLAYER_OR_MASTER = 'UPDATE_PLAYER_OR_MASTER'
 
 let init = {
-    playerOrMaster: "",
+    playerOrMaster: '',
 }
 export const updatePlayerOrMasterAC = (value: string) => {
     return {
         type: UPDATE_PLAYER_OR_MASTER,
-        value: value
+        value,
     }
 }
 const updatePlayerOrMasterReducer = (state: {
