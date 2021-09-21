@@ -9,7 +9,7 @@ const Footer = () => {
                 <div className={s.footerGithub}>
                     <a className={s.link} href="https://github.com/AnnaKoliada"><AiOutlineGithub /></a>
                     <a className={s.link} href="https://github.com/attikos"><AiOutlineGithub /></a>
-                    <a className={s.link} href="a"><AiOutlineGithub /></a>
+                    <a className={s.link} href="https://github.com/KsenNeko"><AiOutlineGithub /></a>
                 </div>
                 <div className={s.year}>2021 ©</div>
                 <div className={s.footerLogo}>
