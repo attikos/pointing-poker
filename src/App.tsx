@@ -5,18 +5,27 @@ import s from './App.module.scss';
 import Footer from './components/Footer/Footer';
 import Header from './components/Header/Header';
 import MainContainer from './pages/Main/MainContainer';
-import LobbyContainer from './pages/Lobby/LobbyContainer';
+import PlayGame from './pages/PlayGame/PlayGame';
 
 
 function App(props: any ) {
   console.log('App', props)
+
+  // const {allData} = props.state;
+  // const {status} = allData?.game || {};
+
   return (
     <div className={s.wrapper}>
       <Header />
+
+      {/* { status
+        ? <PlayGame />
+        : <MainContainer history={props.history} />
+      } */}
       <Switch>
       <Route exact path="/" render={() => <MainContainer history={props.history} />} />
-    
-      <Route exact path="/:game_nice_id" render={() => <LobbyContainer />} />
+
+      <Route exact path="/:gameNiceId" render={() => <PlayGame />} />
       </Switch>
       <Footer />
     </div>

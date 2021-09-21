@@ -16,6 +16,8 @@ declare global {
   interface Window {
     api?: any;
     bootstrap: any,
+    axios: any,
+    websocket: any,
   }
 }
 const customHistory = createBrowserHistory();

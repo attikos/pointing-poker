@@ -69,7 +69,7 @@ const Lobby = (props:
                     <div className={s.linkLobby}>
                         <h3> <i><b>Link to lobby:</b></i></ h3>
                         <div className={s.copyLinkLobby}>
-                            <div className={s.inputLinkLobby} >{`http://localhost/${props.state.game.game_nice_id}`}</div>
+                            <div className={s.inputLinkLobby} >{`http://localhost/${props.state.game.gameNiceId}`}</div>
                             <button className={cn('btn btn-secondary btn-lg')}>Copy</button>
                         </div>
                     </div>
@@ -121,7 +121,7 @@ const Lobby = (props:
                                             onClick={(e) => {
                                                 setPopapActive(false); setCreateOrEditIssue('edit');
                                                 setIndexIssue(props.isThisIssue(e));
-                                                setDataIssue({ 
+                                                setDataIssue({
                                                     title: `${props.state.issues[+props.isThisIssue(e)].title}`, link: `${props.state.issues[+props.isThisIssue(e)].link}`, priority: `${props.state.issues[+props.isThisIssue(e)].priority}` , nice_id: '', is_current: false})
                                             }}>
                                             <HiPencil className={s.issuesChangeIcon} />
