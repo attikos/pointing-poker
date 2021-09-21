@@ -1,7 +1,6 @@
 import { connect } from "react-redux";
 import Lobby from "./Lobby";
 
-
 let mapStateToProps = (state: any) => {
     return {
         state: state,
@@ -22,9 +21,9 @@ let mapDispatchToProps = (dispatch: (arg0: { type: string; value?: string | bool
         },
         isThisIssue(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
             let element = e.currentTarget.id
-            console.log("isThisIssue", element)
+           console.log( 'isThisIssue:', element)
             return element
-        }
+        },
     }
 }
 

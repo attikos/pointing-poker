@@ -3,9 +3,6 @@ import { IIssues } from "../interface"
 const UPDATE_ISSUES = 'UPDATE_ISSUES'
 const ADD_ISSUE = 'ADD_ISSUE'
 const DELETE_ISSUE = 'DELETE_ISSUE'
-const EDIT_ISSUE_TITLE = 'EDIT_ISSUE_TITLE'
-const EDIT_ISSUE_LINK = 'EDIT_ISSUE_LINK'
-const EDIT_ISSUE_PRIORITY = 'EDIT_ISSUE_PRIORITY'
 
 let init: IIssues[] =
     [
@@ -33,16 +30,17 @@ let init: IIssues[] =
 
     ]
 
-export const updateIssuesAC = (value: IIssues) => {
+export const updateIssuesAC = (value: IIssues, index: number) => {
     return {
         type: UPDATE_ISSUES,
-        value: value
+        value: value,
+        index: index
     }
 }
 export const addIssueAC = (value: IIssues) => {
     return {
         type: ADD_ISSUE,
-        value: value
+        value
     }
 }
 export const deleteIssueAC = (value: string, index: number) => {
@@ -52,82 +50,37 @@ export const deleteIssueAC = (value: string, index: number) => {
         index
     }
 }
-export const editIssueTitleAC = (title: string, index: number) => {
-    return {
-        type: EDIT_ISSUE_TITLE,
-        title,
-        index,
-    }
-}
-export const editIssueLinkAC = (link: string, index: number) => {
-    return {
-        type: EDIT_ISSUE_LINK,
-        link,
-        index
-    }
-}
-export const editIssuePriorityAC = (priority: string, index: number) => {
-    return {
-        type: EDIT_ISSUE_PRIORITY,
-        priority,
-        index
-    }
-}
 const issuesReducer = (state: IIssues[] = init,
     action: {
         type: string;
-        value?: IIssues;
-        index?: number;
-        title?: string;
-        link?: string;
-        priority?: string;
-
+        value: IIssues;
+        index: number;
     }) => {
     let stateCopy
     switch (action.type) {
         case UPDATE_ISSUES:
-            stateCopy = {
+            stateCopy = [
                 ...state,
-                issues: action.value
-            }
+            ]
+            stateCopy[action.index].title = action.value.title
+            stateCopy[action.index].link = action.value.link
+            stateCopy[action.index].priority = action.value.priority
             return stateCopy
         case ADD_ISSUE:
-            stateCopy = {
+            stateCopy = [
                 ...state,
-            }
-            if (action.value) {
-                stateCopy.push(action.value)
-            }
+            ]
+            console.log('stateCopy', stateCopy)
+            console.log('action.value', action.value)
+            stateCopy.push(action.value)
+            console.log('stateCopy', stateCopy)
             return stateCopy
         case DELETE_ISSUE:
-            stateCopy = {
+            stateCopy = [
                 ...state,
-            }
-            // stateCopy.splice(action.index, action.index)
+            ]
+            stateCopy.splice(action.index, action.index)
             return stateCopy
-        case EDIT_ISSUE_TITLE:
-            stateCopy = {
-                ...state,
-            }
-            console.log("stateCopy", stateCopy)
-            if (action.index && action.title) {
-                stateCopy[action.index].title = action.title
-            }
-            return stateCopy
-        case EDIT_ISSUE_LINK:
-            stateCopy = {
-                ...state,
-
-            }
-            // stateCopy[action.index].link = action.link
-            return stateCopy
-        case EDIT_ISSUE_PRIORITY:
-            stateCopy = {
-                ...state,
-            }
-            // stateCopy[action.index].priority = action.priority
-            return stateCopy
-
         default:
             return state
     }

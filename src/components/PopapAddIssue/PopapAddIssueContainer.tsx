@@ -1,37 +1,23 @@
 import { connect } from "react-redux";
-// import { editIssueTitleAC } from "../../store/issues-redux";
+import { IIssues } from "../../interface";
+import { addIssueAC, updateIssuesAC } from "../../store/issues-redux";
 import PoppapAddIssue from "./PoppapAddIssue";
 
 let mapStateToProps = (state: any) => {
-    console.log('mapStateToProps', state)
     return {
         state: state,
     }
 }
 
-let mapDispatchToProps = (dispatch: (arg0: { type: string; value?: string | boolean; }) => void) => {
+let mapDispatchToProps = (dispatch: (arg0: { type: string; data?: { title: string; link: string; priority: string; }; value?: IIssues; index?: number; }) => void)  => {
     return {
-        updateTitle(e: React.ChangeEvent<HTMLSelectElement>) {
-            // let value = e.currentTarget.value
-            // let index = +e.currentTarget.id
-        //     dispatch(editIssueTitleAC(value, index))
+        createNewIssue(element: IIssues) {
+            console.log('createNewIssue', element )
+            dispatch(addIssueAC(element))
         },
-        updateLink(e: React.ChangeEvent<HTMLSelectElement>) {
-            let value = e.currentTarget.value
-            return value
-        },
-        updatePriority(e: React.ChangeEvent<HTMLSelectElement>) {
-            let value = e.currentTarget.value
-            return value
-        },
-        createNewIssue() {
-
-        },
-        updateIssues() {
-
+        updateIssues(element: IIssues, index: number) {
+            dispatch(updateIssuesAC(element, index))
         }
-
-
     }
 }
 const PoppapAddIssueContainer = connect(mapStateToProps, mapDispatchToProps)(PoppapAddIssue)

@@ -16,16 +16,25 @@ const Lobby = (props:
             game: IGame;
         };
         getInitials: (arg0: string, arg1: string) => {} | null | undefined; isThisIssue: (arg0: React.MouseEvent<HTMLDivElement, MouseEvent>) => React.SetStateAction<string>;
+        // aaa: (a: IIssues) => void;
     }
 ) => {
     const [popapActive, setPopapActive] = useState(true)
     const [createOrEditIssue, setCreateOrEditIssue] = useState('');
-    const [elementIssue, setElementIssue] = useState('')
+    const [indexIssue, setIndexIssue] = useState('');
+    const [dataIssue, setDataIssue] = useState({
+        title: '',
+        link: '',
+        priority: '',
+        nice_id: '',
+        is_current: false
+    })
     return (
         <div className={s.settings}>
             <div className={s.settingsTop}>
                 <div className={s.topic}>
                     <div className={s.inputTopic}>
+
                         {props.state.issues.map((item: IIssues) => {
                             return item.title + ' '
                         }
@@ -102,18 +111,19 @@ const Lobby = (props:
                                 Issues:
                             </div>
                             {props.state.issues.map((item: IIssues, i: number) => {
-                                console.log('i', i)
                                 return (
                                     <div className={s.issuesCard} key={i}>
                                         <div className={s.issuesInfo}>
                                             <div className={s.issuesInfoName}>{item.title}</div>
                                             <div className={s.issuesPriority}>{item.priority}</div>
                                         </div>
-                                        <div className={s.issuesChange} id={`${i}`} 
-                                        onClick={(e) => {
-                                            setPopapActive(false); setCreateOrEditIssue('edit');
-                                            setElementIssue(props.isThisIssue(e));
-                                        }}>
+                                        <div className={s.issuesChange} id={`${i}`}
+                                            onClick={(e) => {
+                                                setPopapActive(false); setCreateOrEditIssue('edit');
+                                                setIndexIssue(props.isThisIssue(e));
+                                                setDataIssue({ 
+                                                    title: `${props.state.issues[+props.isThisIssue(e)].title}`, link: `${props.state.issues[+props.isThisIssue(e)].link}`, priority: `${props.state.issues[+props.isThisIssue(e)].priority}` , nice_id: '', is_current: false})
+                                            }}>
                                             <HiPencil className={s.issuesChangeIcon} />
                                         </div>
                                         <div className={s.issuesDel}>
@@ -122,11 +132,11 @@ const Lobby = (props:
                                     </div>
                                 )
                             })}
-                            <div className={s.issuesCardAdd} 
-                            onClick={() => {
-                                setPopapActive(false);
-                                setCreateOrEditIssue('create')
-                            }} >
+                            <div className={s.issuesCardAdd}
+                                onClick={() => {
+                                    setPopapActive(false);
+                                    setCreateOrEditIssue('create')
+                                }} >
                                 <div className={s.issuesCardAddTitle}>Create new Issue</div>
 
                                 <div className={s.issuesAdd}>
@@ -150,15 +160,15 @@ const Lobby = (props:
                         </div>
                     </div>) : null
             }
-            <PoppapAddIssueContainer active={popapActive} status={createOrEditIssue} setActive={setPopapActive} element={elementIssue} />
+            <PoppapAddIssueContainer active={popapActive} status={createOrEditIssue} setActive={setPopapActive} element={dataIssue} editElement={setDataIssue} index={+indexIssue}/>
         </div >
 
     )
 }
 export default Lobby
 
- // eslint-disable-next-line no-lone-blocks
- {/* <div className={s.gameCards}>
+// eslint-disable-next-line no-lone-blocks
+{/* <div className={s.gameCards}>
                 <div className={s.gameCardsTitle}>
                     Game Cards:
                 </div>
