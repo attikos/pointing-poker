@@ -8,7 +8,6 @@ import { Provider } from 'react-redux';
 // import bootstrap from 'bootstrap/dist/js/bootstrap.esm.js';
 import * as bootstrap from 'bootstrap';
 import './bootstrap-theme.scss';
-import { createBrowserHistory } from 'history';
 import { BrowserRouter } from 'react-router-dom';
 import store from './store/store-redux';
 
@@ -20,15 +19,17 @@ declare global {
     websocket: any,
   }
 }
-const customHistory = createBrowserHistory();
+// const customHistory = createBrowserHistory();
 
 window.bootstrap = bootstrap;
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <BrowserRouter>
-        <App history={customHistory} />
+      <BrowserRouter 
+      // history={customHistory}
+      >
+        <App  />
       </BrowserRouter>
     </Provider>
   </React.StrictMode>,

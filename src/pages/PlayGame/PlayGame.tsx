@@ -3,7 +3,7 @@ import { RootStateOrAny, useSelector } from 'react-redux';
 import LobbyContainer from '../Lobby/LobbyContainer';
 import Game from '../Game/Game';
 
-const PlayGame = () => {
+const PlayGame = (): JSX.Element => {
   const allData = useSelector((state:RootStateOrAny) => state.allData);
   const { status } = allData?.game || {};
 

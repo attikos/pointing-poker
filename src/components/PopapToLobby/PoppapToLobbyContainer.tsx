@@ -12,14 +12,13 @@ const mapStateToProps = (state: any) => ({ state });
 
 const mapDispatchToProps = (
   dispatch: (arg0: { type: string; value: Object }) => void,
-  props: {
-    setActive: (arg0: boolean) => void;
-    history: string[];
-  },
+  // props: {
+  //   setActive: (arg0: boolean) => void;
+  // },
 ) => {
-  const routerHandler = (history: string[], { game } : { game : IGame }) => {
-    console.log('routerHandler');
-    console.log('game', game);
+  const routerHandler = (history: any, { game }: { game: IGame }) => {
+    // console.log('routerHandler');
+    // console.log('game', game);
     if (game.status === 'lobby' || game.status === 'game') {
       history.push(`/${game.niceId}`);
     } else {
@@ -28,25 +27,25 @@ const mapDispatchToProps = (
   };
 
   return {
-    async handleSubmit(values: { user: User, gameNiceId: TGameNiceId }) {
+    async handleSubmit(values: { history: any, user: User, gameNiceId: TGameNiceId }) {
       // dispatch(updateUserAC(values.user))
       // props.setActive(true);
 
       const success = await api.newGame(values);
       if (success) {
         await websocket.connect();
-        websocket.subscription?.on('all-data', (data:IServerData) => {
+        websocket.subscription?.on('all-data', (data: IServerData) => {
           console.log('!!!! all-data', data);
           dispatch(updateAllData(data));
-          routerHandler(props.history, data);
+          routerHandler(history, data);
         });
         websocket.emit('getAllData');
       }
     },
-    openTheLobby(id: TGameNiceId, status: string) {
+    openTheLobby(id: TGameNiceId, status: string, history: any) {
       console.log('openTheLobby');
       if (status === 'lobby') {
-        props.history.push(`/${id}`);
+        history.push(`/${id}`);
       }
     },
 

@@ -6,7 +6,7 @@ const mapStateToProps = (state: any) => {
     state: state,
   };
 };
-const mapDispatchToProps = (dispatch: (arg0: { type: string; value?: string | boolean; }) => void) => {
+const mapDispatchToProps = () => {
   return {
     getInitials(firstName: string, lastName: string) {
       if (firstName && lastName) {

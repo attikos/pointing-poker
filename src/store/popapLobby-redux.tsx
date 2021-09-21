@@ -7,7 +7,7 @@ import { User } from '../interface';
 // const UPDATE_FOTO = 'UPDATE_FOTO'
 const UPDATE_USER = 'UPDATE_USER';
 
-export const initialUserState : User = {
+export const initialUserState: User = {
   isObserver: false,
   firstName: '',
   lastName: '',
@@ -15,7 +15,7 @@ export const initialUserState : User = {
   foto: '',
 };
 
-export const updateUserAC = (value: User) => ({
+export const updateUserAC = (value: User): { type: string; value: User } => ({
   type: UPDATE_USER,
   value,
 });
@@ -23,7 +23,7 @@ const popapLobbyReducer = (state: User = initialUserState,
   action: {
     type: string;
     value: User
-  }) => {
+  }): User => {
   let stateCopy;
   switch (action.type) {
     case UPDATE_USER:

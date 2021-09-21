@@ -36,7 +36,10 @@ const init: IMembers[] = [
     job: 'my work',
   },
 ];
-export const updateMembersAC = (value: IMembers) => ({
+export const updateMembersAC = (value: IMembers): {
+  type: string;
+  value: IMembers;
+} => ({
   type: UPDATE_MEMBERS,
   value,
 });
@@ -45,14 +48,14 @@ const membersReducer = (state: IMembers[] = init,
   action: {
     type: string;
     value: IMembers[]
-  }) => {
+  }): IMembers[] => {
   let stateCopy;
   switch (action.type) {
     case UPDATE_MEMBERS:
       stateCopy = {
         ...state,
-        members: action.value,
       };
+      stateCopy =  action.value;
       return stateCopy;
 
     default:

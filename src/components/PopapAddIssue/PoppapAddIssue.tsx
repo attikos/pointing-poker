@@ -16,7 +16,7 @@ const SignupSchema = Yup.object().shape({
 
 const PopapAddIssue = (
   props: {
-    active: any;
+    active: boolean;
     setActive: (arg0: boolean) => void;
     createNewIssue: (element: IIssues) => void;
     updateIssues: (element: IIssues, index: number) => void;
@@ -28,7 +28,7 @@ const PopapAddIssue = (
       issues: IIssues[]
     }
   },
-) => {
+): JSX.Element => {
   const [addIssue, setAddIssue] = useState({
     title: '',
     link: '',
@@ -37,10 +37,6 @@ const PopapAddIssue = (
     is_current: false,
 
   });
-  console.log('element', props.element);
-  console.log(' status', props.status);
-  console.log(' state', props.state);
-
   const initialValues = {
     title: '',
     link: '',
@@ -69,7 +65,6 @@ const PopapAddIssue = (
             onSubmit={(values, { setSubmitting }) => {
               if (props.status === 'create') {
                 values = { ...addIssue };
-                console.log('values', values);
                 props.createNewIssue(values);
                 setAddIssue({
                   title: '',
@@ -105,20 +100,23 @@ const PopapAddIssue = (
                       : (props.status === 'edit') ? props.element.title : ''
                   }
                   onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-                    (props.status === 'edit')
-                      ? props.editElement({
+                    if (props.status === 'edit') {
+                      props.editElement({
                         title: `${e.target.value}`,
                         link: props.element.link,
                         priority: props.element.priority,
                         nice_id: '',
                         is_current: false,
-                      }) : setAddIssue({
+                      });
+                    } else if (props.status === 'create') {
+                      setAddIssue({
                         title: `${e.target.value}`,
                         link: addIssue.link,
                         priority: addIssue.priority,
                         nice_id: '',
                         is_current: false,
                       });
+                    }
                   }}
                 />
               </div>
@@ -136,21 +134,23 @@ const PopapAddIssue = (
                       : (props.status === 'edit') ? props.element.link : ''
                   }
                   onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-                    console.log('');
-                    (props.status === 'edit')
-                      ? props.editElement({
+                    if (props.status === 'edit') {
+                      props.editElement({
                         title: props.element.title,
                         link: `${e.target.value}`,
                         priority: props.element.priority,
                         nice_id: '',
                         is_current: false,
-                      }) : setAddIssue({
+                      });
+                    } else if (props.status === 'create') {
+                      setAddIssue({
                         title: addIssue.title,
                         link: `${e.target.value}`,
                         priority: addIssue.priority,
                         nice_id: '',
                         is_current: false,
                       });
+                    }
                   }}
                 />
               </div>
@@ -165,20 +165,23 @@ const PopapAddIssue = (
                   }
                   className={s.input}
                   onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-                    (props.status === 'edit')
-                      ? props.editElement({
+                    if (props.status === 'edit') {
+                      props.editElement({
                         title: props.element.title,
                         link: props.element.link,
                         priority: `${e.target.value}`,
                         nice_id: '',
                         is_current: false,
-                      }) : setAddIssue({
+                      });
+                    } else if (props.status === 'create') {
+                      setAddIssue({
                         title: addIssue.title,
                         link: addIssue.link,
                         priority: `${e.target.value}`,
                         nice_id: '',
                         is_current: false,
                       });
+                    }
                   }}
                 >
                   <option value="low">Low</option>
@@ -216,7 +219,7 @@ const PopapAddIssue = (
           </Formik>
         </div>
       </div>
-    </div>
+    </div >
   );
 };
 export default PopapAddIssue;

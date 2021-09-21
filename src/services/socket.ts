@@ -1,31 +1,32 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import Ws from '@adonisjs/websocket-client';
 import { getToken } from './axios';
 
 const env = require(`../env/${process.env.NODE_ENV}.env`);
 
 interface ISubscription {
-  emit: (arg:string, arg1?:Object) => void
-  on: (arg:string, arg1:(data:any) => any) => void
+  emit: (arg: string, arg1?: Object) => void
+  on: (arg: string, arg1: (data: any) => any) => void
 }
 
 interface IWebsocket {
   callbackList: { [key: string]: () => void };
   ws: null | {
-    emit: (arg:string, arg1?:Object) => void
-    on: (arg:string, arg1:() => void) => void
-    subscribe: (arg:string) => ISubscription
+    emit: (arg: string, arg1?: Object) => void
+    on: (arg: string, arg1: () => void) => void
+    subscribe: (arg: string) => ISubscription
     close: () => void
   };
   subscription: null | ISubscription;
   roomId: string;
   connect: () => Promise<void>;
   subscribe: () => Promise<void | Object>;
-  on: (arg:string, arg1:() => void) => void;
-  off: (arg:string) => void;
-  setRoomId: (arg:string) => void;
-  setCallback: (arg:string, arg1?:() => void) => void;
-  emit: (arg:string, arg1?:Object) => void
-  runCallback: (arg:string) => void;
+  on: (arg: string, arg1: () => void) => void;
+  off: (arg: string) => void;
+  setRoomId: (arg: string) => void;
+  setCallback: (arg: string, arg1?: () => void) => void;
+  emit: (arg: string, arg1?: Object) => void
+  runCallback: (arg: string) => void;
   close: () => void;
 }
 
@@ -64,6 +65,7 @@ export const websocket: IWebsocket = {
       });
     }
 
+    // eslint-disable-next-line no-async-promise-executor
     return new Promise(async (resolve, reject) => {
       try {
         const token = getToken();
@@ -113,6 +115,7 @@ export const websocket: IWebsocket = {
      * @return {Promise}
      */
   async subscribe() {
+    // eslint-disable-next-line no-async-promise-executor
     return new Promise(async (resolve, reject) => {
       if (!this.ws) {
         throw new Error('Websocket not connected. Subscription not available.');
@@ -164,7 +167,7 @@ export const websocket: IWebsocket = {
     this.setCallback(eventName, handler);
   },
 
-  off(eventName:string) {
+  off(eventName: string) {
     if (!this.ws) {
       return;
     }

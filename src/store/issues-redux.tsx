@@ -29,16 +29,28 @@ const init: IIssues[] = [
 
 ];
 
-export const updateIssuesAC = (value: IIssues, index: number) => ({
+export const updateIssuesAC = (value: IIssues, index: number): {
+  type: string,
+  value: IIssues;
+  index: number
+} => ({
   type: UPDATE_ISSUES,
   value,
   index,
 });
-export const addIssueAC = (value: IIssues) => ({
+export const addIssueAC = (value: IIssues): {
+  type: string,
+  value: IIssues;
+
+} => ({
   type: ADD_ISSUE,
   value,
 });
-export const deleteIssueAC = (value: string, index: number) => ({
+export const deleteIssueAC = (value: string, index: number): {
+  type: string,
+  value: string;
+  index: number
+} => ({
   type: DELETE_ISSUE,
   value,
   index,
@@ -48,7 +60,7 @@ const issuesReducer = (state: IIssues[] = init,
     type: string;
     value: IIssues;
     index: number;
-  }) => {
+  }): IIssues[] => {
   let stateCopy;
   switch (action.type) {
     case UPDATE_ISSUES:

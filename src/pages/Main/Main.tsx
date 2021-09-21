@@ -1,5 +1,4 @@
 import React, { useState } from 'react';
-
 import cn from 'classnames';
 import {
   Formik, Field, Form, FormikHelpers, ErrorMessage,
@@ -13,10 +12,10 @@ import api from '../../services/api';
 interface Props {
   handleSubmit: (arg0: string) => void;
   state: any,
-  history: any[];
+  // history;
 }
 
-const Main = (props: Props) => {
+const Main = (props: Props): JSX.Element => {
   const [popapActive, setPopapActive] = useState(true);
   const [gameNiceId, setGameNiceId] = useState('');
   const [userRole, setUserRole] = useState('');
@@ -45,8 +44,8 @@ const Main = (props: Props) => {
     if (!error) {
       error = await new Promise((res) => {
         (_.debounce(async () => {
-          const error = await api.checkGameId(value);
-          res(error);
+          const error1 = await api.checkGameId(value);
+          res(error1);
         }, DELAY_CHECK))();
       });
     }
@@ -67,7 +66,7 @@ const Main = (props: Props) => {
           <button
             className="btn btn-secondary btn-lg"
             type="button"
-                        // onClick={() => {setPopapActive(false); props.handleSubmit('master')}}
+            // onClick={() => {setPopapActive(false); props.handleSubmit('master')}}
             onClick={() => { setPopapActive(false); setUserRole('master'); }}
           >
             Start new Game
@@ -114,7 +113,6 @@ const Main = (props: Props) => {
       </div>
 
       <PoppapToLobbyContainer
-        history={props.history}
         active={popapActive}
         setActive={setPopapActive}
         gameNiceId={gameNiceId}

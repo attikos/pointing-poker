@@ -8,8 +8,7 @@ import s from './Lobby.module.scss';
 import PoppapAddIssueContainer from '../../components/PopapAddIssue/PopapAddIssueContainer';
 import { IGame, IIssues, IMembers } from '../../interface';
 
-const Lobby = (props:
-{
+const Lobby = (props: {
   state: {
     issues: IIssues[];
     members: IMembers[];
@@ -18,7 +17,7 @@ const Lobby = (props:
   };
   getInitials: (arg0: string, arg1: string) => {} | null | undefined; isThisIssue: (arg0: React.MouseEvent<HTMLDivElement, MouseEvent>) => React.SetStateAction<string>;
   // aaa: (a: IIssues) => void;
-}) => {
+}): JSX.Element => {
   const [popapActive, setPopapActive] = useState(true);
   const [createOrEditIssue, setCreateOrEditIssue] = useState('');
   const [indexIssue, setIndexIssue] = useState('');
@@ -51,7 +50,7 @@ const Lobby = (props:
                     {props.getInitials(item.first_name, item.last_name)}
                   </div>
                   <div className={s.scramMasterInfo}>
-                    {(props.state.playerOrMaster.playerOrMaster === 'master') ? (<div>It's you:</div>) : null}
+                    {(props.state.playerOrMaster.playerOrMaster === 'master') ? (<div>It`&apos;`s you:</div>) : null}
                     <div className={s.scramMasterInfoName}>
                       {item.first_name}
                       {' '}
@@ -94,7 +93,7 @@ const Lobby = (props:
       <div className={s.settingsMembers}>
         <div className={s.memberTitle}> Members:</div>
         {props.state.members.map(({
-          first_name, is_diller, is_player, job, last_name, nice_id,
+          first_name, is_diller, is_player, job, last_name,
         }: IMembers, i: number) => (
           <div
             className={cn(s.memberCard,
@@ -120,68 +119,68 @@ const Lobby = (props:
         ))}
       </div>
       {
-                (props.state.playerOrMaster.playerOrMaster === 'master')
-                  ? (
-                    <div>
-                      <div className={s.settingsIssues}>
-                        <div className={s.issuesTitle}>
-                          Issues:
-                        </div>
-                        {props.state.issues.map((item: IIssues, i: number) => (
-                          <div className={s.issuesCard} key={i}>
-                            <div className={s.issuesInfo}>
-                              <div className={s.issuesInfoName}>{item.title}</div>
-                              <div className={s.issuesPriority}>{item.priority}</div>
-                            </div>
-                            <div
-                              className={s.issuesChange}
-                              id={`${i}`}
-                              onClick={(e) => {
-                                setPopapActive(false); setCreateOrEditIssue('edit');
-                                setIndexIssue(props.isThisIssue(e));
-                                setDataIssue({
-                                  title: `${props.state.issues[+props.isThisIssue(e)].title}`, link: `${props.state.issues[+props.isThisIssue(e)].link}`, priority: `${props.state.issues[+props.isThisIssue(e)].priority}`, nice_id: '', is_current: false,
-                                });
-                              }}
-                            >
-                              <HiPencil className={s.issuesChangeIcon} />
-                            </div>
-                            <div className={s.issuesDel}>
-                              <HiOutlineTrash className={s.issuesDelIcon} />
-                            </div>
-                          </div>
-                        ))}
-                        <div
-                          className={s.issuesCardAdd}
-                          onClick={() => {
-                            setPopapActive(false);
-                            setCreateOrEditIssue('create');
-                          }}
-                        >
-                          <div className={s.issuesCardAddTitle}>Create new Issue</div>
-
-                          <div className={s.issuesAdd}>
-                            <HiOutlinePlus className={s.issuesAddIcon} />
-                          </div>
-                        </div>
-                      </div>
-                      <div className={s.settingsGame}>
-                        <div className={s.gameTitle}>
-                          Game settings:
-                        </div>
-                        <div className={s.settingsGameItem}>
-                          <div className="form-check form-switch">
-                            <label className="form-check-label" htmlFor="flexSwitchCheckDefault">
-                              Scram master as player
-                            </label>
-                            <input type="checkbox" className="form-check-input" id="flexSwitchCheckDefault" />
-                          </div>
-                        </div>
-
-                      </div>
+        (props.state.playerOrMaster.playerOrMaster === 'master')
+          ? (
+            <div>
+              <div className={s.settingsIssues}>
+                <div className={s.issuesTitle}>
+                  Issues:
+                </div>
+                {props.state.issues.map((item: IIssues, i: number) => (
+                  <div className={s.issuesCard} key={i}>
+                    <div className={s.issuesInfo}>
+                      <div className={s.issuesInfoName}>{item.title}</div>
+                      <div className={s.issuesPriority}>{item.priority}</div>
                     </div>
-                  ) : null
-            }
+                    <div
+                      className={s.issuesChange}
+                      id={`${i}`}
+                      onClick={(e) => {
+                        setPopapActive(false); setCreateOrEditIssue('edit');
+                        setIndexIssue(props.isThisIssue(e));
+                        setDataIssue({
+                          title: `${props.state.issues[+props.isThisIssue(e)].title}`, link: `${props.state.issues[+props.isThisIssue(e)].link}`, priority: `${props.state.issues[+props.isThisIssue(e)].priority}`, nice_id: '', is_current: false,
+                        });
+                      }}
+                    >
+                      <HiPencil className={s.issuesChangeIcon} />
+                    </div>
+                    <div className={s.issuesDel}>
+                      <HiOutlineTrash className={s.issuesDelIcon} />
+                    </div>
+                  </div>
+                ))}
+                <div
+                  className={s.issuesCardAdd}
+                  onClick={() => {
+                    setPopapActive(false);
+                    setCreateOrEditIssue('create');
+                  }}
+                >
+                  <div className={s.issuesCardAddTitle}>Create new Issue</div>
+
+                  <div className={s.issuesAdd}>
+                    <HiOutlinePlus className={s.issuesAddIcon} />
+                  </div>
+                </div>
+              </div>
+              <div className={s.settingsGame}>
+                <div className={s.gameTitle}>
+                  Game settings:
+                </div>
+                <div className={s.settingsGameItem}>
+                  <div className="form-check form-switch">
+                    <label className="form-check-label" htmlFor="flexSwitchCheckDefault">
+                      Scram master as player
+                    </label>
+                    <input type="checkbox" className="form-check-input" id="flexSwitchCheckDefault" />
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          ) : null
+      }
       <PoppapAddIssueContainer active={popapActive} status={createOrEditIssue} setActive={setPopapActive} element={dataIssue} editElement={setDataIssue} index={+indexIssue} />
     </div>
 
