@@ -1,8 +1,9 @@
 .game {
   display: flex;
-  max-width: 1000px;
+  max-width: 1440px;
   margin: 0 auto;
   color: #000;
+  padding: 0px 38px;
 }
 
 .mainUnit {
@@ -11,6 +12,7 @@
 
 .score {
   display: flex;
+  padding-left: 38px;
 }
 
 .issuesTitle {
@@ -40,10 +42,21 @@
   font-size: 24px;
 }
 
+.score {
+  display: grid;
+  border-left: 1px solid rgba(0, 0, 0, 0.5);
+  grid-template-columns : 1fr 1fr;
+  justify-items: center;
+  justify-content: stretch;
+  grid-gap: 15px;
+}
+
 .scoreCard {
   width: 200px;
   height: 51px;
   display: flex;
   justify-content: center;
   align-items: center;
+  font-size: 26px;
+  box-shadow: 2px 2px 10px 0px rgba(30, 30, 30, 0.53);
 }

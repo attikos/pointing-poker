@@ -38,8 +38,14 @@ const Game = () => {
         </div>
       </div>
       <div className={s.score}>
-        <div>Score</div>
-        <div>Players</div>
+        <div>Score: </div>
+        <div>Players: </div>
+        <div className={s.scoreCard}>10 SP </div>
+        <div className={s.scoreCard}>Player </div>
+        <div className={s.scoreCard}>20 SP </div>
+        <div className={s.scoreCard}>Player 2</div>
+        <div className={s.scoreCard}>30 SP </div>
+        <div className={s.scoreCard}>Player 3</div>
       </div>
     </div>
   );
