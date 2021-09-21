@@ -1,56 +1,62 @@
-import {axios, setToken, getToken} from './axios'
-import {websocket} from './socket'
-import { User, TGameNiceId } from "../interface";
+import { axios, setToken, getToken } from './axios';
+import { websocket } from './socket';
+import { User, TGameNiceId } from '../interface';
 
 window.axios = axios;
 
 const checkGameId = async (gameNiceId : TGameNiceId) => {
-    let res
+  let res;
 
-    try {
-        res = await axios.post('/check-game-id', { gameNiceId })
-    } catch (error) {
-        return
-    }
+  try {
+    res = await axios.post('/check-game-id', { gameNiceId });
+  } catch (error) {
+    return;
+  }
 
-    const {success, errors} = res.data;
+  const { success, errors } = res.data;
 
-    if (!success) {
-        return 'System error. Please, try later';
-    }
+  if (!success) {
+    return 'System error. Please, try later';
+  }
 
-    if (errors) {
-        return errors.gameNiceId;
-    }
+  if (errors) {
+    return errors.gameNiceId;
+  }
 
-    return false;
-}
+  return false;
+};
 
 interface NewGameApiParams {
-    token: any;
-    form : User;
-    gameNiceId : TGameNiceId;
+  token: any;
+  form : User;
+  gameNiceId : TGameNiceId;
 }
 
 class Form implements User {
-    firstName: string;
-    lastName: string;
-    job: string;
-    isObserver: boolean;
-    foto: string;
+  firstName: string;
 
-    constructor({firstName, lastName, job, isObserver, foto} : User) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.job = job;
-        this.isObserver = isObserver;
-        this.foto = foto;
-    }
+  lastName: string;
+
+  job: string;
+
+  isObserver: boolean;
+
+  foto: string;
+
+  constructor({
+    firstName, lastName, job, isObserver, foto,
+  } : User) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.job = job;
+    this.isObserver = isObserver;
+    this.foto = foto;
+  }
 }
 
 interface NewGameParams {
-    user : User,
-    gameNiceId: TGameNiceId,
+  user : User,
+  gameNiceId: TGameNiceId,
 }
 
 /**
@@ -58,50 +64,51 @@ interface NewGameParams {
  * @param {Form} user
  * @returns void
  */
-const newGame = async ( { user, gameNiceId }: NewGameParams) => {
-    let res
+const newGame = async ({ user, gameNiceId }: NewGameParams) => {
+  let res;
 
-    const currentToken = getToken();
+  const currentToken = getToken();
 
-    const params : NewGameApiParams = {
-        token: currentToken,
-        form : new Form(user),
-        gameNiceId,
-    }
+  const params : NewGameApiParams = {
+    token: currentToken,
+    form: new Form(user),
+    gameNiceId,
+  };
 
-    try {
-        res = await axios.post('/new-game', params)
-    } catch (error) {
-        console.log(error)
-        return
-    }
+  try {
+    res = await axios.post('/new-game', params);
+  } catch (error) {
+    console.log(error);
+    return;
+  }
 
-    const {token, roomId, success, errors} = res.data;
+  const {
+    token, roomId, success, errors,
+  } = res.data;
 
-    if ( errors ) {
-        console.log('errors', errors);
-        return errors;
-    }
+  if (errors) {
+    console.log('errors', errors);
+    return errors;
+  }
 
-    if (success && token && roomId) {
-        console.log('token', token);
-        console.log('roomId', roomId);
+  if (success && token && roomId) {
+    console.log('token', token);
+    console.log('roomId', roomId);
 
-        setToken(token)
-        websocket.setRoomId(roomId)
-        // websocket.connect()
+    setToken(token);
+    websocket.setRoomId(roomId);
+    // websocket.connect()
 
-        return true;
-    }
-    else {
-        throw Error('System error: wrong token or roomId');
-    }
-}
+    return true;
+  }
+
+  throw Error('System error: wrong token or roomId');
+};
 
 const exportData = {
-    checkGameId,
-    newGame,
-}
+  checkGameId,
+  newGame,
+};
 
 window.api = exportData;
 window.websocket = websocket;

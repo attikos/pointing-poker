@@ -3,9 +3,26 @@
         "browser": true,
         "es2021": true
     },
+    "settings": {
+        "import/extensions": [
+            ".js",
+            ".mjs",
+            ".jsx",
+            ".ts",
+            ".tsx"
+        ],
+        "react": {
+            "version": "detect"
+        }
+    },
     "extends": [
+        "airbnb-typescript/base",
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
         "plugin:react/recommended",
-        "airbnb"
+        "plugin:import/errors",
+        "plugin:import/warnings",
+        "plugin:import/typescript"
     ],
     "parser": "@typescript-eslint/parser",
     "parserOptions": {
@@ -13,12 +30,34 @@
             "jsx": true
         },
         "ecmaVersion": 12,
-        "sourceType": "module"
+        "sourceType": "module",
+        "project": "./tsconfig.json"
     },
     "plugins": [
         "react",
         "@typescript-eslint"
     ],
+    "ignorePatterns": [
+        "*.config.js",
+        "node_modules/",
+        "dist/"
+    ],
     "rules": {
+        "require-jsdoc": "off",
+        "@typescript-eslint/ban-ts-comment": "off",
+        // "semi": [
+        //     "error",
+        //     "always"
+        // ],
+        // "quotes": [
+        //     "error",
+        //     "double"
+        // ],
+        "no-use-before-define": "off",
+        "@typescript-eslint/no-use-before-define": [
+            "error"
+        ],
+        "@typescript-eslint/ban-types": "off",
+        "@typescript-eslint/dot-notation": "warn"
     }
 }
