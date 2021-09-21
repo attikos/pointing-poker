@@ -9,6 +9,7 @@ import { Provider } from 'react-redux'
 import * as bootstrap from 'bootstrap';
 import './bootstrap-theme.scss';
 import store from './store/store-redux';
+import { createBrowserHistory } from 'history';
 import { BrowserRouter } from "react-router-dom";
 
 declare global {
@@ -17,14 +18,15 @@ declare global {
     bootstrap: any,
   }
 }
+const customHistory = createBrowserHistory();
 
 window.bootstrap = bootstrap;
 
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      < BrowserRouter>
-        <App />
+      < BrowserRouter >
+        <App history={customHistory} />
       </ BrowserRouter >
     </ Provider >
   </React.StrictMode>,
