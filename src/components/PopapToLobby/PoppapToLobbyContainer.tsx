@@ -2,7 +2,8 @@ import { connect } from "react-redux";
 import { updateUserAC } from "../../store/popapLobby-redux";
 import { updateAllData } from "../../store/all-data-redux";
 import PoppapToLobby from "./PoppapToLobby";
-import { User, TGameNiceId, IGame, IServerData } from "../../interface";
+import { User, IGame, IServerData } from "../../interface";
+import { TScore, TGameNiceId } from "../../types";
 import api from '../../services/api';
 import {websocket} from '../../services/socket';
 
@@ -41,7 +42,14 @@ let mapDispatchToProps = (
                     dispatch(updateAllData(data));
                     routerHandler(props.history, data);
                 });
-                websocket.emit('getAllData');
+
+                websocket.subscription?.on('user', (data:User) => {
+                    console.log('user:', data)
+                    dispatch(updateUserAC(data))
+                });
+
+                api.fetchAllData();
+                api.fetchUser();
             }
         },
         openTheLobby(id: TGameNiceId, status: string) {

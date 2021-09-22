@@ -5,7 +5,8 @@ import cn from 'classnames'
 import { Formik, Field, Form, ErrorMessage, FormikHelpers } from 'formik';
 
 import * as Yup from "yup"
-import { User, TGameNiceId } from "../../interface";
+import { User } from "../../interface";
+import { TGameNiceId } from "../../types";
 import { initialUserState } from '../../store/popapLobby-redux';
 
 const SignupSchema = Yup.object().shape({
