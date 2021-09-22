@@ -15,7 +15,7 @@ interface Props {
     playerOrMaster: { playerOrMaster: string; };
     game: IGame;
   };
-  getInitials: (arg0: string, arg1: string) => string | null | undefined; isThisIssue: (arg0: React.MouseEvent<HTMLDivElement, MouseEvent>) => React.SetStateAction<string>;
+  // getInitials: (arg0: string, arg1: string) => string | null | undefined; isThisIssue: (arg0: React.MouseEvent<HTMLDivElement, MouseEvent>) => React.SetStateAction<string>;
 }
 
 const Lobby = (props: Props): JSX.Element => {
@@ -30,6 +30,23 @@ const Lobby = (props: Props): JSX.Element => {
     nice_id: '',
     is_current: false,
   });
+  
+  function getInitials(firstName: string, lastName: string) {
+    if (firstName && lastName) {
+      return (firstName[0].toUpperCase() + lastName[0].toUpperCase());
+    }
+    if (firstName && !lastName) {
+      return (firstName[0].toUpperCase());
+    }
+    if (!firstName) {
+      return '';
+    }
+  }
+
+  function isThisIssue(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+    const element = e.currentTarget.id;
+    return element;
+  }
   
   return (
     <div className={s.settings}>
@@ -50,7 +67,7 @@ const Lobby = (props: Props): JSX.Element => {
               return (
                 <div className={s.scramMasterCard} key={i}>
                   <div className={s.noFoto}>
-                    {props.getInitials(item.first_name, item.last_name)}
+                    {getInitials(item.first_name, item.last_name)}
                   </div>
                   <div className={s.scramMasterInfo}>
                     {(props.state.playerOrMaster.playerOrMaster === 'master') ? (<div>It`&apos;`s you:</div>) : null}
@@ -104,7 +121,7 @@ const Lobby = (props: Props): JSX.Element => {
             key={i}
           >
             <div className={s.noFoto}>
-              {props.getInitials(first_name, last_name)}
+              {getInitials(first_name, last_name)}
             </div>
             <div className={s.memberInfo}>
               {(!is_diller && !is_player) ? (<div className={s.isObserver}><AiOutlineEye className={s.isObserverIcon} /></div>) : null}
@@ -140,9 +157,9 @@ const Lobby = (props: Props): JSX.Element => {
                       id={`${i}`}
                       onClick={(e) => {
                         setPopapActive(false); setCreateOrEditIssue('edit');
-                        setIndexIssue(props.isThisIssue(e));
+                        setIndexIssue(isThisIssue(e));
                         setDataIssue({
-                          title: `${props.state.issues[+props.isThisIssue(e)].title}`, link: `${props.state.issues[+props.isThisIssue(e)].link}`, priority: `${props.state.issues[+props.isThisIssue(e)].priority}`, nice_id: '', is_current: false,
+                          title: `${props.state.issues[+isThisIssue(e)].title}`, link: `${props.state.issues[+isThisIssue(e)].link}`, priority: `${props.state.issues[+isThisIssue(e)].priority}`, nice_id: '', is_current: false,
                         });
                       }}
                     >

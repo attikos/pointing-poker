@@ -8,21 +8,7 @@ const mapStateToProps = (state: any) => {
 };
 const mapDispatchToProps = () => {
   return {
-    getInitials(firstName: string, lastName: string) {
-      if (firstName && lastName) {
-        return (firstName[0].toUpperCase() + lastName[0].toUpperCase());
-      }
-      if (firstName && !lastName) {
-        return (firstName[0].toUpperCase());
-      }
-      if (!firstName) {
-        return '';
-      }
-    },
-    isThisIssue(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
-      const element = e.currentTarget.id;
-      return element;
-    },
+   
   };
 };
 

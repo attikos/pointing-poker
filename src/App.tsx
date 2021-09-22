@@ -4,8 +4,8 @@ import { withRouter } from 'react-router';
 import s from './App.module.scss';
 import Footer from './components/Footer/Footer';
 import Header from './components/Header/Header';
-import MainContainer from './pages/Main/MainContainer';
 import PlayGame from './pages/PlayGame/PlayGame';
+import Main from './pages/Main/Main';
 
 function App() {
   // const {allData} = props.state;
@@ -20,9 +20,7 @@ function App() {
         : <MainContainer history={props.history} />
       } */}
       <Switch>
-        <Route exact path="/" render={() => <MainContainer 
-        // history={props.history} 
-        />} />
+        <Route exact path="/" render={() => <Main />} />
 
         <Route exact path="/:gameNiceId" render={() => <PlayGame />} />
       </Switch>

@@ -14,3 +14,4 @@ const mapDispatchToProps = (dispatch: (arg0: { type: string; value?: string | bo
 const MainContainer = connect(mapStateToProps, mapDispatchToProps)(Main);
 
 export default MainContainer;
+
