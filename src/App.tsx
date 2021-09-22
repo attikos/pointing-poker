@@ -11,7 +11,6 @@ function App() {
   // const {allData} = props.state;
   // const {status} = allData?.game || {};
   const [userRole, setUserRole] = useState('');
-  console.log('userRoleApp', userRole);
   return (
     <div className={s.wrapper}>
       <Header />

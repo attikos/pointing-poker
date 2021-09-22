@@ -60,13 +60,11 @@ const PoppapToLobby = (props: Props): JSX.Element => {
   };
 
   const handleSubmit = async (values: {  user: User, gameNiceId: TGameNiceId }): Promise<void> => {
-    console.log('handleSubmitvalues:', values);
     // dispatch(updateUserAC(values.user))
     // props.setActive(true);
 
     const success = await api.newGame(values);
     if (success) {
-      console.log('success');
       await websocket.connect();
       websocket.subscription?.on('all-data', (data: IServerData) => {
 
@@ -79,7 +77,6 @@ const PoppapToLobby = (props: Props): JSX.Element => {
   };
 
   const openTheLobby = (id: TGameNiceId, status: string ): void => {
-    console.log('openTheLobby');
     if (status === 'lobby') {
       history.push(`/${id}`);
     }

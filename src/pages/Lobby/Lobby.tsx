@@ -22,7 +22,6 @@ interface Props {
   userRole: string;
 }
 const Lobby = ({ userRole }: Props): JSX.Element => {
-  console.log('userRoleLobby', userRole);
   const [popapActive, setPopapActive] = useState(true);
   const [createOrEditIssue, setCreateOrEditIssue] = useState('');
   const [indexIssue, setIndexIssue] = useState('');

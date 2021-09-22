@@ -6,6 +6,7 @@ import {
 import * as Yup from 'yup';
 import { IIssues } from '../../interface';
 import s from './PopapAddIssue.module.scss';
+import { useDispatch } from 'react-redux';
 
 const SignupSchema = Yup.object().shape({
   title: Yup.string()
@@ -17,17 +18,15 @@ const SignupSchema = Yup.object().shape({
 interface Props {
   active: boolean;
   setActive: (arg0: boolean) => void;
-  createNewIssue: (element: IIssues) => void;
-  updateIssues: (element: IIssues, index: number) => void;
   editElement: (arg1: IIssues) => void;
   index: number;
   status: string;
   element: IIssues;
-  state: {
-    issues: IIssues[]
-  }
+
 }
-const PopapAddIssue = (props: Props): JSX.Element => {
+const PopapAddIssue = ({ active, setActive, editElement, index, status, element }: Props): JSX.Element => {
+  const dispatch = useDispatch();
+  // const issues = useSelector((state: RootStateOrAny) => state.issues);
   const [addIssue, setAddIssue] = useState({
     title: '',
     link: '',
@@ -43,12 +42,17 @@ const PopapAddIssue = (props: Props): JSX.Element => {
     nice_id: '',
     is_current: false,
   };
-
+  const createNewIssue = (el: IIssues) => {
+    dispatch({ type: 'ADD_ISSUE', el });
+  };
+  const updateIssues = (el: IIssues, i: number) => {
+    dispatch({ type: 'ADD_ISSUE', el, i });
+  };
   return (
     <div
       className={cn(s.formLobby,
-        { [s.active]: !props.active })}
-      onClick={() => props.setActive(true)}
+        { [s.active]: !active })}
+      onClick={() => setActive(true)}
     >
       <div className={s.body}>
         <div
@@ -58,13 +62,13 @@ const PopapAddIssue = (props: Props): JSX.Element => {
           <Formik
             initialValues={
               // (props.status === 'create') ? initialValues :
-              (props.status === 'edit') ? props.element : initialValues
+              (status === 'edit') ? element : initialValues
             }
             validationSchema={SignupSchema}
             onSubmit={(values, { setSubmitting }) => {
-              if (props.status === 'create') {
+              if (status === 'create') {
                 values = { ...addIssue };
-                props.createNewIssue(values);
+                createNewIssue(values);
                 setAddIssue({
                   title: '',
                   link: '',
@@ -73,18 +77,18 @@ const PopapAddIssue = (props: Props): JSX.Element => {
                   is_current: false,
                 });
               }
-              if (props.status === 'edit') {
-                values = { ...props.element };
-                props.updateIssues(values, props.index);
+              if (status === 'edit') {
+                values = { ...element };
+                updateIssues(values, index);
               }
-              props.setActive(true);
+              setActive(true);
               setSubmitting(false);
             }}
           >
             <Form className={s.form}>
               <div className={s.formLobbyTop}>
                 <div className={s.formLobbyHeader}>
-                  {(props.status === 'create') ? 'Create Issue' : 'Edit Issue'}
+                  {(status === 'create') ? 'Create Issue' : 'Edit Issue'}
                 </div>
 
               </div>
@@ -95,19 +99,19 @@ const PopapAddIssue = (props: Props): JSX.Element => {
                   className={s.input}
                   // validationSchema={SignupSchema}
                   value={
-                    (props.status === 'create') ? addIssue.title
-                      : (props.status === 'edit') ? props.element.title : ''
+                    (status === 'create') ? addIssue.title
+                      : (status === 'edit') ? element.title : ''
                   }
                   onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-                    if (props.status === 'edit') {
-                      props.editElement({
+                    if (status === 'edit') {
+                      editElement({
                         title: `${e.target.value}`,
-                        link: props.element.link,
-                        priority: props.element.priority,
+                        link: element.link,
+                        priority: element.priority,
                         nice_id: '',
                         is_current: false,
                       });
-                    } else if (props.status === 'create') {
+                    } else if (status === 'create') {
                       setAddIssue({
                         title: `${e.target.value}`,
                         link: addIssue.link,
@@ -128,20 +132,20 @@ const PopapAddIssue = (props: Props): JSX.Element => {
                   name="link"
                   className={s.input}
                   value={
-                    (props.status === 'create')
+                    (status === 'create')
                       ? addIssue.link
-                      : (props.status === 'edit') ? props.element.link : ''
+                      : (status === 'edit') ? element.link : ''
                   }
                   onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-                    if (props.status === 'edit') {
-                      props.editElement({
-                        title: props.element.title,
+                    if (status === 'edit') {
+                      editElement({
+                        title: element.title,
                         link: `${e.target.value}`,
-                        priority: props.element.priority,
+                        priority: element.priority,
                         nice_id: '',
                         is_current: false,
                       });
-                    } else if (props.status === 'create') {
+                    } else if (status === 'create') {
                       setAddIssue({
                         title: addIssue.title,
                         link: `${e.target.value}`,
@@ -159,20 +163,20 @@ const PopapAddIssue = (props: Props): JSX.Element => {
                   as="select"
                   name="priority"
                   value={
-                    (props.status === 'create') ? addIssue.priority
-                      : (props.status === 'edit') ? props.element.priority : ''
+                    (status === 'create') ? addIssue.priority
+                      : (status === 'edit') ? element.priority : ''
                   }
                   className={s.input}
                   onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-                    if (props.status === 'edit') {
-                      props.editElement({
-                        title: props.element.title,
-                        link: props.element.link,
+                    if (status === 'edit') {
+                      editElement({
+                        title: element.title,
+                        link: element.link,
                         priority: `${e.target.value}`,
                         nice_id: '',
                         is_current: false,
                       });
-                    } else if (props.status === 'create') {
+                    } else if (status === 'create') {
                       setAddIssue({
                         title: addIssue.title,
                         link: addIssue.link,
@@ -201,7 +205,7 @@ const PopapAddIssue = (props: Props): JSX.Element => {
                   <button
                     className={cn('btn btn-outline-secondary btn-lg')}
                     onClick={() => {
-                      props.setActive(true); setAddIssue({
+                      setActive(true); setAddIssue({
                         title: '',
                         link: '',
                         priority: 'low',
