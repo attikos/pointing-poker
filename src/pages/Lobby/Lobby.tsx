@@ -6,9 +6,9 @@ import {
 import { AiOutlineEye } from 'react-icons/ai';
 import s from './Lobby.module.scss';
 import PoppapAddIssueContainer from '../../components/PopapAddIssue/PopapAddIssueContainer';
-import { IGame, IIssues, IMembers, User } from '../../interface';
+import { IGame, IIssues, IMembers } from '../../interface';
 
-const Lobby = (props: {
+interface Props {
   state: {
     issues: IIssues[];
     members: IMembers[];
@@ -16,8 +16,10 @@ const Lobby = (props: {
     game: IGame;
   };
   getInitials: (arg0: string, arg1: string) => string | null | undefined; isThisIssue: (arg0: React.MouseEvent<HTMLDivElement, MouseEvent>) => React.SetStateAction<string>;
-  // aaa: (a: IIssues) => void;
-}): JSX.Element => {
+}
+
+const Lobby = (props: Props): JSX.Element => {
+
   const [popapActive, setPopapActive] = useState(true);
   const [createOrEditIssue, setCreateOrEditIssue] = useState('');
   const [indexIssue, setIndexIssue] = useState('');
@@ -28,6 +30,7 @@ const Lobby = (props: {
     nice_id: '',
     is_current: false,
   });
+  
   return (
     <div className={s.settings}>
       <div className={s.settingsTop}>

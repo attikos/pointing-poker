@@ -4,7 +4,7 @@ import { User, TGameNiceId } from '../interface';
 
 window.axios = axios;
 
-const checkGameId = async (gameNiceId : TGameNiceId) => {
+const checkGameId = async (gameNiceId: TGameNiceId) => {
   let res;
 
   try {
@@ -28,8 +28,8 @@ const checkGameId = async (gameNiceId : TGameNiceId) => {
 
 interface NewGameApiParams {
   token: any;
-  form : User;
-  gameNiceId : TGameNiceId;
+  form: User;
+  gameNiceId: TGameNiceId;
 }
 
 class Form implements User {
@@ -45,7 +45,7 @@ class Form implements User {
 
   constructor({
     firstName, lastName, job, isObserver, foto,
-  } : User) {
+  }: User) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.job = job;
@@ -55,7 +55,7 @@ class Form implements User {
 }
 
 interface NewGameParams {
-  user : User,
+  user: User,
   gameNiceId: TGameNiceId,
 }
 
@@ -64,17 +64,19 @@ interface NewGameParams {
  * @param {Form} user
  * @returns void
  */
+// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
 const newGame = async ({ user, gameNiceId }: NewGameParams) => {
+  console.log('newGame', { user, gameNiceId });
   let res;
 
   const currentToken = getToken();
 
-  const params : NewGameApiParams = {
+  const params: NewGameApiParams = {
     token: currentToken,
     form: new Form(user),
     gameNiceId,
   };
-
+  console.log('newGame: token, form, gameNiceId', params);
   try {
     res = await axios.post('/new-game', params);
   } catch (error) {

@@ -14,21 +14,20 @@ const SignupSchema = Yup.object().shape({
     .required('Required'),
 });
 
-const PopapAddIssue = (
-  props: {
-    active: boolean;
-    setActive: (arg0: boolean) => void;
-    createNewIssue: (element: IIssues) => void;
-    updateIssues: (element: IIssues, index: number) => void;
-    editElement: (arg1: IIssues) => void;
-    index: number;
-    status: string;
-    element: IIssues;
-    state: {
-      issues: IIssues[]
-    }
-  },
-): JSX.Element => {
+interface Props {
+  active: boolean;
+  setActive: (arg0: boolean) => void;
+  createNewIssue: (element: IIssues) => void;
+  updateIssues: (element: IIssues, index: number) => void;
+  editElement: (arg1: IIssues) => void;
+  index: number;
+  status: string;
+  element: IIssues;
+  state: {
+    issues: IIssues[]
+  }
+}
+const PopapAddIssue = (props: Props): JSX.Element => {
   const [addIssue, setAddIssue] = useState({
     title: '',
     link: '',

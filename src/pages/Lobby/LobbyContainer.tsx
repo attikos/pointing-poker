@@ -21,7 +21,6 @@ const mapDispatchToProps = () => {
     },
     isThisIssue(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
       const element = e.currentTarget.id;
-      console.log('isThisIssue:', element);
       return element;
     },
   };

@@ -1,5 +1,5 @@
 import { connect } from 'react-redux';
-import { updateUserAC } from '../../store/popapLobby-redux';
+// import { updateUserAC } from '../../store/popapLobby-redux';
 import { updateAllData } from '../../store/all-data-redux';
 import PoppapToLobby from './PoppapToLobby';
 import {
@@ -11,14 +11,12 @@ import { websocket } from '../../services/socket';
 const mapStateToProps = (state: any) => ({ state });
 
 const mapDispatchToProps = (
-  dispatch: (arg0: { type: string; value: Object }) => void,
+  dispatch: (arg0: { type: string; value: IServerData }) => void,
   // props: {
   //   setActive: (arg0: boolean) => void;
   // },
 ) => {
   const routerHandler = (history: any, { game }: { game: IGame }) => {
-    // console.log('routerHandler');
-    // console.log('game', game);
     if (game.status === 'lobby' || game.status === 'game') {
       history.push(`/${game.niceId}`);
     } else {
@@ -28,13 +26,16 @@ const mapDispatchToProps = (
 
   return {
     async handleSubmit(values: { history: any, user: User, gameNiceId: TGameNiceId }) {
+      console.log('handleSubmitvalues:', values );
       // dispatch(updateUserAC(values.user))
       // props.setActive(true);
 
       const success = await api.newGame(values);
       if (success) {
+        console.log('success' );
         await websocket.connect();
         websocket.subscription?.on('all-data', (data: IServerData) => {
+
           console.log('!!!! all-data', data);
           dispatch(updateAllData(data));
           routerHandler(history, data);

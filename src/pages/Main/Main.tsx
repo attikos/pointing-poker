@@ -9,13 +9,13 @@ import PoppapToLobbyContainer from '../../components/PopapToLobby/PoppapToLobbyC
 import { ValueURL } from '../../interface';
 import api from '../../services/api';
 
-interface Props {
-  handleSubmit: (arg0: string) => void;
-  state: any,
-  // history;
-}
+// interface Props {
+//   handleSubmit: (arg0: string) => void;
+//   state: any,
+//   // history;
+// }
 
-const Main = (props: Props): JSX.Element => {
+const Main = (): JSX.Element => {
   const [popapActive, setPopapActive] = useState(true);
   const [gameNiceId, setGameNiceId] = useState('');
   const [userRole, setUserRole] = useState('');
@@ -26,7 +26,7 @@ const Main = (props: Props): JSX.Element => {
   ) => {
     setGameNiceId(values.gameNiceId);
     setPopapActive(false);
-    // props.handleSubmit('player')
+    // props.handleSubmit('player');
     setUserRole('player');
     setSubmitting(false);
   };
