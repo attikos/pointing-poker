@@ -5,20 +5,20 @@ import {
 } from 'formik';
 import _ from 'lodash';
 import s from './Main.module.scss';
-import PoppapToLobbyContainer from '../../components/PopapToLobby/PoppapToLobbyContainer';
 import { ValueURL } from '../../interface';
 import api from '../../services/api';
+import PoppapToLobby from '../../components/PopapToLobby/PoppapToLobby';
 
-// interface Props {
-//   handleSubmit: (arg0: string) => void;
-//   state: any,
-//   // history;
-// }
+interface Props {
+  setUserRole: (arg0: string) => void;
+}
 
-const Main = (): JSX.Element => {
+const Main = ({ setUserRole }: Props): JSX.Element => {
+
+
   const [popapActive, setPopapActive] = useState(true);
   const [gameNiceId, setGameNiceId] = useState('');
-  const [userRole, setUserRole] = useState('');
+
 
   const onSubmitPlayerForm = (
     values: ValueURL,
@@ -66,7 +66,6 @@ const Main = (): JSX.Element => {
           <button
             className="btn btn-secondary btn-lg"
             type="button"
-            // onClick={() => {setPopapActive(false); props.handleSubmit('master')}}
             onClick={() => { setPopapActive(false); setUserRole('master'); }}
           >
             Start new Game
@@ -112,11 +111,11 @@ const Main = (): JSX.Element => {
         </Formik>
       </div>
 
-      <PoppapToLobbyContainer
+      <PoppapToLobby
         active={popapActive}
         setActive={setPopapActive}
         gameNiceId={gameNiceId}
-        userRole={userRole}
+        // userRole={userRole}
       />
 
     </main>

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Route, Switch } from 'react-router-dom';
 import { withRouter } from 'react-router';
 import s from './App.module.scss';
@@ -10,7 +10,8 @@ import Main from './pages/Main/Main';
 function App() {
   // const {allData} = props.state;
   // const {status} = allData?.game || {};
-
+  const [userRole, setUserRole] = useState('');
+  console.log('userRoleApp', userRole);
   return (
     <div className={s.wrapper}>
       <Header />
@@ -20,9 +21,8 @@ function App() {
         : <MainContainer history={props.history} />
       } */}
       <Switch>
-        <Route exact path="/" render={() => <Main />} />
-
-        <Route exact path="/:gameNiceId" render={() => <PlayGame />} />
+        <Route exact path="/" render={() => <Main setUserRole={setUserRole}/>} />
+        <Route exact path="/:gameNiceId" render={() => <PlayGame  userRole={userRole} />} />
       </Switch>
       <Footer />
     </div>

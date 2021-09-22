@@ -7,19 +7,22 @@ import { AiOutlineEye } from 'react-icons/ai';
 import s from './Lobby.module.scss';
 import PoppapAddIssueContainer from '../../components/PopapAddIssue/PopapAddIssueContainer';
 import { IGame, IIssues, IMembers } from '../../interface';
+import { RootStateOrAny, useSelector } from 'react-redux';
 
+// interface Props {
+//   // state: {
+//   //   issues: IIssues[];
+//   //   members: IMembers[];
+//   //   // playerOrMaster: { playerOrMaster: string; };
+//   //   game: IGame;
+//   // };
+//   // getInitials: (arg0: string, arg1: string) => string | null | undefined; isThisIssue: (arg0: React.MouseEvent<HTMLDivElement, MouseEvent>) => React.SetStateAction<string>;
+// }
 interface Props {
-  state: {
-    issues: IIssues[];
-    members: IMembers[];
-    playerOrMaster: { playerOrMaster: string; };
-    game: IGame;
-  };
-  // getInitials: (arg0: string, arg1: string) => string | null | undefined; isThisIssue: (arg0: React.MouseEvent<HTMLDivElement, MouseEvent>) => React.SetStateAction<string>;
+  userRole: string;
 }
-
-const Lobby = (props: Props): JSX.Element => {
-
+const Lobby = ({ userRole }: Props): JSX.Element => {
+  console.log('userRoleLobby', userRole);
   const [popapActive, setPopapActive] = useState(true);
   const [createOrEditIssue, setCreateOrEditIssue] = useState('');
   const [indexIssue, setIndexIssue] = useState('');
@@ -30,7 +33,11 @@ const Lobby = (props: Props): JSX.Element => {
     nice_id: '',
     is_current: false,
   });
-  
+
+  const issues = useSelector((state: RootStateOrAny) => state.issues);
+  const members = useSelector((state: RootStateOrAny) => state.members);
+  const game = useSelector((state: RootStateOrAny) => state.game);
+
   function getInitials(firstName: string, lastName: string) {
     if (firstName && lastName) {
       return (firstName[0].toUpperCase() + lastName[0].toUpperCase());
@@ -47,14 +54,14 @@ const Lobby = (props: Props): JSX.Element => {
     const element = e.currentTarget.id;
     return element;
   }
-  
+
   return (
     <div className={s.settings}>
       <div className={s.settingsTop}>
         <div className={s.topic}>
           <div className={s.inputTopic}>
 
-            {props.state.issues.map((item: IIssues) => `${item.title} `)}
+            {issues.map((item: IIssues) => `${item.title} `)}
           </div>
           <div className={s.iconPencil}>
             {/* <HiPencil className={s.issuesChangeIcon} /> */}
@@ -62,7 +69,7 @@ const Lobby = (props: Props): JSX.Element => {
         </div>
         <div className={s.scramMaster}>
           <h6>Scram master:</h6>
-          {props.state.members.map((item: IMembers, i: number) => {
+          {members.map((item: IMembers, i: number) => {
             if (item.is_diller) {
               return (
                 <div className={s.scramMasterCard} key={i}>
@@ -70,7 +77,7 @@ const Lobby = (props: Props): JSX.Element => {
                     {getInitials(item.first_name, item.last_name)}
                   </div>
                   <div className={s.scramMasterInfo}>
-                    {(props.state.playerOrMaster.playerOrMaster === 'master') ? (<div>It`&apos;`s you:</div>) : null}
+                    {(userRole === 'master') ? (<div>It`&apos;`s you:</div>) : null}
                     <div className={s.scramMasterInfoName}>
                       {item.first_name}
                       {' '}
@@ -85,7 +92,7 @@ const Lobby = (props: Props): JSX.Element => {
         </div>
       </div>
 
-      {(props.state.playerOrMaster.playerOrMaster === 'master')
+      {(userRole === 'master')
         ? (
           <div className={s.settingsLinks}>
             <div className={s.linkLobby}>
@@ -94,7 +101,7 @@ const Lobby = (props: Props): JSX.Element => {
                 <i><b>Link to lobby:</b></i>
               </h3>
               <div className={s.copyLinkLobby}>
-                <div className={s.inputLinkLobby}>{`http://localhost/${props.state.game.gameNiceId}`}</div>
+                <div className={s.inputLinkLobby}>{`http://localhost/${game.gameNiceId}`}</div>
                 <button className={cn('btn btn-secondary btn-lg')}>Copy</button>
               </div>
             </div>
@@ -112,7 +119,7 @@ const Lobby = (props: Props): JSX.Element => {
         )}
       <div className={s.settingsMembers}>
         <div className={s.memberTitle}> Members:</div>
-        {props.state.members.map(({
+        {members.map(({
           first_name, is_diller, is_player, job, last_name,
         }: IMembers, i: number) => (
           <div
@@ -139,14 +146,14 @@ const Lobby = (props: Props): JSX.Element => {
         ))}
       </div>
       {
-        (props.state.playerOrMaster.playerOrMaster === 'master')
+        (userRole === 'master')
           ? (
             <div>
               <div className={s.settingsIssues}>
                 <div className={s.issuesTitle}>
                   Issues:
                 </div>
-                {props.state.issues.map((item: IIssues, i: number) => (
+                {issues.map((item: IIssues, i: number) => (
                   <div className={s.issuesCard} key={i}>
                     <div className={s.issuesInfo}>
                       <div className={s.issuesInfoName}>{item.title}</div>
@@ -159,7 +166,7 @@ const Lobby = (props: Props): JSX.Element => {
                         setPopapActive(false); setCreateOrEditIssue('edit');
                         setIndexIssue(isThisIssue(e));
                         setDataIssue({
-                          title: `${props.state.issues[+isThisIssue(e)].title}`, link: `${props.state.issues[+isThisIssue(e)].link}`, priority: `${props.state.issues[+isThisIssue(e)].priority}`, nice_id: '', is_current: false,
+                          title: `${issues[+isThisIssue(e)].title}`, link: `${issues[+isThisIssue(e)].link}`, priority: `${issues[+isThisIssue(e)].priority}`, nice_id: '', is_current: false,
                         });
                       }}
                     >
