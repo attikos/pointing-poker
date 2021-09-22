@@ -1,18 +1,18 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 import Ws from '@adonisjs/websocket-client';
 import { getToken } from './axios';
 
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const env = require(`../env/${process.env.NODE_ENV}.env`);
 
 interface ISubscription {
-  emit: (arg: string, arg1?: Object) => void
+  emit: (arg: string, arg1?: any) => void
   on: (arg: string, arg1: (data: any) => any) => void
 }
 
 interface IWebsocket {
   callbackList: { [key: string]: () => void };
   ws: null | {
-    emit: (arg: string, arg1?: Object) => void
+    emit: (arg: string, arg1?: any) => void
     on: (arg: string, arg1: () => void) => void
     subscribe: (arg: string) => ISubscription
     close: () => void
@@ -20,12 +20,12 @@ interface IWebsocket {
   subscription: null | ISubscription;
   roomId: string;
   connect: () => Promise<void>;
-  subscribe: () => Promise<void | Object>;
+  subscribe: () => Promise<void | any>;
   on: (arg: string, arg1: () => void) => void;
   off: (arg: string) => void;
   setRoomId: (arg: string) => void;
   setCallback: (arg: string, arg1?: () => void) => void;
-  emit: (arg: string, arg1?: Object) => void
+  emit: (arg: string, arg1?: any) => void
   runCallback: (arg: string) => void;
   close: () => void;
 }
@@ -65,6 +65,7 @@ export const websocket: IWebsocket = {
       });
     }
 
+   
     // eslint-disable-next-line no-async-promise-executor
     return new Promise(async (resolve, reject) => {
       try {
@@ -116,7 +117,7 @@ export const websocket: IWebsocket = {
      */
   async subscribe() {
     // eslint-disable-next-line no-async-promise-executor
-    return new Promise(async (resolve, reject) => {
+    return new Promise<void>(async (resolve, reject) => {
       if (!this.ws) {
         throw new Error('Websocket not connected. Subscription not available.');
       }
