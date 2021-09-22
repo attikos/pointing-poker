@@ -6,6 +6,22 @@ import { RootState } from '../../store/store-redux';
 import PlayerIcon from '../../components/PlayerIcon/PlayerIcon';
 import { IIssues } from '../../interface';
 import IssueCard from '../../components/IssueCard/IssueCard';
+import coffeImg from '../../assets/coffee.png';
+
+const POKER_CARDS: string[] = [
+  '0',
+  '1/2',
+  '1',
+  '2',
+  '3',
+  '5',
+  '8',
+  '13',
+  '20',
+  '40',
+  '100',
+  '?',
+];
 
 const Game = () => {
   const playerOrMaster = useSelector(
@@ -13,7 +29,11 @@ const Game = () => {
   );
   const members = useSelector((state: RootState) => state.members);
   const issues = useSelector((state: RootState) => state.issues);
+  let isRoundNow = true; // флаг, который показывает, идет ли сейчас раунд
 
+  /* TODO смена флага, когда все игроки проголосуют */
+
+  /* TODO счет изменить, когда будет готова структура данных с сервера */
   const returnScoreColumn = () => {
     return (
       <div className={s.score}>
@@ -35,6 +55,19 @@ const Game = () => {
         {issues.map((issue: IIssues) => {
           return <IssueCard issue={issue} />;
         })}
+      </div>
+    );
+  };
+
+  const returnPlayerCards = () => {
+    return (
+      <div className={s.pokerCardWrapper}>
+        {POKER_CARDS.map((item) => (
+          <div className={s.pokerCard} key={item}>
+            {item}
+          </div>
+        ))}
+        <div className={s.pokerCard}><img src={coffeImg} alt='coffe' /></div>
       </div>
     );
   };
@@ -61,20 +94,26 @@ const Game = () => {
         <div className={s.issuesTitle}>Issues: </div>
         {playerOrMaster.playerOrMaster === 'master' ? (
           <div>
-            <button className={cn('btn btn-secondary btn-lg')}>
-              Run Round
-            </button>
-            <button className={cn('btn btn-secondary btn-lg')}>
-              Restr Round
-            </button>
-            <button className={cn('btn btn-secondary btn-lg')}>
-              Next ISSUE
-            </button>{' '}
+            {isRoundNow ? (
+              <button className={cn('btn btn-secondary btn-lg')}>
+                Run Round
+              </button>
+            ) : (
+              <div>
+                <button className={cn('btn btn-secondary btn-lg')}>
+                  Restr Round
+                </button>
+                <button className={cn('btn btn-secondary btn-lg')}>
+                  Next ISSUE
+                </button>{' '}
+              </div>
+            )}
           </div>
         ) : (
           <div />
         )}
         {returnIssuesList(issues)}
+        {/* TODO  добавление статистики для мастера поменять*/}
         {playerOrMaster.playerOrMaster === 'master' ? (
           <div className={s.statistic}>
             <div className={s.cardWrapper}>
@@ -83,8 +122,9 @@ const Game = () => {
             </div>
           </div>
         ) : null}
+        {returnPlayerCards()}
       </div>
-      {returnScoreColumn()}
+      <div className={s.scoreCont}> {returnScoreColumn()}</div>
     </div>
   );
 };
