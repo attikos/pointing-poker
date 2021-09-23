@@ -14,9 +14,9 @@ import store from './store/store-redux';
 declare global {
   interface Window {
     api?: any;
-    bootstrap: any,
-    axios: any,
-    websocket: any,
+    bootstrap: any;
+    axios: any;
+    websocket: any;
   }
 }
 // const customHistory = createBrowserHistory();
@@ -26,7 +26,7 @@ window.bootstrap = bootstrap;
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <BrowserRouter 
+      <BrowserRouter
       // history={customHistory}
       >
         <App  />

@@ -1,10 +1,8 @@
-/* eslint-disable @typescript-eslint/no-var-requires */
 import _axios from 'axios';
 import Cookies from 'js-cookie';
 
 const axiosInstance = _axios.create();
-
-// eslint-disable-next-line no-undef
+// eslint-disable-next-line @typescript-eslint/no-var-requires
 const env = require(`../env/${ process.env.NODE_ENV }.env`);
 
 axiosInstance.defaults.baseURL = env.API_URL;
@@ -14,6 +12,7 @@ export const axios = axiosInstance;
 
 export const getToken = function () {
   const token = Cookies.get('token');
+
   return token;
 };
 

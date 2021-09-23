@@ -1,7 +1,10 @@
 {
     "env": {
+        "node": true,
         "browser": true,
-        "es2020": true
+        "es2020": true,
+        "commonjs": true,
+        "es6": true
     },
     "settings": {
         "import/extensions": [
@@ -29,7 +32,7 @@
         "ecmaFeatures": {
             "jsx": true
         },
-        "ecmaVersion": 12,
+        "ecmaVersion": 2015,
         "sourceType": "module",
         "project": "./tsconfig.json"
     },

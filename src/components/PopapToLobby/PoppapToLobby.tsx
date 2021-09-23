@@ -5,8 +5,9 @@ import {
 } from 'formik';
 import * as Yup from 'yup';
 import s from './PoppapToLobby.module.scss';
-import { User, TGameNiceId, IServerData, IGame } from '../../interface';
-import { initialUserState } from '../../store/popapLobby-redux';
+import { User, IServerData, IGame } from '../../interface';
+import { TGameNiceId } from '../../types';
+import { updateUserAC, initialUserState } from '../../store/popapLobby-redux';
 import { useHistory } from 'react-router';
 import api from '../../services/api';
 import { websocket } from '../../services/socket';
@@ -62,9 +63,6 @@ const PoppapToLobby = (props: Props): JSX.Element => {
   };
 
   const handleSubmit = async (values: { user: User, gameNiceId: TGameNiceId }): Promise<void> => {
-    // dispatch(updateUserAC(values.user))
-    // props.setActive(true);
-
     const success = await api.newGame(values);
     if (success) {
       await websocket.connect();
@@ -74,7 +72,14 @@ const PoppapToLobby = (props: Props): JSX.Element => {
         dispatch(updateAllData(data));
         routerHandler(data);
       });
-      websocket.emit('getAllData');
+
+      websocket.subscription?.on('user', (data:User) => {
+        console.log('user:', data);
+        dispatch(updateUserAC(data));
+      });
+
+      api.fetchAllData();
+      api.fetchUser();
     }
   };
 
@@ -153,8 +158,8 @@ const PoppapToLobby = (props: Props): JSX.Element => {
               <Field id="job" name="job" className={s.input} />
 
               {/* <label htmlFor="photo">Image:</label>
-                            <input type="file" className="select-foto-input input" name="photo"
-                            /> */}
+                <input type="file" className="select-foto-input input" name="photo"
+                /> */}
 
               {initials && (
                 <div className={s.foto}>

@@ -1,35 +1,38 @@
 import { axios, setToken, getToken } from './axios';
 import { websocket } from './socket';
-import { User, TGameNiceId } from '../interface';
+import { User, IIssues } from '../interface';
+import { TScore, TGameNiceId } from '../types';
 
 window.axios = axios;
 
-const checkGameId = async (gameNiceId: TGameNiceId) => {
+const checkGameId = async (gameNiceId : TGameNiceId):Promise<string> => {
+  const DEFAULT_ERROR = 'Wrong game ID';
+  const SYSTEM_ERROR = 'System error. Please, try later';
   let res;
 
   try {
     res = await axios.post('/check-game-id', { gameNiceId });
   } catch (error) {
-    return;
+    return DEFAULT_ERROR;
   }
 
   const { success, errors } = res.data;
 
   if (!success) {
-    return 'System error. Please, try later';
+    return SYSTEM_ERROR;
   }
 
   if (errors) {
     return errors.gameNiceId;
   }
 
-  return false;
+  return SYSTEM_ERROR;
 };
 
 interface NewGameApiParams {
-  token: any;
-  form: User;
-  gameNiceId: TGameNiceId;
+  token: string;
+  form : User;
+  gameNiceId : TGameNiceId;
 }
 
 class Form implements User {
@@ -43,9 +46,7 @@ class Form implements User {
 
   foto: string;
 
-  constructor({
-    firstName, lastName, job, isObserver, foto,
-  }: User) {
+  constructor({ firstName, lastName, job, isObserver, foto } : User) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.job = job;
@@ -55,7 +56,7 @@ class Form implements User {
 }
 
 interface NewGameParams {
-  user: User,
+  user : User,
   gameNiceId: TGameNiceId,
 }
 
@@ -64,31 +65,27 @@ interface NewGameParams {
  * @param {Form} user
  * @returns void
  */
-// eslint-disable-next-line @typescript-eslint/explicit-module-boundary-types
-const newGame = async ({ user, gameNiceId }: NewGameParams) => {
-  console.log('newGame', { user, gameNiceId });
+const newGame = async ( { user, gameNiceId }: NewGameParams):Promise<string | boolean> => {
   let res;
 
   const currentToken = getToken();
 
-  const params: NewGameApiParams = {
+  const params : NewGameApiParams = {
     token: currentToken,
-    form: new Form(user),
+    form : new Form(user),
     gameNiceId,
   };
-  console.log('newGame: token, form, gameNiceId', params);
+
   try {
     res = await axios.post('/new-game', params);
   } catch (error) {
     console.log(error);
-    return;
+    return false;
   }
 
-  const {
-    token, roomId, success, errors,
-  } = res.data;
+  const { token, roomId, success, errors } = res.data;
 
-  if (errors) {
+  if ( errors ) {
     console.log('errors', errors);
     return errors;
   }
@@ -102,14 +99,89 @@ const newGame = async ({ user, gameNiceId }: NewGameParams) => {
     // websocket.connect()
 
     return true;
+  } else {
+    throw Error('System error: wrong token or roomId');
   }
+};
 
-  throw Error('System error: wrong token or roomId');
+/**
+ * Get all game data (without current player profile)
+ */
+const fetchAllData = ():void => {
+  websocket.emit('getAllData');
+};
+
+
+/**
+ * Get current player profile
+ */
+const fetchUser = ():void => {
+  websocket.emit('getGetUser');
+};
+
+/**
+ * Change game status from 'lobby' to 'game'
+ */
+const startGame = ():void => {
+  websocket.emit('startGame');
+};
+
+/**
+ * For diller: Change game status from 'game' to 'result'
+ * For player: exit from game
+ */
+const cancelGame = ():void => {
+  websocket.emit('cancelGame');
+};
+
+/**
+ * ??? use setIssueAsCurrent instead
+ */
+const startRound = ():void => {
+  websocket.emit('startRound');
+};
+
+const setIssueAsCurrent = (issueId: string):void => {
+  websocket.emit('setIssueAsCurrent', issueId);
+};
+
+const deleteUser = (niceId:TGameNiceId):void => {
+  websocket.emit('deleteUser', niceId);
+};
+
+/**
+ * Add or update score
+ * @param {Object} issue
+ */
+const addScore = (score: TScore):void => {
+  websocket.emit('addScore', score);
+};
+
+/**
+ * Add or update issue
+ * @param {Object} issue
+ */
+const addIssue = (issue: IIssues):void => {
+  websocket.emit('addIssue', issue);
+};
+
+const deleteIssue = (issueId: string):void => {
+  websocket.emit('addIssue', issueId);
 };
 
 const exportData = {
   checkGameId,
   newGame,
+  startGame,
+  cancelGame,
+  startRound,
+  deleteUser,
+  fetchAllData,
+  fetchUser,
+  setIssueAsCurrent,
+  addIssue,
+  addScore,
+  deleteIssue,
 };
 
 window.api = exportData;

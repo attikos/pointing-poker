@@ -23,8 +23,8 @@ interface Props {
   index: number;
   status: string;
   element: IIssues;
-
 }
+
 const PopapAddIssue = ({ active, setActive, editElement, index, status, element }: Props): JSX.Element => {
   const dispatch = useDispatch();
   // const issues = useSelector((state: RootStateOrAny) => state.issues);
@@ -34,8 +34,8 @@ const PopapAddIssue = ({ active, setActive, editElement, index, status, element 
     priority: 'low',
     nice_id: '',
     is_current: false,
-
   });
+
   const initialValues = {
     title: '',
     link: '',
@@ -43,6 +43,7 @@ const PopapAddIssue = ({ active, setActive, editElement, index, status, element 
     nice_id: '',
     is_current: false,
   };
+
   const createNewIssue = (el: IIssues) => {
     dispatch(addIssueAC(el));
   };

@@ -2,40 +2,40 @@ import Ws from '@adonisjs/websocket-client';
 import { getToken } from './axios';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
-const env = require(`../env/${process.env.NODE_ENV}.env`);
+const env = require(`../env/${ process.env.NODE_ENV }.env`);
 
 interface ISubscription {
-  emit: (arg: string, arg1?: any) => void
-  on: (arg: string, arg1: (data: any) => any) => void
+  emit: (arg:string, arg1?:any) => void
+  on: (arg:string, arg1:(data:any) => any) => void
 }
 
 interface IWebsocket {
   callbackList: { [key: string]: () => void };
   ws: null | {
-    emit: (arg: string, arg1?: any) => void
-    on: (arg: string, arg1: () => void) => void
-    subscribe: (arg: string) => ISubscription
+    emit: (arg:string, arg1?:any) => void
+    on: (arg:string, arg1:() => void) => void
+    subscribe: (arg:string) => ISubscription
     close: () => void
   };
   subscription: null | ISubscription;
   roomId: string;
   connect: () => Promise<void>;
   subscribe: () => Promise<void | any>;
-  on: (arg: string, arg1: () => void) => void;
-  off: (arg: string) => void;
-  setRoomId: (arg: string) => void;
-  setCallback: (arg: string, arg1?: () => void) => void;
-  emit: (arg: string, arg1?: any) => void
-  runCallback: (arg: string) => void;
+  on: (arg:string, arg1:() => void) => void;
+  off: (arg:string) => void;
+  setRoomId: (arg:string) => void;
+  setCallback: (arg:string, arg1?:() => void) => void;
+  emit: (arg:string, arg1?:any) => void
+  runCallback: (arg:string) => void;
   close: () => void;
 }
 
 export const websocket: IWebsocket = {
-  callbackList: {},
+  callbackList : {},
 
-  ws: null,
+  ws : null,
 
-  subscription: null,
+  subscription : null,
 
   roomId: '',
 
@@ -48,7 +48,7 @@ export const websocket: IWebsocket = {
      * Events: close, open, error
      */
   connect() {
-    if (this.ws) {
+    if ( this.ws ) {
       try {
         this.close();
       } catch (error) {
@@ -57,21 +57,20 @@ export const websocket: IWebsocket = {
         this.ws = null;
       }
 
-      return new Promise((resolve) => {
-        setTimeout(async () => {
+      return new Promise( resolve => {
+        setTimeout( async () => {
           await this.connect();
           resolve();
         }, 500);
       });
     }
 
-   
     // eslint-disable-next-line no-async-promise-executor
-    return new Promise(async (resolve, reject) => {
+    return new Promise( async (resolve, reject) => {
       try {
         const token = getToken();
         this.ws = this.ws || await Ws(env.API_URL_WEBSOCKET)
-          .withApiToken(token)
+          .withApiToken( token )
           .connect();
 
         this.ws?.on('close', () => {
@@ -117,20 +116,20 @@ export const websocket: IWebsocket = {
      */
   async subscribe() {
     // eslint-disable-next-line no-async-promise-executor
-    return new Promise<void>(async (resolve, reject) => {
+    return new Promise( async (resolve, reject) => {
       if (!this.ws) {
         throw new Error('Websocket not connected. Subscription not available.');
       }
 
       try {
-        this.subscription = this.subscription || await this.ws?.subscribe(`room:${this.roomId}`);
+        this.subscription = this.subscription || await this.ws?.subscribe(`room:${ this.roomId }`);
       } catch (err) {
         console.log(err);
       }
 
       this.subscription?.on('ready', () => {
         console.log('ready');
-        resolve();
+        resolve(true);
       });
 
       this.subscription?.on('all-data', (data) => {
@@ -144,19 +143,10 @@ export const websocket: IWebsocket = {
       });
 
       this.subscription?.on('close', (e) => {
-        console.log('close', e);
         console.log('--- subscription close ---');
         this.close();
         reject(e);
       });
-
-      // this.subscription.on('message', (message) => {
-      //     console.log('message', message);
-      // })
-
-      // this.subscription.on('viewed', (messageIdList) => {
-      //     console.log('viewed', messageIdList);
-      // })
     });
   },
 
@@ -168,7 +158,7 @@ export const websocket: IWebsocket = {
     this.setCallback(eventName, handler);
   },
 
-  off(eventName: string) {
+  off(eventName:string) {
     if (!this.ws) {
       return;
     }
@@ -179,29 +169,22 @@ export const websocket: IWebsocket = {
   runCallback(eventName) {
     console.log('run', eventName);
 
-    this.callbackList[eventName]?.();
+    this.callbackList[ eventName ]?.();
   },
 
   setCallback(eventName, handler) {
     if (handler) {
-      this.callbackList[eventName] = handler;
+      this.callbackList[ eventName ] = handler;
 
       if (eventName === 'open' && this.ws) {
+
         /**
-                 * Event open already fired, let's fire the callback
-                 */
+         * Event open already fired, let's fire the callback
+         */
         this.runCallback('open');
       }
-
-      // if (eventName === 'all-data' && this.ws) {
-
-      //     /**
-      //      * Event open already fired, let's fire the callback
-      //      */
-      //     this.runCallback('all-data')
-      // }
     } else {
-      delete this.callbackList[eventName];
+      delete this.callbackList[ eventName ];
     }
   },
 };
