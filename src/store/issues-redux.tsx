@@ -1,46 +1,46 @@
-import { IIssues } from '../interface';
+import { IIssue } from '../interface';
 
 const UPDATE_ISSUES = 'UPDATE_ISSUES';
 const ADD_ISSUE = 'ADD_ISSUE';
 const DELETE_ISSUE = 'DELETE_ISSUE';
 
-const init: IIssues[] = [
+const init: IIssue[] = [
   {
     title: 'Заголовок1 задачи',
-    nice_id: 'DSA432',
-    is_current: true, // текущая задача, над которой голосуют
+    niceId: 'DSA432',
+    isCurrent: true, // текущая задача, над которой голосуют
     link: 'ссылка на задачу',
     priority: 'middle', // ['low', 'middle', 'high']
   },
   {
     title: 'Заголовок2 задачи',
-    nice_id: 'DSA432',
-    is_current: false, // текущая задача, над которой голосуют
+    niceId: 'DSA432',
+    isCurrent: false, // текущая задача, над которой голосуют
     link: 'ссылка на задачу',
     priority: 'high', // ['low', 'middle', 'high']
   },
   {
     title: 'Заголовок3 задачи',
-    nice_id: 'DSA432',
-    is_current: false, // текущая задача, над которой голосуют
+    niceId: 'DSA432',
+    isCurrent: false, // текущая задача, над которой голосуют
     link: 'ссылка на задачу',
     priority: 'low', // ['low', 'middle', 'high']
   },
 
 ];
 
-export const updateIssuesAC = (value: IIssues, index: number): {
+export const updateIssuesAC = (value: IIssue, index: number): {
   type: string,
-  value: IIssues;
+  value: IIssue;
   index: number
 } => ({
   type: UPDATE_ISSUES,
   value,
   index,
 });
-export const addIssueAC = (value: IIssues): {
+export const addIssueAC = (value: IIssue): {
   type: string,
-  value: IIssues;
+  value: IIssue;
 
 } => ({
   type: ADD_ISSUE,
@@ -55,12 +55,12 @@ export const deleteIssueAC = (value: string, index: number): {
   value,
   index,
 });
-const issuesReducer = (state: IIssues[] = init,
+const issuesReducer = (state: IIssue[] = init,
   action: {
     type: string;
-    value: IIssues;
+    value: IIssue;
     index: number;
-  }): IIssues[] => {
+  }): IIssue[] => {
   let stateCopy;
   switch (action.type) {
     case UPDATE_ISSUES:

@@ -1,11 +1,11 @@
 import { axios, setToken, getToken } from './axios';
 import { websocket } from './socket';
-import { User, IIssues } from '../interface';
-import { TScore, TGameNiceId } from '../types';
+import { IUser, IIssue } from '../interface';
+import { TScore, TNiceId } from '../types';
 
 window.axios = axios;
 
-const checkGameId = async (gameNiceId : TGameNiceId):Promise<string> => {
+const checkGameId = async (gameNiceId : TNiceId):Promise<string> => {
   const DEFAULT_ERROR = 'Wrong game ID';
   const SYSTEM_ERROR = 'System error. Please, try later';
   let res;
@@ -31,11 +31,11 @@ const checkGameId = async (gameNiceId : TGameNiceId):Promise<string> => {
 
 interface NewGameApiParams {
   token: string;
-  form : User;
-  gameNiceId : TGameNiceId;
+  form : IUser;
+  gameNiceId : TNiceId;
 }
 
-class Form implements User {
+class Form implements IUser {
   firstName: string;
 
   lastName: string;
@@ -44,20 +44,23 @@ class Form implements User {
 
   isObserver: boolean;
 
-  foto: string;
+  isDiller: boolean;
 
-  constructor({ firstName, lastName, job, isObserver, foto } : User) {
+  foto: string | undefined;
+
+  constructor({ firstName, lastName, job, isObserver, isDiller, foto } : IUser) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.job = job;
+    this.isDiller = isDiller;
     this.isObserver = isObserver;
     this.foto = foto;
   }
 }
 
 interface NewGameParams {
-  user : User,
-  gameNiceId: TGameNiceId,
+  user : IUser,
+  gameNiceId: TNiceId,
 }
 
 /**
@@ -145,7 +148,7 @@ const setIssueAsCurrent = (issueId: string):void => {
   websocket.emit('setIssueAsCurrent', issueId);
 };
 
-const deleteUser = (niceId:TGameNiceId):void => {
+const deleteUser = (niceId:TNiceId):void => {
   websocket.emit('deleteUser', niceId);
 };
 
@@ -161,7 +164,7 @@ const addScore = (score: TScore):void => {
  * Add or update issue
  * @param {Object} issue
  */
-const addIssue = (issue: IIssues):void => {
+const addIssue = (issue: IIssue):void => {
   websocket.emit('addIssue', issue);
 };
 

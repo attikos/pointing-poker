@@ -5,8 +5,8 @@ import {
 } from 'formik';
 import * as Yup from 'yup';
 import s from './PoppapToLobby.module.scss';
-import { User, IServerData, IGame } from '../../interface';
-import { TGameNiceId } from '../../types';
+import { IUser, IServerData, IGame } from '../../interface';
+import { TNiceId } from '../../types';
 import { updateUserAC, initialUserState } from '../../store/popapLobby-redux';
 import { useHistory } from 'react-router';
 import api from '../../services/api';
@@ -24,7 +24,7 @@ const SignupSchema = Yup.object().shape({
 interface Props {
   active: boolean;
   setActive: (arg0: boolean) => void;
-  gameNiceId: TGameNiceId;
+  gameNiceId: TNiceId;
 }
 
 const PoppapToLobby = (props: Props): JSX.Element => {
@@ -62,7 +62,7 @@ const PoppapToLobby = (props: Props): JSX.Element => {
     }
   };
 
-  const handleSubmit = async (values: { user: User, gameNiceId: TGameNiceId }): Promise<void> => {
+  const handleSubmit = async (values: { user: IUser, gameNiceId: TNiceId }): Promise<void> => {
     const success = await api.newGame(values);
     if (success) {
       await websocket.connect();
@@ -73,7 +73,7 @@ const PoppapToLobby = (props: Props): JSX.Element => {
         routerHandler(data);
       });
 
-      websocket.subscription?.on('user', (data:User) => {
+      websocket.subscription?.on('user', (data:IUser) => {
         console.log('user:', data);
         dispatch(updateUserAC(data));
       });
@@ -83,17 +83,15 @@ const PoppapToLobby = (props: Props): JSX.Element => {
     }
   };
 
-  const openTheLobby = (id: TGameNiceId, status: string): void => {
+  const openTheLobby = (id: TNiceId, status: string): void => {
     if (status === 'lobby') {
       history.push(`/${id}`);
     }
   };
 
-
-
   const onFormSubmit = (
-    values: User,
-    { setSubmitting }: FormikHelpers<User>,
+    values: IUser,
+    { setSubmitting }: FormikHelpers<IUser>,
   ) => {
     handleSubmit({
       user: { ...values, ...fio },

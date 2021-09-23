@@ -5,7 +5,8 @@ import {
 } from 'react-icons/hi';
 import { AiOutlineEye } from 'react-icons/ai';
 import s from './Lobby.module.scss';
-import { IIssues, IMembers } from '../../interface';
+import { IIssue, IUser } from '../../interface';
+import { TIssuePriority, TIssueStatus } from '../../types';
 import { RootStateOrAny, useSelector } from 'react-redux';
 import PoppapAddIssue from '../../components/PopapAddIssue/PoppapAddIssue';
 
@@ -15,14 +16,14 @@ interface Props {
 const Lobby = ({ userRole }: Props): JSX.Element => {
 
   const [popapActive, setPopapActive] = useState(true);
-  const [createOrEditIssue, setCreateOrEditIssue] = useState('');
+  const [issueStatus, setissueStatus] = useState<TIssueStatus>('create');
   const [indexIssue, setIndexIssue] = useState('');
-  const [dataIssue, setDataIssue] = useState({
+  const [dataIssue, setDataIssue] = useState<IIssue>({
     title: '',
     link: '',
-    priority: '',
-    nice_id: '',
-    is_current: false,
+    priority: 'middle',
+    niceId: '',
+    isCurrent: false,
   });
 
   const issues = useSelector((state: RootStateOrAny) => state.issues);
@@ -52,7 +53,7 @@ const Lobby = ({ userRole }: Props): JSX.Element => {
         <div className={s.topic}>
           <div className={s.inputTopic}>
 
-            {issues.map((item: IIssues) => `${item.title} `)}
+            {issues.map((item: IIssue) => `${item.title} `)}
           </div>
           <div className={s.iconPencil}>
             {/* <HiPencil className={s.issuesChangeIcon} /> */}
@@ -60,19 +61,19 @@ const Lobby = ({ userRole }: Props): JSX.Element => {
         </div>
         <div className={s.scramMaster}>
           <h6>Scram master:</h6>
-          {members.map((item: IMembers, i: number) => {
-            if (item.is_diller) {
+          {members.map((item: IUser, i: number) => {
+            if (item.isDiller) {
               return (
                 <div className={s.scramMasterCard} key={i}>
                   <div className={s.noFoto}>
-                    {getInitials(item.first_name, item.last_name)}
+                    {getInitials(item.firstName, item.lastName)}
                   </div>
                   <div className={s.scramMasterInfo}>
-                    {(userRole === 'master') ? (<div>It`&apos;`s you:</div>) : null}
+                    {(userRole === 'master') ? (<div>It&apos;s you:</div>) : null}
                     <div className={s.scramMasterInfoName}>
-                      {item.first_name}
+                      {item.firstName}
                       {' '}
-                      {item.last_name}
+                      {item.lastName}
                     </div>
                     <div>{item.job}</div>
                   </div>
@@ -111,22 +112,22 @@ const Lobby = ({ userRole }: Props): JSX.Element => {
       <div className={s.settingsMembers}>
         <div className={s.memberTitle}> Members:</div>
         {members.map(({
-          first_name, is_diller, is_player, job, last_name,
-        }: IMembers, i: number) => (
+          firstName, isDiller, isObserver, job, lastName,
+        }: IUser, i: number) => (
           <div
             className={cn(s.memberCard,
-              { [s.isObserverCard]: (!is_diller && !is_player) })}
+              { [s.isObserverCard]: (!isDiller && isObserver) })}
             key={i}
           >
             <div className={s.noFoto}>
-              {getInitials(first_name, last_name)}
+              {getInitials(firstName, lastName)}
             </div>
             <div className={s.memberInfo}>
-              {(!is_diller && !is_player) ? (<div className={s.isObserver}><AiOutlineEye className={s.isObserverIcon} /></div>) : null}
+              {(!isDiller && isObserver) ? (<div className={s.isObserver}><AiOutlineEye className={s.isObserverIcon} /></div>) : null}
               <div className={s.memberInfoName}>
-                {first_name}
+                {firstName}
                 {' '}
-                {last_name}
+                {lastName}
               </div>
               <div>{job}</div>
             </div>
@@ -144,7 +145,7 @@ const Lobby = ({ userRole }: Props): JSX.Element => {
                 <div className={s.issuesTitle}>
                   Issues:
                 </div>
-                {issues.map((item: IIssues, i: number) => (
+                {issues.map((item: IIssue, i: number) => (
                   <div className={s.issuesCard} key={i}>
                     <div className={s.issuesInfo}>
                       <div className={s.issuesInfoName}>{item.title}</div>
@@ -154,10 +155,16 @@ const Lobby = ({ userRole }: Props): JSX.Element => {
                       className={s.issuesChange}
                       id={`${i}`}
                       onClick={(e) => {
-                        setPopapActive(false); setCreateOrEditIssue('edit');
+                        const newPriority = `${issues[+isThisIssue(e)].priority}` as TIssuePriority;
+
+                        setPopapActive(false); setissueStatus('edit');
                         setIndexIssue(isThisIssue(e));
                         setDataIssue({
-                          title: `${issues[+isThisIssue(e)].title}`, link: `${issues[+isThisIssue(e)].link}`, priority: `${issues[+isThisIssue(e)].priority}`, nice_id: '', is_current: false,
+                          title: `${issues[+isThisIssue(e)].title}`,
+                          link: `${issues[+isThisIssue(e)].link}`,
+                          priority: newPriority,
+                          niceId: '',
+                          isCurrent: false,
                         });
                       }}
                     >
@@ -172,7 +179,7 @@ const Lobby = ({ userRole }: Props): JSX.Element => {
                   className={s.issuesCardAdd}
                   onClick={() => {
                     setPopapActive(false);
-                    setCreateOrEditIssue('create');
+                    setissueStatus('create');
                   }}
                 >
                   <div className={s.issuesCardAddTitle}>Create new Issue</div>
@@ -199,7 +206,14 @@ const Lobby = ({ userRole }: Props): JSX.Element => {
             </div>
           ) : null
       }
-      <PoppapAddIssue active={popapActive} status={createOrEditIssue} setActive={setPopapActive} element={dataIssue} editElement={setDataIssue} index={+indexIssue} />
+      <PoppapAddIssue
+        active={popapActive}
+        status={issueStatus}
+        setActive={setPopapActive}
+        element={dataIssue}
+        editElement={setDataIssue}
+        index={+indexIssue}
+      />
     </div>
 
   );

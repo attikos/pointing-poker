@@ -1,18 +1,20 @@
-import { TGameNiceId } from './types';
+import { TNiceId, TGameStatus, TIssuePriority } from './types';
 
-export interface User {
+export interface IUser {
   firstName: string;
   lastName: string;
   job: string;
   isObserver: boolean;
-  foto: string;
-  niceId?: TGameNiceId;
+  isDiller: boolean;
+  token?:string;
+  foto?: string;
+  niceId?: TNiceId;
   id?: number;
   updatedAt?: string;
   createdAt?: string;
 }
 
-export interface IScores {
+export interface IScore {
   issueId: number;
   userId: number;
   score: string;
@@ -23,44 +25,31 @@ export interface IScores {
 
 export interface IServerData {
   game: IGame;
-  members: User[];
-  issues: IIssues[];
-  scores: IScores[];
-  usersIssues: { [key: string]: IScores };
+  members: IUser[];
+  issues: IIssue[];
+  scores: IScore[];
+  usersIssues: { [key: string]: IScore };
 }
 
 export interface ValueURL {
-  gameNiceId: TGameNiceId;
+  gameNiceId: TNiceId;
 }
 export interface IGame {
-  gameNiceId?: TGameNiceId;
-  diller_nice_id?: string,
   userId?: number;
-  status: string;
+  status: TGameStatus;
   id?: number;
-  niceId?: TGameNiceId;
+  niceId?: TNiceId;
   updatedAt?: string;
   createdAt?: string;
 }
 
-/**
- * Deprecated, use an User interface instead
- */
-export interface IMembers {
-  nice_id: string;
-  first_name: string;
-  last_name: string;
-  is_diller: boolean;
-  is_player: boolean;
-  job: string;
-}
-export interface IIssues {
+export interface IIssue {
   title: string;
-  nice_id: string;
-  is_current: boolean;
+  niceId: string;
+  isCurrent: boolean;
   is_finished?: boolean;
   link: string;
-  priority: string;
+  priority: TIssuePriority;
   id?: number;
   updatedAt?: string;
   createdAt?: string;
