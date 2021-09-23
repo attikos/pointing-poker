@@ -1,9 +1,9 @@
-import React from "react";
+import React from 'react';
 import s from './Footer.module.scss';
-import { AiOutlineGithub } from "react-icons/ai"
+import { AiOutlineGithub } from 'react-icons/ai';
 
 const Footer = () => {
-    return (
+  return (
         <footer className={s.footer}>
             <div className={s.footerContainer}>
                 <div className={s.footerGithub}>
@@ -17,6 +17,6 @@ const Footer = () => {
                 </div>
             </div>
         </footer>
-    )
-}
-export default Footer
+  );
+};
+export default Footer;

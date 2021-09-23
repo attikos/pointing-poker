@@ -1,6 +1,6 @@
 import React from 'react';
-import { Route, Switch } from "react-router-dom";
-import { withRouter } from "react-router";
+import { Route, Switch } from 'react-router-dom';
+import { withRouter } from 'react-router';
 import s from './App.module.scss';
 import Footer from './components/Footer/Footer';
 import Header from './components/Header/Header';
@@ -9,7 +9,7 @@ import PlayGame from './pages/PlayGame/PlayGame';
 
 
 function App(props: any ) {
-  console.log('App', props)
+  console.log('App', props);
 
   // const {allData} = props.state;
   // const {status} = allData?.game || {};
