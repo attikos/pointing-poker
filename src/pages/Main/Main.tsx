@@ -31,7 +31,7 @@ const Main = ({ setUserRole }: Props): JSX.Element => {
 
   const validateID = async (value: string) => {
     const DELAY_CHECK = 300;
-    let error = '';
+    let error: string | boolean = '';
 
     if (!value) {
       error = 'Required';

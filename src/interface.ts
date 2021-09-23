@@ -47,7 +47,7 @@ export interface IIssue {
   title: string;
   niceId: string;
   isCurrent: boolean;
-  is_finished?: boolean;
+  isFinished?: boolean;
   link: string;
   priority: TIssuePriority;
   id?: number;

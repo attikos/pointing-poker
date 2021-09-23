@@ -5,7 +5,7 @@ import { TScore, TNiceId } from '../types';
 
 window.axios = axios;
 
-const checkGameId = async (gameNiceId : TNiceId):Promise<string> => {
+const checkGameId = async (gameNiceId : TNiceId):Promise<string | boolean> => {
   const DEFAULT_ERROR = 'Wrong game ID';
   const SYSTEM_ERROR = 'System error. Please, try later';
   let res;
@@ -26,7 +26,7 @@ const checkGameId = async (gameNiceId : TNiceId):Promise<string> => {
     return errors.gameNiceId;
   }
 
-  return SYSTEM_ERROR;
+  return false;
 };
 
 interface NewGameApiParams {
@@ -119,7 +119,7 @@ const fetchAllData = ():void => {
  * Get current player profile
  */
 const fetchUser = ():void => {
-  websocket.emit('getGetUser');
+  websocket.emit('getUser');
 };
 
 /**

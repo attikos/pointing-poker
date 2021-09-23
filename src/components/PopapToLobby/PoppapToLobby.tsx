@@ -67,8 +67,6 @@ const PoppapToLobby = (props: Props): JSX.Element => {
     if (success) {
       await websocket.connect();
       websocket.subscription?.on('all-data', (data: IServerData) => {
-
-        console.log('!!!! all-data', data);
         dispatch(updateAllData(data));
         routerHandler(data);
       });
