@@ -1,24 +1,26 @@
-import _axios from 'axios'
+/* eslint-disable @typescript-eslint/no-var-requires */
+import _axios from 'axios';
 import Cookies from 'js-cookie';
 
-const axiosInstance = _axios.create()
-const env = require(`../env/${ process.env.NODE_ENV }.env`)
+const axiosInstance = _axios.create();
 
-axiosInstance.defaults.baseURL = env.API_URL
-axiosInstance.defaults.withCredentials = true
+// eslint-disable-next-line no-undef
+const env = require(`../env/${ process.env.NODE_ENV }.env`);
 
-export const axios = axiosInstance
+axiosInstance.defaults.baseURL = env.API_URL;
+axiosInstance.defaults.withCredentials = true;
 
-export const getToken = function() {
-    const token = Cookies.get('token');
+export const axios = axiosInstance;
 
-    return token
-}
+export const getToken = function () {
+  const token = Cookies.get('token');
+  return token;
+};
 
-export const setToken = function(token) {
-    Cookies.set('token', token)
-}
+export const setToken = function (token) {
+  Cookies.set('token', token);
+};
 
-export const clearToken = function() {
-    Cookies.set('token', '')
-}
+export const clearToken = function () {
+  Cookies.set('token', '');
+};
