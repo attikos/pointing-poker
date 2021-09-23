@@ -5,23 +5,15 @@ import {
 } from 'react-icons/hi';
 import { AiOutlineEye } from 'react-icons/ai';
 import s from './Lobby.module.scss';
-import PoppapAddIssueContainer from '../../components/PopapAddIssue/PopapAddIssueContainer';
-import { IGame, IIssues, IMembers } from '../../interface';
+import { IIssues, IMembers } from '../../interface';
 import { RootStateOrAny, useSelector } from 'react-redux';
+import PoppapAddIssue from '../../components/PopapAddIssue/PoppapAddIssue';
 
-// interface Props {
-//   // state: {
-//   //   issues: IIssues[];
-//   //   members: IMembers[];
-//   //   // playerOrMaster: { playerOrMaster: string; };
-//   //   game: IGame;
-//   // };
-//   // getInitials: (arg0: string, arg1: string) => string | null | undefined; isThisIssue: (arg0: React.MouseEvent<HTMLDivElement, MouseEvent>) => React.SetStateAction<string>;
-// }
 interface Props {
   userRole: string;
 }
 const Lobby = ({ userRole }: Props): JSX.Element => {
+  
   const [popapActive, setPopapActive] = useState(true);
   const [createOrEditIssue, setCreateOrEditIssue] = useState('');
   const [indexIssue, setIndexIssue] = useState('');
@@ -37,7 +29,7 @@ const Lobby = ({ userRole }: Props): JSX.Element => {
   const members = useSelector((state: RootStateOrAny) => state.members);
   const game = useSelector((state: RootStateOrAny) => state.game);
 
-  function getInitials(firstName: string, lastName: string) {
+  const getInitials = (firstName: string, lastName: string) => {
     if (firstName && lastName) {
       return (firstName[0].toUpperCase() + lastName[0].toUpperCase());
     }
@@ -47,12 +39,12 @@ const Lobby = ({ userRole }: Props): JSX.Element => {
     if (!firstName) {
       return '';
     }
-  }
+  };
 
-  function isThisIssue(e: React.MouseEvent<HTMLDivElement, MouseEvent>) {
+  const isThisIssue = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const element = e.currentTarget.id;
     return element;
-  }
+  };
 
   return (
     <div className={s.settings}>
@@ -207,7 +199,7 @@ const Lobby = ({ userRole }: Props): JSX.Element => {
             </div>
           ) : null
       }
-      <PoppapAddIssueContainer active={popapActive} status={createOrEditIssue} setActive={setPopapActive} element={dataIssue} editElement={setDataIssue} index={+indexIssue} />
+      <PoppapAddIssue active={popapActive} status={createOrEditIssue} setActive={setPopapActive} element={dataIssue} editElement={setDataIssue} index={+indexIssue} />
     </div>
 
   );

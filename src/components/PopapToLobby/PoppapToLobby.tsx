@@ -10,6 +10,8 @@ import { initialUserState } from '../../store/popapLobby-redux';
 import { useHistory } from 'react-router';
 import api from '../../services/api';
 import { websocket } from '../../services/socket';
+import { useDispatch } from 'react-redux';
+import { updateAllData } from '../../store/all-data-redux';
 
 const SignupSchema = Yup.object().shape({
   firstName: Yup.string()
@@ -19,15 +21,15 @@ const SignupSchema = Yup.object().shape({
 });
 
 interface Props {
-  active: any;
+  active: boolean;
   setActive: (arg0: boolean) => void;
   gameNiceId: TGameNiceId;
 }
 
 const PoppapToLobby = (props: Props): JSX.Element => {
- 
 
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const [fio, setFio] = useState({ firstName: '', lastName: '' });
   const {
@@ -51,7 +53,7 @@ const PoppapToLobby = (props: Props): JSX.Element => {
 
   const initials = getIinitials(fio.firstName, fio.lastName);
 
-  const routerHandler = ( { game }: { game: IGame }): void => {
+  const routerHandler = ({ game }: { game: IGame }): void => {
     if (game.status === 'lobby' || game.status === 'game') {
       history.push(`/${game.niceId}`);
     } else {
@@ -59,7 +61,7 @@ const PoppapToLobby = (props: Props): JSX.Element => {
     }
   };
 
-  const handleSubmit = async (values: {  user: User, gameNiceId: TGameNiceId }): Promise<void> => {
+  const handleSubmit = async (values: { user: User, gameNiceId: TGameNiceId }): Promise<void> => {
     // dispatch(updateUserAC(values.user))
     // props.setActive(true);
 
@@ -69,14 +71,14 @@ const PoppapToLobby = (props: Props): JSX.Element => {
       websocket.subscription?.on('all-data', (data: IServerData) => {
 
         console.log('!!!! all-data', data);
-        // dispatch(updateAllData(data));
+        dispatch(updateAllData(data));
         routerHandler(data);
       });
       websocket.emit('getAllData');
     }
   };
 
-  const openTheLobby = (id: TGameNiceId, status: string ): void => {
+  const openTheLobby = (id: TGameNiceId, status: string): void => {
     if (status === 'lobby') {
       history.push(`/${id}`);
     }
@@ -187,4 +189,3 @@ const PoppapToLobby = (props: Props): JSX.Element => {
   );
 };
 export default PoppapToLobby;
-

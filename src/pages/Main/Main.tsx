@@ -15,10 +15,8 @@ interface Props {
 
 const Main = ({ setUserRole }: Props): JSX.Element => {
 
-
   const [popapActive, setPopapActive] = useState(true);
   const [gameNiceId, setGameNiceId] = useState('');
-
 
   const onSubmitPlayerForm = (
     values: ValueURL,

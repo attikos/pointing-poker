@@ -7,6 +7,7 @@ import * as Yup from 'yup';
 import { IIssues } from '../../interface';
 import s from './PopapAddIssue.module.scss';
 import { useDispatch } from 'react-redux';
+import { addIssueAC, updateIssuesAC } from '../../store/issues-redux';
 
 const SignupSchema = Yup.object().shape({
   title: Yup.string()
@@ -43,10 +44,10 @@ const PopapAddIssue = ({ active, setActive, editElement, index, status, element 
     is_current: false,
   };
   const createNewIssue = (el: IIssues) => {
-    dispatch({ type: 'ADD_ISSUE', el });
+    dispatch(addIssueAC(el));
   };
   const updateIssues = (el: IIssues, i: number) => {
-    dispatch({ type: 'ADD_ISSUE', el, i });
+    dispatch(updateIssuesAC(el, i));
   };
   return (
     <div
