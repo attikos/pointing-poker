@@ -63,11 +63,13 @@ const Game = () => {
     return (
       <div className={s.pokerCardWrapper}>
         {POKER_CARDS.map((item) => (
-          <div className={s.pokerCard} key={item}>
+          <button className={s.pokerCard} key={item}>
             {item}
-          </div>
+          </button>
         ))}
-        <div className={s.pokerCard}><img src={coffeImg} alt='coffe' /></div>
+        <button className={s.pokerCard}>
+          <img src={coffeImg} alt='coffe' />
+        </button>
       </div>
     );
   };
@@ -91,28 +93,32 @@ const Game = () => {
             </button>
           )}
         </div>
-        <div className={s.issuesTitle}>Issues: </div>
-        {playerOrMaster.playerOrMaster === 'master' ? (
-          <div>
-            {isRoundNow ? (
-              <button className={cn('btn btn-secondary btn-lg')}>
-                Run Round
-              </button>
-            ) : (
-              <div>
-                <button className={cn('btn btn-secondary btn-lg')}>
-                  Restr Round
-                </button>
-                <button className={cn('btn btn-secondary btn-lg')}>
-                  Next ISSUE
-                </button>{' '}
-              </div>
-            )}
+        <div className={s.issuesTitle}>
+            Issues: <br />{' '}
           </div>
-        ) : (
-          <div />
-        )}
-        {returnIssuesList(issues)}
+        <div className={s.issuesCont}>
+          {returnIssuesList(issues)}
+          {playerOrMaster.playerOrMaster === 'master' ? (
+            <div>
+              {isRoundNow ? (
+                <button className={cn('btn btn-secondary btn-lg')}>
+                  Run Round
+                </button>
+              ) : (
+                <div>
+                  <button className={cn('btn btn-secondary btn-lg')}>
+                    Restr Round
+                  </button>
+                  <button className={cn('btn btn-secondary btn-lg')}>
+                    Next ISSUE
+                  </button>{' '}
+                </div>
+              )}
+            </div>
+          ) : (
+            <div />
+          )}
+        </div>
         {/* TODO  добавление статистики для мастера поменять*/}
         {playerOrMaster.playerOrMaster === 'master' ? (
           <div className={s.statistic}>
