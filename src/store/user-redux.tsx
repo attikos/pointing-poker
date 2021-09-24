@@ -20,7 +20,7 @@ export const updateUserAC = (value: IUser): { type: string; value: IUser } => ({
   type: UPDATE_USER,
   value,
 });
-const popapLobbyReducer = (state: IUser = initialUserState,
+const userReducer = (state: IUser = initialUserState,
   action: {
     type: string;
     value: IUser
@@ -36,4 +36,4 @@ const popapLobbyReducer = (state: IUser = initialUserState,
       return state;
   }
 };
-export default popapLobbyReducer;
+export default userReducer;

@@ -6,13 +6,13 @@ import {
 import * as Yup from 'yup';
 import s from './PoppapToLobby.module.scss';
 import { IUser, IServerData, IGame } from '../../interface';
-import { TNiceId } from '../../types';
-import { updateUserAC, initialUserState } from '../../store/popapLobby-redux';
+import { updateUserAC, initialUserState } from '../../store/user-redux';
 import { useHistory } from 'react-router';
 import api from '../../services/api';
 import { websocket } from '../../services/socket';
 import { useDispatch } from 'react-redux';
 import { updateAllData } from '../../store/all-data-redux';
+import { TNiceId } from '../../types';
 
 const SignupSchema = Yup.object().shape({
   firstName: Yup.string()
@@ -72,7 +72,6 @@ const PoppapToLobby = (props: Props): JSX.Element => {
       });
 
       websocket.subscription?.on('user', (data:IUser) => {
-        console.log('user:', data);
         dispatch(updateUserAC(data));
       });
 
