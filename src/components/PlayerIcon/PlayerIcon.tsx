@@ -1,24 +1,23 @@
-import { IMembers } from '../../interface';
+import React from 'react';
+import { IUser } from '../../interface';
 import s from './PlayerIcon.module.scss';
 
-
-
-const PlayerIcon = (props: {item: IMembers | undefined} ) => {
-  if(props.item === undefined) {
-      return <div>No sram master</div>
+const PlayerIcon = (props: { item: IUser | undefined }):JSX.Element => {
+  if (props.item === undefined) {
+    return <div>No sram master</div>;
   }
-  const getInitials = (firstName:string, lastName:string|undefined) => {
-      return firstName.toUpperCase()[0] + lastName?.toUpperCase()[0];
-  }
+  const getInitials = (firstName: string, lastName: string | undefined) => {
+    return firstName.toUpperCase()[0] + lastName?.toUpperCase()[0];
+  };
   return (
     <div className={s.card}>
       <div className={s.noFoto}>
-        {getInitials(props.item.first_name, props.item.last_name)}
+        {getInitials(props.item.firstName, props.item.lastName)}
       </div>
       <div className={s.info}>
-      {(props.item.is_diller) ? (<div>It's you</div>) : null}
+        {props.item.isDiller ? <div>It&apos;s you</div> : null}
         <div className={s.infoName}>
-          {props.item.first_name} {props.item?.last_name}
+          {props.item.firstName} {props.item?.lastName}
         </div>
         <div>{props.item?.job}</div>
       </div>

@@ -24,12 +24,10 @@ const POKER_CARDS: string[] = [
 ];
 
 const Game = (): JSX.Element => {
-  const playerOrMaster = useSelector(
-    (state: RootState) => state.playerOrMaster
-  );
-  const members = useSelector((state: RootState) => state.members);
-  const issues = useSelector((state: RootState) => state.issues);
-  let isRoundNow = true; // флаг, который показывает, идет ли сейчас раунд
+  const userData = useSelector((state: RootState) => state.userData);
+  const members = useSelector((state: RootState) => state.allData.members);
+  const issues = useSelector((state: RootState) => state.allData.issues);
+  const isRoundNow = true; // флаг, который показывает, идет ли сейчас раунд   const потому что ругается eslint
 
   /* TODO смена флага, когда все игроки проголосуют */
 
@@ -49,11 +47,11 @@ const Game = (): JSX.Element => {
     );
   };
 
-  const returnIssuesList = (issues: IIssue[]) => {
+  const returnIssuesList = (iss: IIssue[]) => {
     return (
       <div className={s.issuesList}>
-        {issues.map((issue: IIssue) => {
-          return <IssueCard issue={issue} />;
+        {iss.map((issue: IIssue, ind:number) => {
+          return <IssueCard issue={issue} key={ind}/>;
         })}
       </div>
     );
@@ -83,7 +81,7 @@ const Game = (): JSX.Element => {
             Scram master:{' '}
             <PlayerIcon item={members.find((item) => item.isDiller)} />
           </div>
-          {playerOrMaster.playerOrMaster === 'master' ? (
+          {userData.isDiller ? (
             <button className={cn('btn  btn-outline-secondary btn-lg h-25')}>
               Stop Game
             </button>
@@ -94,11 +92,11 @@ const Game = (): JSX.Element => {
           )}
         </div>
         <div className={s.issuesTitle}>
-            Issues: <br />{' '}
-          </div>
+          Issues: <br />{' '}
+        </div>
         <div className={s.issuesCont}>
           {returnIssuesList(issues)}
-          {playerOrMaster.playerOrMaster === 'master' ? (
+          {userData.isDiller ? (
             <div>
               {isRoundNow ? (
                 <button className={cn('btn btn-secondary btn-lg')}>
@@ -120,7 +118,7 @@ const Game = (): JSX.Element => {
           )}
         </div>
         {/* TODO  добавление статистики для мастера поменять*/}
-        {playerOrMaster.playerOrMaster === 'master' ? (
+        {userData.isDiller ? (
           <div className={s.statistic}>
             <div className={s.cardWrapper}>
               <div className={s.playingCard}>100</div>
