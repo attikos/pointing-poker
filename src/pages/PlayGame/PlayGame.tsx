@@ -9,7 +9,6 @@ interface Props {
 const PlayGame = ({ userRole }: Props): JSX.Element => {
   const allData = useSelector((state:RootStateOrAny) => state.allData);
   const { status } = allData?.game || {};
-  console.log('userRolePlayGame', userRole);
   if (status === 'lobby') {
     return <Lobby userRole={userRole}/>;
   }

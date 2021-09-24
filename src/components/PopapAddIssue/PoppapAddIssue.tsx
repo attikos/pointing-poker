@@ -8,7 +8,6 @@ import { IIssue } from '../../interface';
 import { TIssueStatus, TIssuePriority } from '../../types';
 import s from './PopapAddIssue.module.scss';
 import { useDispatch } from 'react-redux';
-import { addIssueAC, updateIssuesAC } from '../../store/issues-redux';
 
 const SignupSchema = Yup.object().shape({
   title: Yup.string()
@@ -27,8 +26,9 @@ interface Props {
 }
 
 const PopapAddIssue = ({ active, setActive, editElement, index, status, element }: Props): JSX.Element => {
+  
   const dispatch = useDispatch();
-  // const issues = useSelector((state: RootStateOrAny) => state.issues);
+
   const [addIssue, setAddIssue] = useState<IIssue>({
     title: '',
     link: '',
@@ -46,10 +46,10 @@ const PopapAddIssue = ({ active, setActive, editElement, index, status, element 
   };
 
   const createNewIssue = (el: IIssue) => {
-    dispatch(addIssueAC(el));
+    
   };
   const updateIssues = (el: IIssue, i: number) => {
-    dispatch(updateIssuesAC(el, i));
+  
   };
   return (
     <div
@@ -64,7 +64,6 @@ const PopapAddIssue = ({ active, setActive, editElement, index, status, element 
         >
           <Formik
             initialValues={
-              // (props.status === 'create') ? initialValues :
               (status === 'edit') ? element : initialValues
             }
             validationSchema={SignupSchema}
@@ -100,7 +99,6 @@ const PopapAddIssue = ({ active, setActive, editElement, index, status, element 
                 <Field
                   name="title"
                   className={s.input}
-                  // validationSchema={SignupSchema}
                   value={
                     (status === 'create') ? addIssue.title
                       : (status === 'edit') ? element.title : ''
