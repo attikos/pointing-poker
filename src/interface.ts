@@ -1,56 +1,56 @@
-export interface User {
-    firstName: string;
-    lastName: string;
-    job: string;
-    isObserver: boolean;
-    foto: string;
+import { TNiceId, TGameStatus, TIssuePriority } from './types';
+
+export interface IUser {
+  firstName: string;
+  lastName: string;
+  job: string;
+  isObserver: boolean;
+  isDiller: boolean;
+  token?:string;
+  foto?: string;
+  niceId?: TNiceId;
+  id?: number;
+  updatedAt?: string;
+  createdAt?: string;
 }
 
-export interface IScores {
-    issueId: number;
-    userId: number;
-    score: string;
-    updatedAt?: string;
-    createdAt?: string;
+export interface IScore {
+  issueId: number;
+  userId: number;
+  score: string;
+  id?: number;
+  updatedAt?: string;
+  createdAt?: string;
 }
 
 export interface IServerData {
-    game: IGame;
-    members: IMembers[];
-    issues: IIssues[];
-    scores: IScores[];
-    usersIssues: { [key: string]: IScores };
+  game: IGame;
+  members: IUser[];
+  issues: IIssue[];
+  scores: IScore[];
+  usersIssues: { [key: string]: IScore };
 }
-
-export type TGameNiceId = string;
 
 export interface ValueURL {
-    gameNiceId: TGameNiceId;
+  gameNiceId: TNiceId;
 }
 export interface IGame {
-    gameNiceId?: TGameNiceId;
-    diller_nice_id?: string,
-    userId?: number;
-    status: string;
-    id?: number;
-    niceId?: TGameNiceId;
-    updatedAt?: string;
-    createdAt?: string;
+  userId?: number;
+  status: TGameStatus;
+  id?: number;
+  niceId?: TNiceId;
+  updatedAt?: string;
+  createdAt?: string;
 }
-export interface IMembers {
-    nice_id: string;
-    first_name: string;
-    last_name: string;
-    is_diller: boolean;
-    is_player: boolean;
-    job: string;
-}
-export interface IIssues {
-    title: string;
-    nice_id: string;
-    is_current: boolean;
-    link: string;
-    priority: string;
-    updatedAt?: string;
-    createdAt?: string;
+
+export interface IIssue {
+  title: string;
+  niceId: string;
+  isCurrent: boolean;
+  isFinished?: boolean;
+  link: string;
+  priority: TIssuePriority;
+  id?: number;
+  updatedAt?: string;
+  createdAt?: string;
 }

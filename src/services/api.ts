@@ -1,56 +1,66 @@
-import {axios, setToken, getToken} from './axios'
-import {websocket} from './socket'
-import { User, TGameNiceId } from "../interface";
+import { axios, setToken, getToken } from './axios';
+import { websocket } from './socket';
+import { IUser, IIssue } from '../interface';
+import { TScore, TNiceId } from '../types';
 
 window.axios = axios;
 
-const checkGameId = async (gameNiceId : TGameNiceId) => {
-    let res
+const checkGameId = async (gameNiceId : TNiceId):Promise<string | boolean> => {
+  const DEFAULT_ERROR = 'Wrong game ID';
+  const SYSTEM_ERROR = 'System error. Please, try later';
+  let res;
 
-    try {
-        res = await axios.post('/check-game-id', { gameNiceId })
-    } catch (error) {
-        return
-    }
+  try {
+    res = await axios.post('/check-game-id', { gameNiceId });
+  } catch (error) {
+    return DEFAULT_ERROR;
+  }
 
-    const {success, errors} = res.data;
+  const { success, errors } = res.data;
 
-    if (!success) {
-        return 'System error. Please, try later';
-    }
+  if (!success) {
+    return SYSTEM_ERROR;
+  }
 
-    if (errors) {
-        return errors.gameNiceId;
-    }
+  if (errors) {
+    return errors.gameNiceId;
+  }
 
-    return false;
-}
+  return false;
+};
 
 interface NewGameApiParams {
-    token: any;
-    form : User;
-    gameNiceId : TGameNiceId;
+  token: string;
+  form : IUser;
+  gameNiceId : TNiceId;
 }
 
-class Form implements User {
-    firstName: string;
-    lastName: string;
-    job: string;
-    isObserver: boolean;
-    foto: string;
+class Form implements IUser {
+  firstName: string;
 
-    constructor({firstName, lastName, job, isObserver, foto} : User) {
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.job = job;
-        this.isObserver = isObserver;
-        this.foto = foto;
-    }
+  lastName: string;
+
+  job: string;
+
+  isObserver: boolean;
+
+  isDiller: boolean;
+
+  foto: string | undefined;
+
+  constructor({ firstName, lastName, job, isObserver, isDiller, foto } : IUser) {
+    this.firstName = firstName;
+    this.lastName = lastName;
+    this.job = job;
+    this.isDiller = isDiller;
+    this.isObserver = isObserver;
+    this.foto = foto;
+  }
 }
 
 interface NewGameParams {
-    user : User,
-    gameNiceId: TGameNiceId,
+  user : IUser,
+  gameNiceId: TNiceId,
 }
 
 /**
@@ -58,50 +68,124 @@ interface NewGameParams {
  * @param {Form} user
  * @returns void
  */
-const newGame = async ( { user, gameNiceId }: NewGameParams) => {
-    let res
+const newGame = async ( { user, gameNiceId }: NewGameParams):Promise<string | boolean> => {
+  let res;
 
-    const currentToken = getToken();
+  const currentToken = getToken();
 
-    const params : NewGameApiParams = {
-        token: currentToken,
-        form : new Form(user),
-        gameNiceId,
-    }
+  const params : NewGameApiParams = {
+    token: currentToken,
+    form : new Form(user),
+    gameNiceId,
+  };
 
-    try {
-        res = await axios.post('/new-game', params)
-    } catch (error) {
-        console.log(error)
-        return
-    }
+  try {
+    res = await axios.post('/new-game', params);
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
 
-    const {token, roomId, success, errors} = res.data;
+  const { token, roomId, success, errors } = res.data;
 
-    if ( errors ) {
-        console.log('errors', errors);
-        return errors;
-    }
+  if ( errors ) {
+    console.log('errors', errors);
+    return errors;
+  }
 
-    if (success && token && roomId) {
-        console.log('token', token);
-        console.log('roomId', roomId);
+  if (success && token && roomId) {
+    console.log('token', token);
+    console.log('roomId', roomId);
 
-        setToken(token)
-        websocket.setRoomId(roomId)
-        // websocket.connect()
+    setToken(token);
+    websocket.setRoomId(roomId);
+    // websocket.connect()
 
-        return true;
-    }
-    else {
-        throw Error('System error: wrong token or roomId');
-    }
-}
+    return true;
+  } else {
+    throw Error('System error: wrong token or roomId');
+  }
+};
+
+/**
+ * Get all game data (without current player profile)
+ */
+const fetchAllData = ():void => {
+  websocket.emit('getAllData');
+};
+
+
+/**
+ * Get current player profile
+ */
+const fetchUser = ():void => {
+  websocket.emit('getUser');
+};
+
+/**
+ * Change game status from 'lobby' to 'game'
+ */
+const startGame = ():void => {
+  websocket.emit('startGame');
+};
+
+/**
+ * For diller: Change game status from 'game' to 'result'
+ * For player: exit from game
+ */
+const cancelGame = ():void => {
+  websocket.emit('cancelGame');
+};
+
+/**
+ * ??? use setIssueAsCurrent instead
+ */
+const startRound = ():void => {
+  websocket.emit('startRound');
+};
+
+const setIssueAsCurrent = (issueId: string):void => {
+  websocket.emit('setIssueAsCurrent', issueId);
+};
+
+const deleteUser = (niceId:TNiceId):void => {
+  websocket.emit('deleteUser', niceId);
+};
+
+/**
+ * Add or update score
+ * @param {Object} issue
+ */
+const addScore = (score: TScore):void => {
+  websocket.emit('addScore', score);
+};
+
+/**
+ * Add or update issue
+ * @param {Object} issue
+ */
+const addIssue = (issue: IIssue):void => {
+  websocket.emit('addIssue', issue);
+};
+
+const deleteIssue = (issueId: string):void => {
+  websocket.emit('addIssue', issueId);
+};
 
 const exportData = {
-    checkGameId,
-    newGame,
-}
+  checkGameId,
+  newGame,
+  startGame,
+  cancelGame,
+  startRound,
+  deleteUser,
+  fetchAllData,
+  fetchUser,
+  setIssueAsCurrent,
+  addIssue,
+  addScore,
+  deleteIssue,
+};
 
 window.api = exportData;
 window.websocket = websocket;

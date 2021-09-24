@@ -1,65 +1,65 @@
-import { IMembers } from "../interface"
+import { IUser } from '../interface';
 
-const UPDATE_MEMBERS = 'UPDATE_MEMBERS'
+const UPDATE_MEMBERS = 'UPDATE_MEMBERS';
 
-let init: IMembers[] = [
-    {
-        nice_id: 'ABC123',
-        first_name: 'AAAA1',
-        last_name: 'Фамилия участника1',
-        is_diller: false,
-        is_player: true, // может голосовать
-        job: 'my work'
-    },
-    {
-        nice_id: 'ABC123',
-        first_name: 'Thn2',
-        last_name: 'Фамилия участника2',
-        is_diller: true,
-        is_player: true, // может голосовать
-        job: 'my work'
-    },
-    {
-        nice_id: 'ABC123',
-        first_name: 'Thn2',
-        last_name: 'GTG2',
-        is_diller: false,
-        is_player: false, // может голосовать
-        job: 'my work'
-    },
-    {
-        nice_id: 'ABC123',
-        first_name: 'Roik3',
-        last_name: 'Фамилия участника3',
-        is_diller: false,
-        is_player: true, // может голосовать
-        job: 'my work'
-    },
-]
-export const updateMembersAC = (value: IMembers) => {
-    return {
-        type: UPDATE_MEMBERS,
-        value: value
-    }
-}
+const init: IUser[] = [
+  {
+    niceId: 'ABC123',
+    firstName: 'AAAA1',
+    lastName: 'Фамилия участника1',
+    isDiller: false,
+    isObserver: false, // может голосовать
+    job: 'my work',
+  },
+  {
+    niceId: 'ABC123',
+    firstName: 'Thn2',
+    lastName: 'Фамилия участника2',
+    isDiller: true,
+    isObserver: false, // может голосовать
+    job: 'my work',
+  },
+  {
+    niceId: 'ABC123',
+    firstName: 'Thn2',
+    lastName: 'GTG2',
+    isDiller: false,
+    isObserver: false, // не может голосовать
+    job: 'my work',
+  },
+  {
+    niceId: 'ABC123',
+    firstName: 'Roik3',
+    lastName: 'Фамилия участника3',
+    isDiller: false,
+    isObserver: false, // может голосовать
+    job: 'my work',
+  },
+];
+export const updateMembersAC = (value: IUser): {
+  type: string;
+  value: IUser;
+} => ({
+  type: UPDATE_MEMBERS,
+  value,
+});
 
-const membersReducer = (state: IMembers[] = init,
-    action: {
-        type: string;
-        value: IMembers[]
-    }) => {
-    let stateCopy
-    switch (action.type) {
-        case UPDATE_MEMBERS:
-            stateCopy = {
-                ...state,
-                members: action.value
-            }
-            return stateCopy
-       
-        default:
-            return state
-    }
+const membersReducer = (state: IUser[] = init,
+  action: {
+    type: string;
+    value: IUser[]
+  }): IUser[] => {
+  let stateCopy;
+  switch (action.type) {
+    case UPDATE_MEMBERS:
+      stateCopy = {
+        ...state,
+      };
+      stateCopy =  action.value;
+      return stateCopy;
 
-}
-export default membersReducer
+    default:
+      return state;
+  }
+};
+export default membersReducer;

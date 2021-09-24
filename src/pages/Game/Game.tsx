@@ -4,7 +4,7 @@ import s from './Game.module.scss';
 import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store-redux';
 import PlayerIcon from '../../components/PlayerIcon/PlayerIcon';
-import { IIssues } from '../../interface';
+import { IIssue } from '../../interface';
 import IssueCard from '../../components/IssueCard/IssueCard';
 import coffeImg from '../../assets/coffee.png';
 
@@ -23,7 +23,7 @@ const POKER_CARDS: string[] = [
   '?',
 ];
 
-const Game = () => {
+const Game = (): JSX.Element => {
   const playerOrMaster = useSelector(
     (state: RootState) => state.playerOrMaster
   );
@@ -49,10 +49,10 @@ const Game = () => {
     );
   };
 
-  const returnIssuesList = (issues: IIssues[]) => {
+  const returnIssuesList = (issues: IIssue[]) => {
     return (
       <div className={s.issuesList}>
-        {issues.map((issue: IIssues) => {
+        {issues.map((issue: IIssue) => {
           return <IssueCard issue={issue} />;
         })}
       </div>
@@ -81,7 +81,7 @@ const Game = () => {
         <div className={s.topSetting}>
           <div>
             Scram master:{' '}
-            <PlayerIcon item={members.find((item) => item.is_diller)} />
+            <PlayerIcon item={members.find((item) => item.isDiller)} />
           </div>
           {playerOrMaster.playerOrMaster === 'master' ? (
             <button className={cn('btn  btn-outline-secondary btn-lg h-25')}>

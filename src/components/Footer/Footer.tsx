@@ -1,8 +1,8 @@
-import React from "react";
+import React from 'react';
+import { AiOutlineGithub } from 'react-icons/ai';
 import s from './Footer.module.scss';
-import { AiOutlineGithub } from "react-icons/ai"
 
-const Footer = () => {
+const Footer = (): JSX.Element => {
     return (
         <footer className={s.footer}>
             <div className={s.footerContainer}>
