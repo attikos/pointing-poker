@@ -138,14 +138,21 @@ const cancelGame = ():void => {
 };
 
 /**
- * ??? use setIssueAsCurrent instead
+ * Set status IIssue fopm 'new' to 'processing'
  */
 const startRound = ():void => {
   websocket.emit('startRound');
 };
 
-const setIssueAsCurrent = (issueId: string):void => {
-  websocket.emit('setIssueAsCurrent', issueId);
+/**
+ * Set status IIssue fopm 'processing' to 'finished' OR 'new'
+ */
+const stopRound = ():void => {
+  websocket.emit('stopRound');
+};
+
+const setIssueAsCurrent = (issueId: string, flag: boolean):void => {
+  websocket.emit('setIssueAsCurrent', { issueId, flag });
 };
 
 const deleteUser = (niceId:TNiceId):void => {
@@ -169,7 +176,7 @@ const addIssue = (issue: IIssue):void => {
 };
 
 const deleteIssue = (issueId: string):void => {
-  websocket.emit('addIssue', issueId);
+  websocket.emit('deleteIssue', issueId);
 };
 
 const exportData = {
@@ -178,6 +185,7 @@ const exportData = {
   startGame,
   cancelGame,
   startRound,
+  stopRound,
   deleteUser,
   fetchAllData,
   fetchUser,
