@@ -1,10 +1,5 @@
 import { IUser } from '../interface';
 
-// const UPDATE_FIRSTNAME = 'UPDATE_FIRSTNAME'
-// const UPDATE_LASTNAME = 'UPDATE_LASTNAME'
-// const UPDATE_JOB = 'UPDATE_JOB'
-// const UPDATE_ISOBSERVER = 'UPDATE_ISOBSERVER'
-// const UPDATE_FOTO = 'UPDATE_FOTO'
 const UPDATE_USER = 'UPDATE_USER';
 
 export const initialUserState: IUser = {
@@ -20,7 +15,7 @@ export const updateUserAC = (value: IUser): { type: string; value: IUser } => ({
   type: UPDATE_USER,
   value,
 });
-const popapLobbyReducer = (state: IUser = initialUserState,
+const userReducer = (state: IUser = initialUserState,
   action: {
     type: string;
     value: IUser
@@ -36,4 +31,4 @@ const popapLobbyReducer = (state: IUser = initialUserState,
       return state;
   }
 };
-export default popapLobbyReducer;
+export default userReducer;
