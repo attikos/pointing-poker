@@ -56,7 +56,6 @@ const Lobby = ({ userRole }: Props): JSX.Element => {
             {issues.map((item: IIssue) => `${item.title} `)}
           </div>
           <div className={s.iconPencil}>
-            {/* <HiPencil className={s.issuesChangeIcon} /> */}
           </div>
         </div>
         <div className={s.scramMaster}>
@@ -220,50 +219,3 @@ const Lobby = ({ userRole }: Props): JSX.Element => {
 };
 export default Lobby;
 
-// eslint-disable-next-line no-lone-blocks
-{ /* <div className={s.gameCards}>
-                <div className={s.gameCardsTitle}>
-                    Game Cards:
-                </div>
-                <div className={s.cards}>
-                    <div className={s.cardItem}>
-                        0
-                    </div>
-                    <div className={s.cardItem}>
-                        1/2
-                    </div>
-                    <div className={s.cardItem}>
-                        1
-                    </div>
-                    <div className={s.cardItem}>
-                        2
-                    </div>
-                    <div className={s.cardItem}>
-                        3
-                    </div>
-                    <div className={s.cardItem}>
-                        5
-                    </div>
-                    <div className={s.cardItem}>
-                        8
-                    </div>
-                    <div className={s.cardItem}>
-                        13
-                    </div>
-                    <div className={s.cardItem}>
-                        20
-                    </div>
-                    <div className={s.cardItem}>
-                        40
-                    </div>
-                    <div className={s.cardItem}>
-                        100
-                    </div>
-                    <div className={s.cardItem}>
-                        ?
-                    </div>
-                    <div className={s.cardItem}>
-                        <AiOutlineCoffee />
-                    </div>
-                </div>
-            </div> */ }

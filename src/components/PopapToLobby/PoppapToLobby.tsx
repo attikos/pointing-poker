@@ -152,10 +152,6 @@ const PoppapToLobby = (props: Props): JSX.Element => {
               <label htmlFor="job">Your Job Position (optional)</label>
               <Field id="job" name="job" className={s.input} />
 
-              {/* <label htmlFor="photo">Image:</label>
-                <input type="file" className="select-foto-input input" name="photo"
-                /> */}
-
               {initials && (
                 <div className={s.foto}>
                   <div className={s.noFoto}>{initials}</div>

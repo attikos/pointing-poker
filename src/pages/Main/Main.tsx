@@ -24,7 +24,6 @@ const Main = ({ setUserRole }: Props): JSX.Element => {
   ) => {
     setGameNiceId(values.gameNiceId);
     setPopapActive(false);
-    // props.handleSubmit('player');
     setUserRole('player');
     setSubmitting(false);
   };
