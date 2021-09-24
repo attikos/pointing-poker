@@ -4,7 +4,8 @@ import {
   ErrorMessage, Field, Form, Formik,
 } from 'formik';
 import * as Yup from 'yup';
-import { IIssues } from '../../interface';
+import { IIssue } from '../../interface';
+import { TIssueStatus, TIssuePriority } from '../../types';
 import s from './PopapAddIssue.module.scss';
 import { useDispatch } from 'react-redux';
 import { addIssueAC, updateIssuesAC } from '../../store/issues-redux';
@@ -19,34 +20,35 @@ const SignupSchema = Yup.object().shape({
 interface Props {
   active: boolean;
   setActive: (arg0: boolean) => void;
-  editElement: (arg1: IIssues) => void;
+  editElement: (arg1: IIssue) => void;
   index: number;
-  status: string;
-  element: IIssues;
-
+  status: TIssueStatus;
+  element: IIssue;
 }
+
 const PopapAddIssue = ({ active, setActive, editElement, index, status, element }: Props): JSX.Element => {
   const dispatch = useDispatch();
   // const issues = useSelector((state: RootStateOrAny) => state.issues);
-  const [addIssue, setAddIssue] = useState({
+  const [addIssue, setAddIssue] = useState<IIssue>({
     title: '',
     link: '',
     priority: 'low',
-    nice_id: '',
-    is_current: false,
-
+    niceId: '',
+    isCurrent: false,
   });
-  const initialValues = {
+
+  const initialValues:IIssue = {
     title: '',
     link: '',
     priority: 'low',
-    nice_id: '',
-    is_current: false,
+    niceId: '',
+    isCurrent: false,
   };
-  const createNewIssue = (el: IIssues) => {
+
+  const createNewIssue = (el: IIssue) => {
     dispatch(addIssueAC(el));
   };
-  const updateIssues = (el: IIssues, i: number) => {
+  const updateIssues = (el: IIssue, i: number) => {
     dispatch(updateIssuesAC(el, i));
   };
   return (
@@ -66,7 +68,7 @@ const PopapAddIssue = ({ active, setActive, editElement, index, status, element 
               (status === 'edit') ? element : initialValues
             }
             validationSchema={SignupSchema}
-            onSubmit={(values, { setSubmitting }) => {
+            onSubmit={(values:IIssue, { setSubmitting }) => {
               if (status === 'create') {
                 values = { ...addIssue };
                 createNewIssue(values);
@@ -74,8 +76,8 @@ const PopapAddIssue = ({ active, setActive, editElement, index, status, element 
                   title: '',
                   link: '',
                   priority: 'low',
-                  nice_id: '',
-                  is_current: false,
+                  niceId: '',
+                  isCurrent: false,
                 });
               }
               if (status === 'edit') {
@@ -109,16 +111,16 @@ const PopapAddIssue = ({ active, setActive, editElement, index, status, element 
                         title: `${e.target.value}`,
                         link: element.link,
                         priority: element.priority,
-                        nice_id: '',
-                        is_current: false,
+                        niceId: '',
+                        isCurrent: false,
                       });
                     } else if (status === 'create') {
                       setAddIssue({
                         title: `${e.target.value}`,
                         link: addIssue.link,
                         priority: addIssue.priority,
-                        nice_id: '',
-                        is_current: false,
+                        niceId: '',
+                        isCurrent: false,
                       });
                     }
                   }}
@@ -143,16 +145,16 @@ const PopapAddIssue = ({ active, setActive, editElement, index, status, element 
                         title: element.title,
                         link: `${e.target.value}`,
                         priority: element.priority,
-                        nice_id: '',
-                        is_current: false,
+                        niceId: '',
+                        isCurrent: false,
                       });
                     } else if (status === 'create') {
                       setAddIssue({
                         title: addIssue.title,
                         link: `${e.target.value}`,
                         priority: addIssue.priority,
-                        nice_id: '',
-                        is_current: false,
+                        niceId: '',
+                        isCurrent: false,
                       });
                     }
                   }}
@@ -169,21 +171,23 @@ const PopapAddIssue = ({ active, setActive, editElement, index, status, element 
                   }
                   className={s.input}
                   onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                    const newPriority = e.target.value as TIssuePriority;
+
                     if (status === 'edit') {
                       editElement({
                         title: element.title,
                         link: element.link,
-                        priority: `${e.target.value}`,
-                        nice_id: '',
-                        is_current: false,
+                        priority: newPriority,
+                        niceId: '',
+                        isCurrent: false,
                       });
                     } else if (status === 'create') {
                       setAddIssue({
                         title: addIssue.title,
                         link: addIssue.link,
-                        priority: `${e.target.value}`,
-                        nice_id: '',
-                        is_current: false,
+                        priority: newPriority,
+                        niceId: '',
+                        isCurrent: false,
                       });
                     }
                   }}
@@ -210,8 +214,8 @@ const PopapAddIssue = ({ active, setActive, editElement, index, status, element 
                         title: '',
                         link: '',
                         priority: 'low',
-                        nice_id: '',
-                        is_current: false,
+                        niceId: '',
+                        isCurrent: false,
                       });
                     }}
                   >

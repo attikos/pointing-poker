@@ -5,8 +5,9 @@ import {
 } from 'formik';
 import * as Yup from 'yup';
 import s from './PoppapToLobby.module.scss';
-import { User, TGameNiceId, IServerData, IGame } from '../../interface';
-import { initialUserState } from '../../store/popapLobby-redux';
+import { IUser, IServerData, IGame } from '../../interface';
+import { TNiceId } from '../../types';
+import { updateUserAC, initialUserState } from '../../store/popapLobby-redux';
 import { useHistory } from 'react-router';
 import api from '../../services/api';
 import { websocket } from '../../services/socket';
@@ -23,7 +24,7 @@ const SignupSchema = Yup.object().shape({
 interface Props {
   active: boolean;
   setActive: (arg0: boolean) => void;
-  gameNiceId: TGameNiceId;
+  gameNiceId: TNiceId;
 }
 
 const PoppapToLobby = (props: Props): JSX.Element => {
@@ -61,34 +62,34 @@ const PoppapToLobby = (props: Props): JSX.Element => {
     }
   };
 
-  const handleSubmit = async (values: { user: User, gameNiceId: TGameNiceId }): Promise<void> => {
-    // dispatch(updateUserAC(values.user))
-    // props.setActive(true);
-
+  const handleSubmit = async (values: { user: IUser, gameNiceId: TNiceId }): Promise<void> => {
     const success = await api.newGame(values);
     if (success) {
       await websocket.connect();
       websocket.subscription?.on('all-data', (data: IServerData) => {
-
-        console.log('!!!! all-data', data);
         dispatch(updateAllData(data));
         routerHandler(data);
       });
-      websocket.emit('getAllData');
+
+      websocket.subscription?.on('user', (data:IUser) => {
+        console.log('user:', data);
+        dispatch(updateUserAC(data));
+      });
+
+      api.fetchAllData();
+      api.fetchUser();
     }
   };
 
-  const openTheLobby = (id: TGameNiceId, status: string): void => {
+  const openTheLobby = (id: TNiceId, status: string): void => {
     if (status === 'lobby') {
       history.push(`/${id}`);
     }
   };
 
-
-
   const onFormSubmit = (
-    values: User,
-    { setSubmitting }: FormikHelpers<User>,
+    values: IUser,
+    { setSubmitting }: FormikHelpers<IUser>,
   ) => {
     handleSubmit({
       user: { ...values, ...fio },
@@ -153,8 +154,8 @@ const PoppapToLobby = (props: Props): JSX.Element => {
               <Field id="job" name="job" className={s.input} />
 
               {/* <label htmlFor="photo">Image:</label>
-                            <input type="file" className="select-foto-input input" name="photo"
-                            /> */}
+                <input type="file" className="select-foto-input input" name="photo"
+                /> */}
 
               {initials && (
                 <div className={s.foto}>

@@ -1,54 +1,54 @@
-import { IMembers } from '../interface';
+import { IUser } from '../interface';
 
 const UPDATE_MEMBERS = 'UPDATE_MEMBERS';
 
-const init: IMembers[] = [
+const init: IUser[] = [
   {
-    nice_id: 'ABC123',
-    first_name: 'AAAA1',
-    last_name: 'Фамилия участника1',
-    is_diller: false,
-    is_player: true, // может голосовать
+    niceId: 'ABC123',
+    firstName: 'AAAA1',
+    lastName: 'Фамилия участника1',
+    isDiller: false,
+    isObserver: false, // может голосовать
     job: 'my work',
   },
   {
-    nice_id: 'ABC123',
-    first_name: 'Thn2',
-    last_name: 'Фамилия участника2',
-    is_diller: true,
-    is_player: true, // может голосовать
+    niceId: 'ABC123',
+    firstName: 'Thn2',
+    lastName: 'Фамилия участника2',
+    isDiller: true,
+    isObserver: false, // может голосовать
     job: 'my work',
   },
   {
-    nice_id: 'ABC123',
-    first_name: 'Thn2',
-    last_name: 'GTG2',
-    is_diller: false,
-    is_player: false, // может голосовать
+    niceId: 'ABC123',
+    firstName: 'Thn2',
+    lastName: 'GTG2',
+    isDiller: false,
+    isObserver: false, // не может голосовать
     job: 'my work',
   },
   {
-    nice_id: 'ABC123',
-    first_name: 'Roik3',
-    last_name: 'Фамилия участника3',
-    is_diller: false,
-    is_player: true, // может голосовать
+    niceId: 'ABC123',
+    firstName: 'Roik3',
+    lastName: 'Фамилия участника3',
+    isDiller: false,
+    isObserver: false, // может голосовать
     job: 'my work',
   },
 ];
-export const updateMembersAC = (value: IMembers): {
+export const updateMembersAC = (value: IUser): {
   type: string;
-  value: IMembers;
+  value: IUser;
 } => ({
   type: UPDATE_MEMBERS,
   value,
 });
 
-const membersReducer = (state: IMembers[] = init,
+const membersReducer = (state: IUser[] = init,
   action: {
     type: string;
-    value: IMembers[]
-  }): IMembers[] => {
+    value: IUser[]
+  }): IUser[] => {
   let stateCopy;
   switch (action.type) {
     case UPDATE_MEMBERS:

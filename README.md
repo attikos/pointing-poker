@@ -1,5 +1,6 @@
-# pointing-poker
+# Pocker Planning - React
 RS School pointing-poker
+Backend repo (Adinis.js): https://github.com/attikos/pointing-poker-server
 
 # Getting Started with Create React App
 

@@ -31,7 +31,7 @@ const Main = ({ setUserRole }: Props): JSX.Element => {
 
   const validateID = async (value: string) => {
     const DELAY_CHECK = 300;
-    let error = '';
+    let error: string | boolean = '';
 
     if (!value) {
       error = 'Required';
@@ -41,9 +41,9 @@ const Main = ({ setUserRole }: Props): JSX.Element => {
 
     if (!error) {
       error = await new Promise((res) => {
-        (_.debounce(async () => {
-          const error1 = await api.checkGameId(value);
-          res(error1);
+        (_.debounce(async ():Promise<void> => {
+          const gameIdError = await api.checkGameId(value);
+          res(gameIdError);
         }, DELAY_CHECK))();
       });
     }
