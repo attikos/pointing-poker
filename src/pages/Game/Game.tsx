@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import cn from 'classnames';
 import s from './Game.module.scss';
 import { useSelector } from 'react-redux';
@@ -27,7 +27,7 @@ const Game = (): JSX.Element => {
   const userData = useSelector((state: RootState) => state.userData);
   const members = useSelector((state: RootState) => state.allData.members);
   const issues = useSelector((state: RootState) => state.allData.issues);
-  const isRoundNow = true; // флаг, который показывает, идет ли сейчас раунд   const потому что ругается eslint
+  const [isRoundNow, setIsRoundNow] = useState(false); // флаг, который показывает, идет ли сейчас раунд   const потому что ругается eslint
 
   /* TODO смена флага, когда все игроки проголосуют */
 
@@ -50,8 +50,8 @@ const Game = (): JSX.Element => {
   const returnIssuesList = (iss: IIssue[]) => {
     return (
       <div className={s.issuesList}>
-        {iss.map((issue: IIssue, ind:number) => {
-          return <IssueCard issue={issue} key={ind}/>;
+        {iss.map((issue: IIssue, ind: number) => {
+          return <IssueCard issue={issue} key={ind} />;
         })}
       </div>
     );
@@ -98,13 +98,19 @@ const Game = (): JSX.Element => {
           {returnIssuesList(issues)}
           {userData.isDiller ? (
             <div>
-              {isRoundNow ? (
-                <button className={cn('btn btn-secondary btn-lg')}>
+              { !isRoundNow ? (
+                <button
+                  className={cn('btn btn-secondary btn-lg')}
+                  onClick={() => setIsRoundNow(!isRoundNow)}
+                >
                   Run Round
                 </button>
               ) : (
                 <div>
-                  <button className={cn('btn btn-secondary btn-lg')}>
+                  <button
+                    className={cn('btn btn-secondary btn-lg')}
+                    onClick={() => setIsRoundNow(!isRoundNow)}
+                  >
                     Restr Round
                   </button>
                   <button className={cn('btn btn-secondary btn-lg')}>
@@ -126,7 +132,7 @@ const Game = (): JSX.Element => {
             </div>
           </div>
         ) : null}
-        {returnPlayerCards()}
+        {isRoundNow ? returnPlayerCards() : null}
       </div>
       <div className={s.scoreCont}> {returnScoreColumn()}</div>
     </div>
