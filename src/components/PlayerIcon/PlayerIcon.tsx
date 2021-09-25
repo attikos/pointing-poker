@@ -4,7 +4,7 @@ import s from './PlayerIcon.module.scss';
 
 const PlayerIcon = (props: { item: IUser | undefined }):JSX.Element => {
   if (props.item === undefined) {
-    return <div>No sram master</div>;
+    return <div>No sсram master</div>;
   }
   const getInitials = (firstName: string, lastName: string | undefined) => {
     return firstName.toUpperCase()[0] + lastName?.toUpperCase()[0];
