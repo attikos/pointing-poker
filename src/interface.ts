@@ -45,7 +45,6 @@ export interface IGame {
 
 export interface IIssue {
   title: string;
-  niceId: string;
   isCurrent: boolean;
   link?: string;
   priority: TIssuePriority;

@@ -48,7 +48,6 @@ const init: IServerData = {
   issues: [
     {
       title: 'Заголовок1 задачи',
-      niceId: 'DSA432',
       isCurrent: true, // текущая задача, которую все видят. За нее можно начать головать, закончить, посмотреть статистику голосования. Всегда будет isCurrent == true
       link: 'ссылка на задачу',
       priority: 'middle',
@@ -57,7 +56,6 @@ const init: IServerData = {
     },
     {
       title: 'Заголовок2 задачи',
-      niceId: 'DSA432',
       isCurrent: false,
       link: 'ссылка на задачу',
       priority: 'high',
@@ -66,7 +64,6 @@ const init: IServerData = {
     },
     {
       title: 'Заголовок3 задачи',
-      niceId: 'DSA432',
       isCurrent: false,
       link: 'ссылка на задачу',
       priority: 'low',
@@ -87,7 +84,7 @@ const init: IServerData = {
       issueId: 125,
       userId: 1258,
       score: '20',
-      id: 25,
+      id: 26,
       updatedAt: '25',
       createdAt: 'ki',
     },
@@ -95,7 +92,7 @@ const init: IServerData = {
       issueId: 125,
       userId: 1258,
       score: '20',
-      id: 25,
+      id: 27,
       updatedAt: '25',
       createdAt: 'ki',
     },
