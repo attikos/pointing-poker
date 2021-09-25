@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import cn from 'classnames';
 import {
-  ErrorMessage, Field, Form, Formik,
+  Field, Form, Formik, FormikHelpers,
 } from 'formik';
 import * as Yup from 'yup';
 import { ICreateIssue, IIssue } from '../../interface';
@@ -117,9 +117,9 @@ const PopapAddIssue = ({ active, setActive, editElement, index, status, element 
                   }}
                 />
               </div>
-              <span className={s.error}>
+              {/* <span className={s.error}>
                 <ErrorMessage name="title" />
-              </span>
+              </span> */}
               <div className={s.items}>
                 <label htmlFor="link">Link:</label>
                 <Field
@@ -217,3 +217,4 @@ const PopapAddIssue = ({ active, setActive, editElement, index, status, element 
   );
 };
 export default PopapAddIssue;
+
