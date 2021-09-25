@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
 import cn from 'classnames';
 import {
-  Field, Form, Formik, FormikHelpers,
+  ErrorMessage,
+  Field, Form, Formik,
 } from 'formik';
 import * as Yup from 'yup';
 import { ICreateIssue, IIssue } from '../../interface';
@@ -25,8 +26,8 @@ interface Props {
   element: ICreateIssue;
 }
 
-const PopapAddIssue = ({ active, setActive, editElement, index, status, element }: Props): JSX.Element => {
-  const initialValues:ICreateIssue = {
+const PopapAddIssue = ({ active, setActive, editElement, status, element }: Props): JSX.Element => {
+  const initialValues: ICreateIssue = {
     title: '',
     link: '',
     priority: 'low',
@@ -39,10 +40,38 @@ const PopapAddIssue = ({ active, setActive, editElement, index, status, element 
     api.addIssue(el);
   };
 
-  const updateIssues = (el: IIssue | ICreateIssue, i: number) => {
-    console.log('updateIssues', el);
-
+  const updateIssues = (el: IIssue | ICreateIssue) => {
     api.addIssue(el);
+  };
+
+  const valueInput = (value: ICreateIssue | IIssue, input: string | TIssuePriority) => {
+    if (input === 'title') {
+      if (status === 'create') {
+        value.title = addIssue.title;
+      }
+      if (status === 'edit') {
+        value.title = element.title;
+      }
+      return value.title;
+    }
+    if (input === 'link') {
+      if (status === 'create') {
+        value.link = addIssue.link;
+      }
+      if (status === 'edit') {
+        value.link = element.link;
+      }
+      return value.link;
+    }
+    if (input === 'priority') {
+      if (status === 'create') {
+        value.priority = addIssue.priority;
+      }
+      if (status === 'edit') {
+        value.priority = element.priority;
+      }
+      return value.priority;
+    }
   };
 
   return (
@@ -60,8 +89,8 @@ const PopapAddIssue = ({ active, setActive, editElement, index, status, element 
             initialValues={
               (status === 'edit') ? element : initialValues
             }
-            // validationSchema={SignupSchema}
-            onSubmit={(values:IIssue | ICreateIssue, { setSubmitting }) => {
+            validationSchema={SignupSchema}
+            onSubmit={(values: IIssue | ICreateIssue, { setSubmitting }) => {
               if (status === 'create') {
                 values = { ...addIssue };
                 createNewIssue(values);
@@ -74,142 +103,149 @@ const PopapAddIssue = ({ active, setActive, editElement, index, status, element 
               }
               if (status === 'edit') {
                 values = { ...element };
-                console.log('values', values);
-
-                updateIssues(values, index);
+                updateIssues(values);
               }
               setActive(true);
               setSubmitting(false);
             }}
           >
-            <Form className={s.form}>
-              <div className={s.formLobbyTop}>
-                <div className={s.formLobbyHeader}>
-                  {(status === 'create') ? 'Create Issue' : 'Edit Issue'}
-                </div>
+            {({
+              values,
+              errors,
+              touched,
+              handleChange,
+            }) => (
+              <Form className={s.form}>
+                <div className={s.formLobbyTop}>
+                  <div className={s.formLobbyHeader}>
+                    {(status === 'create') ? 'Create Issue' : 'Edit Issue'}
+                  </div>
 
-              </div>
-              <div className={s.items}>
-                <label htmlFor="title">Title:</label>
-                <Field
-                  name="title"
-                  className={s.input}
-                  value={
-                    (status === 'create') ? addIssue.title
-                      : (status === 'edit') ? element.title : ''
-                  }
-                  onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-                    if (status === 'edit') {
-                      editElement({
-                        title: `${e.target.value}`,
-                        link: element.link,
-                        priority: element.priority,
-                        isCurrent: false,
-                      });
-                    } else if (status === 'create') {
-                      setAddIssue({
-                        title: `${e.target.value}`,
-                        link: addIssue.link,
-                        priority: addIssue.priority,
-                        isCurrent: false,
-                      });
-                    }
-                  }}
-                />
-              </div>
-              {/* <span className={s.error}>
-                <ErrorMessage name="title" />
-              </span> */}
-              <div className={s.items}>
-                <label htmlFor="link">Link:</label>
-                <Field
-                  name="link"
-                  className={s.input}
-                  value={
-                    (status === 'create')
-                      ? addIssue.link
-                      : (status === 'edit') ? element.link : ''
-                  }
-                  onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-                    if (status === 'edit') {
-                      editElement({
-                        title: element.title,
-                        link: `${e.target.value}`,
-                        priority: element.priority,
-                        isCurrent: false,
-                      });
-                    } else if (status === 'create') {
-                      setAddIssue({
-                        title: addIssue.title,
-                        link: `${e.target.value}`,
-                        priority: addIssue.priority,
-                        isCurrent: false,
-                      });
-                    }
-                  }}
-                />
-              </div>
-              <div className={s.items}>
-                <label htmlFor="link">Priority: </label>
-                <Field
-                  as="select"
-                  name="priority"
-                  value={
-                    (status === 'create') ? addIssue.priority
-                      : (status === 'edit') ? element.priority : ''
-                  }
-                  className={s.input}
-                  onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
-                    const newPriority = e.target.value as TIssuePriority;
+                </div>
+                <div className={s.items}>
+                  <label htmlFor="title">Title:</label>
+                  <div className="input-group has-validation mb-3">
+                    <Field
+                      name="title"
+                      className={cn('form-control', s.input,
+                        { 'is-invalid': errors.title && touched.title })}
+                      value={valueInput(values, 'title')}
+                      onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                        handleChange('title');
+                        if (status === 'edit') {
+                          editElement({
+                            title: `${e.target.value}`,
+                            link: element.link,
+                            priority: element.priority,
+                            isCurrent: false,
+                          });
+                        } else if (status === 'create') {
+                          setAddIssue({
+                            title: `${e.target.value}`,
+                            link: addIssue.link,
+                            priority: addIssue.priority,
+                            isCurrent: false,
+                          });
+                        }
+                      }}
+                    />
+                  </div>
 
-                    if (status === 'edit') {
-                      editElement({
-                        title: element.title,
-                        link: element.link,
-                        priority: newPriority,
-                        isCurrent: false,
-                      });
-                    } else if (status === 'create') {
-                      setAddIssue({
-                        title: addIssue.title,
-                        link: addIssue.link,
-                        priority: newPriority,
-                        isCurrent: false,
-                      });
-                    }
-                  }}
-                >
-                  <option value="low">Low</option>
-                  <option value="middle">Middle</option>
-                  <option value="hight">Hight</option>
-                </Field>
-              </div>
-              <div className={s.buttonContainer}>
-                <div className={s.confirm}>
-                  <button
-                    className={cn('btn btn-secondary btn-lg')}
-                    type="submit"
-                  >
-                    YES
-                  </button>
                 </div>
-                <div className={s.cancel}>
-                  <button
-                    className={cn('btn btn-outline-secondary btn-lg')}
-                    onClick={() => {
-                      setActive(true); setAddIssue({
-                        title: '',
-                        link: '',
-                        priority: 'low',
-                        isCurrent: false,
-                      });
-                    }}
-                  >
-                    NO
-                  </button>
+                <span className={cn('invalid-feedback', s.error)}>
+                  <ErrorMessage name="title" />
+                </span>
+                <div className={s.items}>
+                  <label htmlFor="link">Link:</label>
+                  <div className="input-group has-validation mb-3">
+                    <Field
+                      name="link"
+                      className={cn('form-control', s.input)}
+                      value={valueInput(values, 'link')}
+                      onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                        handleChange('link');
+                        if (status === 'edit') {
+                          editElement({
+                            title: element.title,
+                            link: `${e.target.value}`,
+                            priority: element.priority,
+                            isCurrent: false,
+                          });
+                        } else if (status === 'create') {
+                          setAddIssue({
+                            title: addIssue.title,
+                            link: `${e.target.value}`,
+                            priority: addIssue.priority,
+                            isCurrent: false,
+                          });
+                        }
+                      }}
+                    />
+                  </div>
                 </div>
-              </div>
-            </Form>
+                <div className={s.items}>
+                  <label htmlFor="link">Priority: </label>
+                  <div className="input-group has-validation mb-3">
+                    <Field
+                      as="select"
+                      name="priority"
+                      value={valueInput(values, 'priority')}
+                      className={cn('custom-select', s.select, s.input)}
+                      id="inputGroupSelect03"
+                      onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                        const newPriority = e.target.value as TIssuePriority;
+                        handleChange('priority');
+
+                        if (status === 'edit') {
+                          editElement({
+                            title: element.title,
+                            link: element.link,
+                            priority: newPriority,
+                            isCurrent: false,
+                          });
+                        } else if (status === 'create') {
+                          setAddIssue({
+                            title: addIssue.title,
+                            link: addIssue.link,
+                            priority: newPriority,
+                            isCurrent: false,
+                          });
+                        }
+                      }}
+                    >
+                      <option value="low">Low</option>
+                      <option value="middle">Middle</option>
+                      <option value="hight">Hight</option>
+                    </Field>
+                  </div>
+                </div>
+                <div className={s.buttonContainer}>
+                  <div className={s.confirm}>
+                    <button
+                      className={cn('btn btn-secondary btn-lg')}
+                      type="submit"
+                    >
+                      YES
+                    </button>
+                  </div>
+                  <div className={s.cancel}>
+                    <button
+                      className={cn('btn btn-outline-secondary btn-lg')}
+                      onClick={() => {
+                        setActive(true); setAddIssue({
+                          title: '',
+                          link: '',
+                          priority: 'low',
+                          isCurrent: false,
+                        });
+                      }}
+                    >
+                      NO
+                    </button>
+                  </div>
+                </div>
+              </Form>
+            )}
           </Formik>
         </div>
       </div>
