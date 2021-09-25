@@ -1,6 +1,6 @@
 import { axios, setToken, getToken } from './axios';
 import { websocket } from './socket';
-import { IUser, IIssue } from '../interface';
+import { IUser, IIssue, ICreateIssue } from '../interface';
 import { TScore, TNiceId } from '../types';
 
 window.axios = axios;
@@ -171,7 +171,7 @@ const addScore = (score: TScore):void => {
  * Add or update issue
  * @param {Object} issue
  */
-const addIssue = (issue: IIssue):void => {
+const addIssue = (issue: IIssue | ICreateIssue):void => {
   websocket.emit('addIssue', issue);
 };
 

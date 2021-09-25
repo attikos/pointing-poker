@@ -10,16 +10,16 @@ axiosInstance.defaults.withCredentials = true;
 
 export const axios = axiosInstance;
 
-export const getToken = function () {
-  const token = Cookies.get('token');
+export const getToken = function ():string {
+  const token = Cookies.get('token') || '';
 
   return token;
 };
 
-export const setToken = function (token) {
+export const setToken = function (token:string):void {
   Cookies.set('token', token);
 };
 
-export const clearToken = function () {
+export const clearToken = function ():void {
   Cookies.set('token', '');
 };

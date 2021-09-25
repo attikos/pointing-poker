@@ -11,25 +11,22 @@ import './bootstrap-theme.scss';
 import { BrowserRouter } from 'react-router-dom';
 import store from './store/store-redux';
 
+window.bootstrap = bootstrap;
+
 declare global {
   interface Window {
-    api?: any;
-    bootstrap: any;
+    api: any;
     axios: any;
     websocket: any;
   }
 }
 // const customHistory = createBrowserHistory();
 
-window.bootstrap = bootstrap;
-
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <BrowserRouter
-      // history={customHistory}
-      >
-        <App  />
+      <BrowserRouter>
+        <App />
       </BrowserRouter>
     </Provider>
   </React.StrictMode>,

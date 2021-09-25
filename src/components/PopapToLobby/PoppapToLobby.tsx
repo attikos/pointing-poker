@@ -28,7 +28,6 @@ interface Props {
 }
 
 const PoppapToLobby = (props: Props): JSX.Element => {
-
   const history = useHistory();
   const dispatch = useDispatch();
 
@@ -96,6 +95,10 @@ const PoppapToLobby = (props: Props): JSX.Element => {
     });
     openTheLobby(gameNiceId, 'lobby');
     setSubmitting(false);
+  };
+
+  const onExit = () => {
+    api.cancelGame();
   };
 
   return (
@@ -171,7 +174,7 @@ const PoppapToLobby = (props: Props): JSX.Element => {
                 <div className={s.cancel}>
                   <div
                     className={cn('btn btn-outline-secondary btn-lg')}
-                    onClick={() => props.setActive(true)}
+                    onClick={onExit}
                   >
                     Cancel
                   </div>

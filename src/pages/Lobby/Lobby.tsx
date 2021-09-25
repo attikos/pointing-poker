@@ -5,25 +5,24 @@ import {
 } from 'react-icons/hi';
 import { AiOutlineEye } from 'react-icons/ai';
 import s from './Lobby.module.scss';
-import { IIssue, IUser } from '../../interface';
-import { TIssuePriority, TIssueStatus } from '../../types';
+import { IIssue, ICreateIssue, IUser } from '../../interface';
+import { TIssuePriority, TPopupIssueStatus } from '../../types';
 import { RootStateOrAny, useSelector } from 'react-redux';
 import PoppapAddIssue from '../../components/PopapAddIssue/PoppapAddIssue';
+import api from '../../services/api';
 
 interface Props {
   userRole: string;
 }
 
 const Lobby = ({ userRole }: Props): JSX.Element => {
-
   const [popapActive, setPopapActive] = useState(true);
-  const [issueStatus, setissueStatus] = useState<TIssueStatus>('create');
+  const [issueStatus, setissueStatus] = useState<TPopupIssueStatus>('create');
   const [indexIssue, setIndexIssue] = useState('');
-  const [dataIssue, setDataIssue] = useState<IIssue>({
+  const [dataIssue, setDataIssue] = useState<ICreateIssue>({
     title: '',
     link: '',
     priority: 'middle',
-    niceId: '',
     isCurrent: false,
   });
   const issues = useSelector((state: RootStateOrAny) => state.allData.issues);
@@ -45,6 +44,10 @@ const Lobby = ({ userRole }: Props): JSX.Element => {
   const isThisIssue = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const element = e.currentTarget.id;
     return element;
+  };
+
+  const onExit = () => {
+    api.cancelGame();
   };
 
   return (
@@ -98,13 +101,13 @@ const Lobby = ({ userRole }: Props): JSX.Element => {
             </div>
             <div className={s.settingsTopButtons}>
               <button className={cn('btn btn-secondary btn-lg')}>StartGame</button>
-              <button className={cn('btn btn-outline-secondary btn-lg')}>Cancel</button>
+              <button className={cn('btn btn-outline-secondary btn-lg')} onClick={onExit}>Cancel</button>
             </div>
           </div>
         ) : (
           <div className={s.settingsPlayer}>
             <div className={s.settingsTopButtons}>
-              <button className={cn('btn btn-outline-secondary btn-lg')}>Exit</button>
+              <button className={cn('btn btn-outline-secondary btn-lg')} onClick={onExit}>Exit</button>
             </div>
           </div>
         )}
@@ -162,7 +165,6 @@ const Lobby = ({ userRole }: Props): JSX.Element => {
                           title: `${issues[+isThisIssue(e)].title}`,
                           link: `${issues[+isThisIssue(e)].link}`,
                           priority: newPriority,
-                          niceId: '',
                           isCurrent: false,
                         });
                       }}
@@ -218,4 +220,3 @@ const Lobby = ({ userRole }: Props): JSX.Element => {
   );
 };
 export default Lobby;
-

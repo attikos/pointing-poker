@@ -49,23 +49,29 @@ const init: IServerData = {
     {
       title: 'Заголовок1 задачи',
       niceId: 'DSA432',
-      isCurrent: true, // текущая задача, над которой голосуют
+      isCurrent: true, // текущая задача, которую все видят. За нее можно начать головать, закончить, посмотреть статистику голосования. Всегда будет isCurrent == true
       link: 'ссылка на задачу',
-      priority: 'middle', // ['low', 'middle', 'high']
+      priority: 'middle',
+      id: 30,
+      status: 'new',
     },
     {
       title: 'Заголовок2 задачи',
       niceId: 'DSA432',
-      isCurrent: false, // текущая задача, над которой голосуют
+      isCurrent: false,
       link: 'ссылка на задачу',
-      priority: 'high', // ['low', 'middle', 'high']
+      priority: 'high',
+      id: 31,
+      status: 'finished',
     },
     {
       title: 'Заголовок3 задачи',
       niceId: 'DSA432',
-      isCurrent: false, // текущая задача, над которой голосуют
+      isCurrent: false,
       link: 'ссылка на задачу',
-      priority: 'low', // ['low', 'middle', 'high']
+      priority: 'low',
+      id: 32,
+      status: 'processing',
     },
   ],
   scores: [
