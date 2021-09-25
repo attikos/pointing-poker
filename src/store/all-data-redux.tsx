@@ -4,12 +4,12 @@ const UPDATE_ALL_DATA = 'UPDATE_ALL_DATA';
 
 const init: IServerData = {
   game: {
-    status: 'lobby',
-    userId: 125,
-    id: 125,
-    niceId: 'HHH111',
-    updatedAt: 'a',
-    createdAt: 'a',
+    // status: 'lobby',
+    // userId: 125,
+    // id: 125,
+    // niceId: 'HHH111',
+    // updatedAt: 'a',
+    // createdAt: 'a',
   },
   members: [
     {
