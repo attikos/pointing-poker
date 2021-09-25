@@ -1,0 +1,92 @@
+.game {
+  display: flex;
+  max-width: 1440px;
+  margin: 0 auto;
+  color: #000;
+  padding: 0px 38px;
+}
+
+.mainUnit {
+  width: 70%;
+}
+
+.score {
+  display: flex;
+  padding-left: 38px;
+}
+
+.issuesCont {
+  display: flex;
+  justify-content: space-between;
+}
+
+.issuesTitle {
+  font-size: 24px;
+}
+
+.cardWrapper {
+  text-align: center;
+  width: 83px;
+  height: auto;
+}
+
+
+
+.statisticPercents {
+  font-size: 24px;
+}
+
+.scoreCont {
+  border-left: 1px solid rgba(0, 0, 0, 0.5);
+  height: auto;
+}
+
+.score {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  justify-items: center;
+  grid-column-gap: 15px;
+  grid-row-gap: 8px;
+}
+
+.scoreCard {
+  width: 200px;
+  height: 51px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 26px;
+  box-shadow: 2px 2px 10px 0px rgba(30, 30, 30, 0.53);
+}
+
+.topSetting {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+}
+
+.pokerCardWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.pokerCard, .playingCard {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 48px;
+  width: 83px;
+  height: 127px;
+  border: 1px solid #e1e1e1;
+  background-color: white;
+  border-radius: 12px;
+  margin-right: 16px;
+  margin-bottom: 20px;
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+.pokerCard:hover {
+  background-color: #60dabf54;
+}

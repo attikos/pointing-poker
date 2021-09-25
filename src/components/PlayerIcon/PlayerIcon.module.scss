@@ -1,0 +1,36 @@
+.noFoto {
+  width: 5rem;
+  height: 5rem;
+  border-radius: 50%;
+  background: #60dabf;
+  font-weight: bold;
+  box-shadow: inset 0px 4px 4px black;
+  font-size: 48px;
+  line-height: 56px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #ffffff;
+  text-shadow: 0px 4px 4px black;
+  justify-content: center;
+  margin: 0 0.5rem;
+}
+
+.card {
+  max-width: 20rem;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 25%);
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+}
+
+.info{
+  color: #000000;
+  font-size: 18px;
+  width: 150px;
+}
+
+.infoName{
+  font-size: 26px;
+  text-align: start;
+}
