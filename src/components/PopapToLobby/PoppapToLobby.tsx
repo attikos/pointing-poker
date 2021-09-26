@@ -11,7 +11,7 @@ import { useHistory } from 'react-router';
 import api from '../../services/api';
 import { useDispatch } from 'react-redux';
 import { TNiceId } from '../../types';
-import { newGame } from '../../controllers/newGame';
+import { useNewGame } from '../../controllers/useNewGame';
 
 const SignupSchema = Yup.object().shape({
   firstName: Yup.string()
@@ -28,7 +28,7 @@ interface Props {
 
 const PoppapToLobby = (props: Props): JSX.Element => {
   const history = useHistory();
-  const dispatch = useDispatch();
+  const [newGame] = useNewGame();
 
   const [fio, setFio] = useState({ firstName: '', lastName: '' });
   const {

@@ -6,11 +6,12 @@ import Footer from './components/Footer/Footer';
 import Header from './components/Header/Header';
 import PlayGame from './pages/PlayGame/PlayGame';
 import Main from './pages/Main/Main';
-import restoreSession from './controllers/restoreSession';
+import useRestoreSession from './controllers/useRestoreSession';
 import useGameRouter from './controllers/useGameRoute';
 
 function App() {
   const [userRole, setUserRole] = useState('');
+  const [restoreSession] = useRestoreSession();
 
   useEffect(() => {
     restoreSession();
