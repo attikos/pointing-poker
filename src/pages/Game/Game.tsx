@@ -33,7 +33,10 @@ const Game = (): JSX.Element => {
 
   // TODO api.stopRound(), когда все игроки проголосуют
 
-  const findUserScore = (userId: number | undefined, issueId: number | undefined) => {
+  const findUserScore = (
+    userId: number | undefined,
+    issueId: number | undefined,
+  ) => {
     if (userId === undefined) return 'No id';
     const score = scores.find((item) => item.userId === userId && item.issueId === issueId);
     if (score === undefined) {
@@ -107,9 +110,11 @@ const Game = (): JSX.Element => {
   return (
     <div className={s.game}>
       <div className={s.mainUnit}>
-        <div>Компонент с spring planning</div>
+        <div className={s.mainUnitTopic}>
+          {issues.map((item: IIssue) => `${item.title} `)}
+        </div>
         <div className={s.topSetting}>
-          <div>
+          <div className={s.scramMasterCard}>
             Scram master:{' '}
             <PlayerIcon item={members.find((item) => item.isDiller)} />
           </div>
