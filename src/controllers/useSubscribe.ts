@@ -1,8 +1,8 @@
 import { IServerData, IUser } from '../interface';
-import { updateAllData } from '../store/all-data-redux';
+import { updateAllData, initServerData } from '../store/all-data-redux';
 import { websocket } from '../services/socket';
 import { useDispatch } from 'react-redux';
-import { updateUserAC } from '../store/user-redux';
+import { updateUserAC, initialUserState } from '../store/user-redux';
 import api from '../services/api';
 
 const useSubscribe = () => {
@@ -18,10 +18,24 @@ const useSubscribe = () => {
       dispatch(updateUserAC(data));
     });
 
-    api.fetchAllData();
-    api.fetchUser();
+    websocket.subscription?.on('close', () => {
+      dispatch(updateAllData(initServerData));
+      dispatch(updateUserAC(initialUserState));
+    });
 
-    return true;
+    websocket.ws?.on('close', () => {
+      dispatch(updateAllData(initServerData));
+      dispatch(updateUserAC(initialUserState));
+    });
+
+    return new Promise( response => {
+      const DELAY_WS = 200;
+      setTimeout(() => {
+        response(true);
+        api.fetchAllData();
+        api.fetchUser();
+      }, DELAY_WS);
+    });
   };
 
   return [subscribe];

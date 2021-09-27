@@ -42,12 +42,15 @@ const Lobby = ({ userRole }: Props): JSX.Element => {
   };
 
   const isThisIssue = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    const element = e.currentTarget.id;
-    return element;
+    return e.currentTarget.id;
   };
 
   const onExit = () => {
     api.cancelGame();
+  };
+
+  const onStartGame = () => {
+    api.startGame();
   };
 
   const onDeleteIssue = (issueId:string) => {
@@ -95,16 +98,15 @@ const Lobby = ({ userRole }: Props): JSX.Element => {
           <div className={s.settingsLinks}>
             <div className={s.linkLobby}>
               <h3>
-                {' '}
-                <i><b>Link to lobby:</b></i>
+                <i><b>Lobby ID:</b></i>
               </h3>
               <div className={s.copyLinkLobby}>
-                <div className={s.inputLinkLobby}>{`http://localhost/${niceId}`}</div>
+                <div className={s.inputLinkLobby}>{niceId}</div>
                 <button className={cn('btn btn-secondary btn-lg')}>Copy</button>
               </div>
             </div>
             <div className={s.settingsTopButtons}>
-              <button className={cn('btn btn-secondary btn-lg')}>StartGame</button>
+              <button className={cn('btn btn-secondary btn-lg')} onClick={onStartGame}>StartGame</button>
               <button className={cn('btn btn-outline-secondary btn-lg')} onClick={onExit}>Cancel</button>
             </div>
           </div>

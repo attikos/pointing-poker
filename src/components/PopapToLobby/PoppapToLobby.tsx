@@ -9,7 +9,6 @@ import { IUser } from '../../interface';
 import { initialUserState } from '../../store/user-redux';
 import { useHistory } from 'react-router';
 import api from '../../services/api';
-import { useDispatch } from 'react-redux';
 import { TNiceId } from '../../types';
 import { useNewGame } from '../../controllers/useNewGame';
 
@@ -56,12 +55,6 @@ const PoppapToLobby = (props: Props): JSX.Element => {
     newGame(values);
   };
 
-  const openTheLobby = (id: TNiceId, status: string): void => {
-    if (status === 'lobby') {
-      history.push(`/${id}`);
-    }
-  };
-
   const onFormSubmit = (
     values: IUser,
     { setSubmitting }: FormikHelpers<IUser>,
@@ -70,7 +63,6 @@ const PoppapToLobby = (props: Props): JSX.Element => {
       user: { ...values, ...fio },
       gameNiceId,
     });
-    openTheLobby(gameNiceId, 'lobby');
     setSubmitting(false);
   };
 

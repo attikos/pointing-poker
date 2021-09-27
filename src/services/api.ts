@@ -87,14 +87,10 @@ const restoreSession = async ():Promise<boolean> => {
   const { token, roomId, success, errors } = res.data;
 
   if ( errors ) {
-    console.log('errors', errors);
     return errors;
   }
 
   if (success && token && roomId) {
-    console.log('token', token);
-    console.log('roomId', roomId);
-
     setToken(token);
     websocket.setRoomId(roomId);
 
@@ -154,7 +150,6 @@ const fetchAllData = ():void => {
   websocket.emit('getAllData');
 };
 
-
 /**
  * Get current player profile
  */
@@ -174,7 +169,12 @@ const startGame = ():void => {
  * For player: exit from game
  */
 const cancelGame = ():void => {
-  websocket.emit('cancelGame');
+  try {
+    websocket.emit('cancelGame');
+  } catch (error) {
+    websocket.close();
+    console.error('error', error);
+  }
 };
 
 /**
