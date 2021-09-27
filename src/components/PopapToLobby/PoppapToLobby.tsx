@@ -105,7 +105,7 @@ const PoppapToLobby = ({ setPopapActive, popapActive, gameNiceId, userRole }: Pr
                 id="firstName"
                 name="firstName"
                 className={s.input}
-                onInput={(e: any) => setFio({ ...fio, firstName: e.target.value })}
+                onInput={(e: React.ChangeEvent<HTMLSelectElement>) => setFio({ ...fio, firstName: e.target.value })}
               />
               <span className={s.error}><ErrorMessage name="firstName" /></span>
 
@@ -114,7 +114,7 @@ const PoppapToLobby = ({ setPopapActive, popapActive, gameNiceId, userRole }: Pr
                 id="lastName"
                 name="lastName"
                 className={s.input}
-                onInput={(e: any) => setFio({ ...fio, lastName: e.target.value })}
+                onInput={(e: React.ChangeEvent<HTMLSelectElement>) => setFio({ ...fio, lastName: e.target.value })}
               />
               <label htmlFor="job">Your Job Position (optional)</label>
               <Field id="job" name="job" className={s.input} />

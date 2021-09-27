@@ -20,13 +20,14 @@ const SignupSchema = Yup.object().shape({
 interface Props {
   active: boolean;
   setActive: (arg0: boolean) => void;
-  editElement: (arg1: ICreateIssue) => void;
+  editElement: (arg1: IIssue) => void;
   index: number;
   status: TPopupIssueStatus;
-  element: ICreateIssue;
+  element: IIssue;
 }
 
 const PopapAddIssue = ({ active, setActive, editElement, status, element }: Props): JSX.Element => {
+
   const initialValues: ICreateIssue = {
     title: '',
     link: '',
@@ -36,7 +37,7 @@ const PopapAddIssue = ({ active, setActive, editElement, status, element }: Prop
 
   const [addIssue, setAddIssue] = useState<ICreateIssue>(initialValues);
 
-  const createNewIssue = (el: ICreateIssue) => {
+  const createNewIssue = (el: IIssue | ICreateIssue) => {
     api.addIssue(el);
   };
 
@@ -90,7 +91,8 @@ const PopapAddIssue = ({ active, setActive, editElement, status, element }: Prop
               (status === 'edit') ? element : initialValues
             }
             validationSchema={SignupSchema}
-            onSubmit={(values: IIssue | ICreateIssue, { setSubmitting }) => {
+
+            onSubmit={(values: ICreateIssue | IIssue, { setSubmitting }) => {
               if (status === 'create') {
                 values = { ...addIssue };
                 createNewIssue(values);
@@ -130,7 +132,7 @@ const PopapAddIssue = ({ active, setActive, editElement, status, element }: Prop
                       className={cn('form-control', s.input,
                         { 'is-invalid': errors.title && touched.title })}
                       value={valueInput(values, 'title')}
-                      onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                      onInput={(e: React.ChangeEvent<HTMLSelectElement>) => {
                         handleChange('title');
                         if (status === 'edit') {
                           editElement({
@@ -138,6 +140,8 @@ const PopapAddIssue = ({ active, setActive, editElement, status, element }: Prop
                             link: element.link,
                             priority: element.priority,
                             isCurrent: false,
+                            id: element.id,
+                            status: element.status,
                           });
                         } else if (status === 'create') {
                           setAddIssue({
@@ -162,7 +166,7 @@ const PopapAddIssue = ({ active, setActive, editElement, status, element }: Prop
                       name="link"
                       className={cn('form-control', s.input)}
                       value={valueInput(values, 'link')}
-                      onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                      onInput={(e: React.ChangeEvent<HTMLSelectElement>) => {
                         handleChange('link');
                         if (status === 'edit') {
                           editElement({
@@ -170,6 +174,8 @@ const PopapAddIssue = ({ active, setActive, editElement, status, element }: Prop
                             link: `${e.target.value}`,
                             priority: element.priority,
                             isCurrent: false,
+                            status: element.status,
+                            id: element.id,
                           });
                         } else if (status === 'create') {
                           setAddIssue({
@@ -192,7 +198,7 @@ const PopapAddIssue = ({ active, setActive, editElement, status, element }: Prop
                       value={valueInput(values, 'priority')}
                       className={cn('custom-select', s.select, s.input)}
                       id="inputGroupSelect03"
-                      onChange={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                      onInput={(e: React.ChangeEvent<HTMLSelectElement>) => {
                         const newPriority = e.target.value as TIssuePriority;
                         handleChange('priority');
 
@@ -202,6 +208,8 @@ const PopapAddIssue = ({ active, setActive, editElement, status, element }: Prop
                             link: element.link,
                             priority: newPriority,
                             isCurrent: false,
+                            status: element.status,
+                            id: element.id,
                           });
                         } else if (status === 'create') {
                           setAddIssue({

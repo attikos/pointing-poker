@@ -65,6 +65,6 @@ export interface IIssue {
 export interface ICreateIssue {
   title: string;
   isCurrent?: boolean;
-  link: string;
+  link?: string;
   priority: TIssuePriority;
 }

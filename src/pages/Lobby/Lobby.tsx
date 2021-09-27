@@ -5,8 +5,8 @@ import {
 } from 'react-icons/hi';
 import { AiOutlineEye } from 'react-icons/ai';
 import s from './Lobby.module.scss';
-import { IIssue, ICreateIssue, IUser } from '../../interface';
-import { TIssuePriority, TPopupIssueStatus } from '../../types';
+import { IIssue, IUser } from '../../interface';
+import { TIssuePriority, TIssueStatus, TNiceId, TPopupIssueStatus } from '../../types';
 import { RootStateOrAny, useSelector } from 'react-redux';
 import api from '../../services/api';
 import PoppapAddIssue from '../../components/PopapAddIssue/PoppapAddIssue';
@@ -21,32 +21,36 @@ const Lobby = ({ userRole }: Props): JSX.Element => {
   const [popapActive, setPopapActive] = useState(true);
   const [issueStatus, setissueStatus] = useState<TPopupIssueStatus>('create');
   const [indexIssue, setIndexIssue] = useState('');
-  const [dataIssue, setDataIssue] = useState<ICreateIssue>({
+  const [dataIssue, setDataIssue] = useState<IIssue>({
     title: '',
     link: '',
     priority: 'middle',
     isCurrent: false,
+    id: +'',
+    status: 'new',
   });
-  const user = useSelector((state: RootStateOrAny) => state.userData);
+  const user = useSelector((state: RootStateOrAny) => state.userData.$attributes);
   const issues = useSelector((state: RootStateOrAny) => state.allData.issues);
   const members = useSelector((state: RootStateOrAny) => state.allData.members);
   const id = useSelector((state: RootStateOrAny) => state.allData.game.niceId);
-
+  console.log('User', user);
   const deleteMember = (i: string) => {
     api.deleteUser(i);
   };
 
   const getInitials = (firstName: string, lastName: string) => {
     if (firstName && lastName) {
-      return (firstName[0].toUpperCase() + lastName[0].toUpperCase());
+      return firstName[0].toUpperCase() + lastName[0].toUpperCase();
     }
     if (firstName && !lastName) {
-      return (firstName[0].toUpperCase());
+      return firstName[0].toUpperCase();
     }
     if (!firstName) {
       return '';
     }
+    return '';
   };
+<<<<<<< HEAD
   const onStopGame = () => {
     api.stopGame();
   }
@@ -60,6 +64,11 @@ const Lobby = ({ userRole }: Props): JSX.Element => {
         document.execCommand('copy');
       }
     };
+=======
+  const isThisIssue = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    return e.currentTarget.id;
+  };
+>>>>>>> 6cca53b (fix editIssue)
 
     const onLeaveGame = () => {
       api.leaveGame();
@@ -69,6 +78,7 @@ const Lobby = ({ userRole }: Props): JSX.Element => {
       api.startGame();
     };
 
+<<<<<<< HEAD
     const onDeleteIssue = (issueId: string) => {
       api.deleteIssue(issueId);
     };
@@ -79,6 +89,37 @@ const Lobby = ({ userRole }: Props): JSX.Element => {
           <div className={s.topic}>
             <div className={s.inputTopic}>
               {issues.map((item: IIssue) => `${item.title} `)}
+=======
+  const editIssue = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    const newPriority = `${issues[+isThisIssue(e)].priority}` as TIssuePriority;
+    const newStatus = `${issues[+isThisIssue(e)].status}` as TIssueStatus;
+
+    setPopapActive(false); setissueStatus('edit');
+    setIndexIssue(isThisIssue(e));
+    setDataIssue({
+      title: `${issues[+isThisIssue(e)].title}`,
+      link: `${issues[+isThisIssue(e)].link}`,
+      priority: newPriority,
+      isCurrent: false,
+      status: newStatus,
+      id: +`${issues[+isThisIssue(e)].id}`,
+    });
+  };
+
+  return (
+    <div className={s.settings}>
+      <div className={s.settingsTop}>
+        <div className={s.topic}>
+          <div className={s.inputTopic}>
+            {issues.map((item: IIssue) => `${item.title}; `)}
+          </div>
+        </div>
+        <div className={s.scramMaster}>
+          <h6>Scram master:</h6>
+          {(userRole === 'master') ? (<div className={s.scramMasterCard} >
+            <div className={s.noFoto}>
+              {getInitials(user.firstName, user.lastName)}
+>>>>>>> 6cca53b (fix editIssue)
             </div>
             <div className={s.iconPencil}>
             </div>
@@ -122,6 +163,7 @@ const Lobby = ({ userRole }: Props): JSX.Element => {
           </div>
         </div>
 
+<<<<<<< HEAD
         {(user.isDiller)
           ? (
             <div className={s.settingsLinks}>
@@ -137,6 +179,19 @@ const Lobby = ({ userRole }: Props): JSX.Element => {
               <div className={s.settingsTopButtons}>
                 <button className={cn('btn btn-secondary btn-lg')} onClick={api.startGame}>StartGame</button>
                 <button className={cn('btn btn-outline-secondary btn-lg')} onClick={api.stopGame}>Cancel</button>
+=======
+      {(userRole === 'master')
+        ? (
+          <div className={s.settingsLinks}>
+            <div className={s.linkLobby}>
+              <h3>
+                {' '}
+                <i><b>Link to lobby:</b></i>
+              </h3>
+              <div className={s.copyLinkLobby}>
+                <input className={s.inputLinkLobby} type='text' ref={textInput} value={`http://localhost/${id}`} readOnly />
+                <button className={cn('btn btn-secondary btn-lg')} onClick={handleCopy}>Copy</button>
+>>>>>>> 6cca53b (fix editIssue)
               </div>
             </div>
           ) : (
@@ -173,6 +228,7 @@ const Lobby = ({ userRole }: Props): JSX.Element => {
                 <HiBan className={s.iconDel} />
               </div>
             </div>
+<<<<<<< HEAD
           ))}
         </div>
         {
@@ -223,6 +279,33 @@ const Lobby = ({ userRole }: Props): JSX.Element => {
 
                     <div className={s.issuesAdd}>
                       <HiOutlinePlus className={s.issuesAddIcon} />
+=======
+          </div>
+        ))}
+      </div>
+      {
+        (userRole === 'master')
+          ? (
+            <div>
+              <div className={s.settingsIssues}>
+                <div className={s.issuesTitle}>
+                  Issues:
+                </div>
+                {issues.map((item: IIssue, i: number) => (
+                  <div className={s.issuesCard} key={i}>
+                    <div className={s.issuesInfo}>
+                      <div className={s.issuesInfoName}>{item.title}</div>
+                      <div className={s.issuesPriority}>{item.priority}</div>
+                    </div>
+                    <div className={s.issuesChange}
+                      id={`${i}`}
+                      onClick={(e) => editIssue(e)}>
+                      <HiPencil className={s.issuesChangeIcon} />
+                    </div>
+                    <div className={s.issuesDel}
+                      onClick={() => api.deleteIssue(`${item.id}`)}>
+                      <HiOutlineTrash className={s.issuesDelIcon} />
+>>>>>>> 6cca53b (fix editIssue)
                     </div>
                   </div>
                 </div>
