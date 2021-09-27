@@ -6,7 +6,7 @@ import {
 import { AiOutlineEye } from 'react-icons/ai';
 import s from './Lobby.module.scss';
 import { IIssue, IUser } from '../../interface';
-import { TIssuePriority, TIssueStatus, TNiceId, TPopupIssueStatus } from '../../types';
+import { TIssuePriority, TIssueStatus, TPopupIssueStatus } from '../../types';
 import { RootStateOrAny, useSelector } from 'react-redux';
 import api from '../../services/api';
 import PoppapAddIssue from '../../components/PopapAddIssue/PoppapAddIssue';
@@ -29,11 +29,12 @@ const Lobby = ({ userRole }: Props): JSX.Element => {
     id: +'',
     status: 'new',
   });
-  const user = useSelector((state: RootStateOrAny) => state.userData.$attributes);
+
+  const user = useSelector((state: RootStateOrAny) => state.userData);
   const issues = useSelector((state: RootStateOrAny) => state.allData.issues);
   const members = useSelector((state: RootStateOrAny) => state.allData.members);
   const id = useSelector((state: RootStateOrAny) => state.allData.game.niceId);
-  console.log('User', user);
+
   const deleteMember = (i: string) => {
     api.deleteUser(i);
   };
@@ -224,9 +225,14 @@ const Lobby = ({ userRole }: Props): JSX.Element => {
                 <div>{job}</div>
               </div>
 
+<<<<<<< HEAD
               <div className={s.memberDelete} onClick={() => (niceId) ? deleteMember(niceId) : null}>
                 <HiBan className={s.iconDel} />
               </div>
+=======
+            <div className={s.memberDelete} onClick={() => (niceId && userRole === 'master') ? deleteMember(niceId) : null}>
+              <HiBan className={s.iconDel} />
+>>>>>>> e2eab37 (add: setAsObserver)
             </div>
 <<<<<<< HEAD
           ))}
@@ -309,6 +315,7 @@ const Lobby = ({ userRole }: Props): JSX.Element => {
                     </div>
                   </div>
                 </div>
+<<<<<<< HEAD
                 <div className={s.settingsGame}>
                   <div className={s.gameTitle}>
                     Game settings:
@@ -320,6 +327,14 @@ const Lobby = ({ userRole }: Props): JSX.Element => {
                       </label>
                       <input type="checkbox" className="form-check-input" id="flexSwitchCheckDefault" />
                     </div>
+=======
+                <div className={s.settingsGameItem}>
+                  <div className="form-check form-switch">
+                    <label className="form-check-label" htmlFor="flexSwitchCheckDefault">
+                      Scram master as player
+                    </label>
+                    <input type="checkbox" className="form-check-input" id="flexSwitchCheckDefault" onChange={(e)=>{api.setAsObserver(!e.target.checked);}}/>
+>>>>>>> e2eab37 (add: setAsObserver)
                   </div>
 
                 </div>
