@@ -3,7 +3,7 @@ import { IUser } from '../interface';
 const UPDATE_USER = 'UPDATE_USER';
 
 export const initialUserState: IUser = {
-  isObserver: false,
+  isObserver: true,
   isDiller: true,
   firstName: '',
   lastName: '',

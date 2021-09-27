@@ -26,7 +26,7 @@ const init: IServerData = {
       firstName: 'Thn2',
       lastName: 'Фамилия участника2',
       isDiller: true,
-      isObserver: false, // может голосовать
+      isObserver: true, // может голосовать
       job: 'my work',
       id: 21,
     },

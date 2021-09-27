@@ -8,6 +8,7 @@ import { IIssue } from '../../interface';
 import IssueCard from '../../components/IssueCard/IssueCard';
 import coffeImg from '../../assets/coffee.png';
 import api from '../../services/api';
+import AdditionIssue from '../../components/AdditionIssue/AdditionIssue';
 
 const POKER_CARDS: string[] = [
   '0',
@@ -29,18 +30,20 @@ const Game = (): JSX.Element => {
   const members = useSelector((state: RootState) => state.allData.members);
   const issues = useSelector((state: RootState) => state.allData.issues);
   const scores = useSelector((state: RootState) => state.allData.scores);
-  const [isRoundNow, setIsRoundNow] = useState(false); // флаг, который показывает, идет ли сейчас раунд   const потому что ругается eslint
 
-  /* TODO смена флага, когда все игроки проголосуют */
+  // TODO api.stopRound(), когда все игроки проголосуют
+
   const findUserScore = (userId: number | undefined, issueId: number | undefined) => {
     if (userId === undefined) return 'No id';
     const score = scores.find((item) => item.userId === userId && item.issueId === issueId);
-    if (score === undefined) return 'unknown';
-    else return score.score + 'SP';
+    if (score === undefined) {
+      return 'unknown';
+    } else {
+      return score.score + 'SP';
+    }
   };
 
-  
-  const returnScoreColumn = ( issueId: number | undefined) => {
+  const returnScoreColumn = (issue: IIssue | undefined) => {
     return (
       <div className={s.score}>
         <div className={s.scoreTitle}>
@@ -48,11 +51,14 @@ const Game = (): JSX.Element => {
           <div>Players: </div>
         </div>
         {members.map((item) => {
-          console.log(item);
           if (!item.isObserver)
             return (
               <div className={s.scoreRow}>
-                <div className={s.scoreCard}>{findUserScore(item.id, issueId)} </div>
+                <div className={s.scoreCard}>
+                  {issue?.status === 'processing'
+                    ? 'In Progress'
+                    : findUserScore(item.id, issue?.id)}
+                </div>
                 <PlayerIcon item={item} />
               </div>
             );
@@ -67,6 +73,7 @@ const Game = (): JSX.Element => {
         {iss.map((issue: IIssue, ind: number) => {
           return <IssueCard issue={issue} key={ind} />;
         })}
+        <AdditionIssue />
       </div>
     );
   };
@@ -123,18 +130,19 @@ const Game = (): JSX.Element => {
           {returnIssuesList(issues)}
           {userData.isDiller ? (
             <div>
-              {!isRoundNow ? (
+              {issues.find((item) => item.isCurrent)?.status !==
+              'processing' ? (
                 <button
                   className={cn('btn btn-secondary btn-lg')}
-                  onClick={() => setIsRoundNow(!isRoundNow)}
+                  onClick={() => api.startRound()}
                 >
                   Run Round
                 </button>
-              ) : (
+                ) : (
                 <div>
                   <button
                     className={cn('btn btn-secondary btn-lg')}
-                    onClick={() => setIsRoundNow(!isRoundNow)}
+                    onClick={() => api.startRound()}
                   >
                     Restr Round
                   </button>
@@ -145,13 +153,13 @@ const Game = (): JSX.Element => {
                     Next ISSUE
                   </button>{' '}
                 </div>
-              )}
+                )}
             </div>
           ) : (
             <div />
           )}
         </div>
-        {/* TODO  добавление статистики для мастера поменять*/}
+        {/* TODO  добавление статистики для мастера поменять
         {userData.isDiller ? (
           <div className={s.statistic}>
             <div className={s.cardWrapper}>
@@ -159,10 +167,16 @@ const Game = (): JSX.Element => {
               <div className={s.statisticPercents}>40%</div>
             </div>
           </div>
-        ) : null}
-        {isRoundNow && !userData.isObserver ? returnPlayerCards() : null}
+        ) : null} */}
+        {issues.find((item) => item.isCurrent)?.status === 'processing' &&
+        !userData.isObserver
+          ? returnPlayerCards()
+          : null}
       </div>
-      <div className={s.scoreCont}> {returnScoreColumn(issues.find((item) => item.isCurrent)?.id)}</div>
+      <div className={s.scoreCont}>
+        {' '}
+        {returnScoreColumn(issues.find((item) => item.isCurrent))}
+      </div>
     </div>
   );
 };

@@ -42,7 +42,6 @@ class Form implements ICreateUser {
 
   isObserver: boolean;
 
-
   foto: string | undefined;
 
   constructor({
@@ -61,7 +60,7 @@ class Form implements ICreateUser {
 }
 
 export interface NewGameParams {
-  user: IUser;
+  user: ICreateUser;
   gameNiceId: TNiceId;
 }
 
