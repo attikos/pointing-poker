@@ -7,6 +7,7 @@ import PlayerIcon from '../../components/PlayerIcon/PlayerIcon';
 import { IIssue } from '../../interface';
 import IssueCard from '../../components/IssueCard/IssueCard';
 import coffeImg from '../../assets/coffee.png';
+import api from '../../services/api'
 
 const POKER_CARDS: string[] = [
   '0',
