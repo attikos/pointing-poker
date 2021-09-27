@@ -1,4 +1,4 @@
-import { TNiceId, TGameStatus, TIssuePriority } from './types';
+import { TNiceId, TGameStatus, TIssuePriority, TIssueStatus } from './types';
 
 export interface IUser {
   firstName: string;
@@ -24,7 +24,7 @@ export interface IScore {
 }
 
 export interface IServerData {
-  game: IGame;
+  game: IGame | Record<string, never>;
   members: IUser[];
   issues: IIssue[];
   scores: IScore[];
@@ -45,13 +45,18 @@ export interface IGame {
 
 export interface IIssue {
   title: string;
-  niceId: string;
   isCurrent: boolean;
-  isProcessing?: boolean,
-  isFinished?: boolean;
-  link: string;
+  link?: string;
   priority: TIssuePriority;
-  id?: number;
+  status: TIssueStatus;
+  id: number;
   updatedAt?: string;
   createdAt?: string;
+}
+
+export interface ICreateIssue {
+  title: string;
+  isCurrent?: boolean;
+  link: string;
+  priority: TIssuePriority;
 }

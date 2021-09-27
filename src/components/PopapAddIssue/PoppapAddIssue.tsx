@@ -4,10 +4,10 @@ import {
   ErrorMessage, Field, Form, Formik,
 } from 'formik';
 import * as Yup from 'yup';
-import { IIssue } from '../../interface';
-import { TIssueStatus, TIssuePriority } from '../../types';
+import { ICreateIssue, IIssue } from '../../interface';
+import { TPopupIssueStatus, TIssuePriority } from '../../types';
 import s from './PopapAddIssue.module.scss';
-import { useDispatch } from 'react-redux';
+import api from '../../services/api';
 
 const SignupSchema = Yup.object().shape({
   title: Yup.string()
@@ -19,38 +19,32 @@ const SignupSchema = Yup.object().shape({
 interface Props {
   active: boolean;
   setActive: (arg0: boolean) => void;
-  editElement: (arg1: IIssue) => void;
+  editElement: (arg1: ICreateIssue) => void;
   index: number;
-  status: TIssueStatus;
-  element: IIssue;
+  status: TPopupIssueStatus;
+  element: ICreateIssue;
 }
 
 const PopapAddIssue = ({ active, setActive, editElement, index, status, element }: Props): JSX.Element => {
-  
-  const dispatch = useDispatch();
-
-  const [addIssue, setAddIssue] = useState<IIssue>({
+  const initialValues:ICreateIssue = {
     title: '',
     link: '',
     priority: 'low',
-    niceId: '',
-    isCurrent: false,
-  });
-
-  const initialValues:IIssue = {
-    title: '',
-    link: '',
-    priority: 'low',
-    niceId: '',
     isCurrent: false,
   };
 
-  const createNewIssue = (el: IIssue) => {
-    
+  const [addIssue, setAddIssue] = useState<ICreateIssue>(initialValues);
+
+  const createNewIssue = (el: ICreateIssue) => {
+    api.addIssue(el);
   };
-  const updateIssues = (el: IIssue, i: number) => {
-  
+
+  const updateIssues = (el: IIssue | ICreateIssue, i: number) => {
+    console.log('updateIssues', el);
+
+    api.addIssue(el);
   };
+
   return (
     <div
       className={cn(s.formLobby,
@@ -66,8 +60,8 @@ const PopapAddIssue = ({ active, setActive, editElement, index, status, element 
             initialValues={
               (status === 'edit') ? element : initialValues
             }
-            validationSchema={SignupSchema}
-            onSubmit={(values:IIssue, { setSubmitting }) => {
+            // validationSchema={SignupSchema}
+            onSubmit={(values:IIssue | ICreateIssue, { setSubmitting }) => {
               if (status === 'create') {
                 values = { ...addIssue };
                 createNewIssue(values);
@@ -75,12 +69,13 @@ const PopapAddIssue = ({ active, setActive, editElement, index, status, element 
                   title: '',
                   link: '',
                   priority: 'low',
-                  niceId: '',
                   isCurrent: false,
                 });
               }
               if (status === 'edit') {
                 values = { ...element };
+                console.log('values', values);
+
                 updateIssues(values, index);
               }
               setActive(true);
@@ -109,7 +104,6 @@ const PopapAddIssue = ({ active, setActive, editElement, index, status, element 
                         title: `${e.target.value}`,
                         link: element.link,
                         priority: element.priority,
-                        niceId: '',
                         isCurrent: false,
                       });
                     } else if (status === 'create') {
@@ -117,7 +111,6 @@ const PopapAddIssue = ({ active, setActive, editElement, index, status, element 
                         title: `${e.target.value}`,
                         link: addIssue.link,
                         priority: addIssue.priority,
-                        niceId: '',
                         isCurrent: false,
                       });
                     }
@@ -143,7 +136,6 @@ const PopapAddIssue = ({ active, setActive, editElement, index, status, element 
                         title: element.title,
                         link: `${e.target.value}`,
                         priority: element.priority,
-                        niceId: '',
                         isCurrent: false,
                       });
                     } else if (status === 'create') {
@@ -151,7 +143,6 @@ const PopapAddIssue = ({ active, setActive, editElement, index, status, element 
                         title: addIssue.title,
                         link: `${e.target.value}`,
                         priority: addIssue.priority,
-                        niceId: '',
                         isCurrent: false,
                       });
                     }
@@ -176,7 +167,6 @@ const PopapAddIssue = ({ active, setActive, editElement, index, status, element 
                         title: element.title,
                         link: element.link,
                         priority: newPriority,
-                        niceId: '',
                         isCurrent: false,
                       });
                     } else if (status === 'create') {
@@ -184,7 +174,6 @@ const PopapAddIssue = ({ active, setActive, editElement, index, status, element 
                         title: addIssue.title,
                         link: addIssue.link,
                         priority: newPriority,
-                        niceId: '',
                         isCurrent: false,
                       });
                     }
@@ -212,7 +201,6 @@ const PopapAddIssue = ({ active, setActive, editElement, index, status, element 
                         title: '',
                         link: '',
                         priority: 'low',
-                        niceId: '',
                         isCurrent: false,
                       });
                     }}

@@ -5,5 +5,6 @@ export type TNiceId = string;
 export type TGameStatus = 'lobby' | 'game' | 'result';
 
 export type TIssuePriority = 'low' | 'middle' | 'high';
+export type TIssueStatus = 'new' | 'processing' | 'finished';
 
-export type TIssueStatus = 'edit' | 'create';
+export type TPopupIssueStatus = 'edit' | 'create';
