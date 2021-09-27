@@ -40,6 +40,8 @@ const PopapAddIssue = ({ active, setActive, editElement, index, status, element 
   };
 
   const updateIssues = (el: IIssue | ICreateIssue, i: number) => {
+    console.log('updateIssues', el);
+
     api.addIssue(el);
   };
 
@@ -58,7 +60,7 @@ const PopapAddIssue = ({ active, setActive, editElement, index, status, element 
             initialValues={
               (status === 'edit') ? element : initialValues
             }
-            validationSchema={SignupSchema}
+            // validationSchema={SignupSchema}
             onSubmit={(values:IIssue | ICreateIssue, { setSubmitting }) => {
               if (status === 'create') {
                 values = { ...addIssue };
@@ -72,6 +74,8 @@ const PopapAddIssue = ({ active, setActive, editElement, index, status, element 
               }
               if (status === 'edit') {
                 values = { ...element };
+                console.log('values', values);
+
                 updateIssues(values, index);
               }
               setActive(true);

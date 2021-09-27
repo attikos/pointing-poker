@@ -24,7 +24,7 @@ export interface IScore {
 }
 
 export interface IServerData {
-  game: IGame;
+  game: IGame | Record<string, never>;
   members: IUser[];
   issues: IIssue[];
   scores: IScore[];
@@ -45,7 +45,6 @@ export interface IGame {
 
 export interface IIssue {
   title: string;
-  niceId: string;
   isCurrent: boolean;
   link?: string;
   priority: TIssuePriority;

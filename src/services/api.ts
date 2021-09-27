@@ -3,8 +3,6 @@ import { websocket } from './socket';
 import { IUser, IIssue, ICreateIssue } from '../interface';
 import { TScore, TNiceId } from '../types';
 
-window.axios = axios;
-
 const checkGameId = async (gameNiceId : TNiceId):Promise<string | boolean> => {
   const DEFAULT_ERROR = 'Wrong game ID';
   const SYSTEM_ERROR = 'System error. Please, try later';
@@ -58,10 +56,53 @@ class Form implements IUser {
   }
 }
 
-interface NewGameParams {
+export interface NewGameParams {
   user : IUser,
   gameNiceId: TNiceId,
 }
+
+
+/**
+ * Restore session
+ * @returns void
+ */
+const restoreSession = async ():Promise<boolean> => {
+  let res;
+
+  const gameNiceId = location.pathname.slice(1);
+  const currentToken = getToken();
+
+  const params = {
+    token: currentToken,
+    gameNiceId,
+  };
+
+  try {
+    res = await axios.post('/restore-session', params);
+  } catch (error) {
+    console.log(error);
+    return false;
+  }
+
+  const { token, roomId, success, errors } = res.data;
+
+  if ( errors ) {
+    console.log('errors', errors);
+    return errors;
+  }
+
+  if (success && token && roomId) {
+    console.log('token', token);
+    console.log('roomId', roomId);
+
+    setToken(token);
+    websocket.setRoomId(roomId);
+
+    return true; // already for connect to WS
+  } else {
+    throw Error('System error: wrong token or roomId');
+  }
+};
 
 /**
  * Create user/game and connect
@@ -99,9 +140,8 @@ const newGame = async ( { user, gameNiceId }: NewGameParams):Promise<string | bo
 
     setToken(token);
     websocket.setRoomId(roomId);
-    // websocket.connect()
 
-    return true;
+    return true; // already for connect to WS
   } else {
     throw Error('System error: wrong token or roomId');
   }
@@ -180,6 +220,7 @@ const deleteIssue = (issueId: string):void => {
 };
 
 const exportData = {
+  restoreSession,
   checkGameId,
   newGame,
   startGame,
@@ -194,8 +235,5 @@ const exportData = {
   addScore,
   deleteIssue,
 };
-
-window.api = exportData;
-window.websocket = websocket;
 
 export default exportData;

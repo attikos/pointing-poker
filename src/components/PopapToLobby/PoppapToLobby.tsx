@@ -5,14 +5,13 @@ import {
 } from 'formik';
 import * as Yup from 'yup';
 import s from './PoppapToLobby.module.scss';
-import { IUser, IServerData, IGame } from '../../interface';
-import { updateUserAC, initialUserState } from '../../store/user-redux';
+import { IUser } from '../../interface';
+import { initialUserState } from '../../store/user-redux';
 import { useHistory } from 'react-router';
 import api from '../../services/api';
-import { websocket } from '../../services/socket';
 import { useDispatch } from 'react-redux';
-import { updateAllData } from '../../store/all-data-redux';
 import { TNiceId } from '../../types';
+import { useNewGame } from '../../controllers/useNewGame';
 
 const SignupSchema = Yup.object().shape({
   firstName: Yup.string()
@@ -29,7 +28,7 @@ interface Props {
 
 const PoppapToLobby = (props: Props): JSX.Element => {
   const history = useHistory();
-  const dispatch = useDispatch();
+  const [newGame] = useNewGame();
 
   const [fio, setFio] = useState({ firstName: '', lastName: '' });
   const {
@@ -53,30 +52,8 @@ const PoppapToLobby = (props: Props): JSX.Element => {
 
   const initials = getIinitials(fio.firstName, fio.lastName);
 
-  const routerHandler = ({ game }: { game: IGame }): void => {
-    if (game.status === 'lobby' || game.status === 'game') {
-      history.push(`/${game.niceId}`);
-    } else {
-      history.push('/');
-    }
-  };
-
   const handleSubmit = async (values: { user: IUser, gameNiceId: TNiceId }): Promise<void> => {
-    const success = await api.newGame(values);
-    if (success) {
-      await websocket.connect();
-      websocket.subscription?.on('all-data', (data: IServerData) => {
-        dispatch(updateAllData(data));
-        routerHandler(data);
-      });
-
-      websocket.subscription?.on('user', (data:IUser) => {
-        dispatch(updateUserAC(data));
-      });
-
-      api.fetchAllData();
-      api.fetchUser();
-    }
+    newGame(values);
   };
 
   const openTheLobby = (id: TNiceId, status: string): void => {

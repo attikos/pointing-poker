@@ -50,6 +50,10 @@ const Lobby = ({ userRole }: Props): JSX.Element => {
     api.cancelGame();
   };
 
+  const onDeleteIssue = (issueId:string) => {
+    api.deleteIssue(issueId);
+  };
+
   return (
     <div className={s.settings}>
       <div className={s.settingsTop}>
@@ -171,7 +175,7 @@ const Lobby = ({ userRole }: Props): JSX.Element => {
                     >
                       <HiPencil className={s.issuesChangeIcon} />
                     </div>
-                    <div className={s.issuesDel}>
+                    <div className={s.issuesDel} onClick={(e) => onDeleteIssue(isThisIssue(e))}>
                       <HiOutlineTrash className={s.issuesDelIcon} />
                     </div>
                   </div>

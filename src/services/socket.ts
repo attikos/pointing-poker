@@ -9,7 +9,7 @@ interface ISubscription {
   on: (arg:string, arg1:(data:any) => any) => void
 }
 
-interface IWebsocket {
+export interface IWebsocket {
   callbackList: { [key: string]: () => void };
   ws: null | {
     emit: (arg:string, arg1?:any) => void
