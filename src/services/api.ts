@@ -191,7 +191,7 @@ const stopRound = ():void => {
   websocket.emit('stopRound');
 };
 
-const setIssueAsCurrent = (issueId: string, flag: boolean):void => {
+const setIssueAsCurrent = (issueId: number, flag: boolean):void => {
   websocket.emit('setIssueAsCurrent', { issueId, flag });
 };
 
