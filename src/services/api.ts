@@ -1,9 +1,9 @@
 import { axios, setToken, getToken } from './axios';
 import { websocket } from './socket';
-import { IUser, IIssue, ICreateIssue } from '../interface';
+import { IUser, IIssue, ICreateIssue, ICreateUser } from '../interface';
 import { TScore, TNiceId } from '../types';
 
-const checkGameId = async (gameNiceId : TNiceId):Promise<string | boolean> => {
+const checkGameId = async (gameNiceId: TNiceId): Promise<string | boolean> => {
   const DEFAULT_ERROR = 'Wrong game ID';
   const SYSTEM_ERROR = 'System error. Please, try later';
   let res;
@@ -29,11 +29,11 @@ const checkGameId = async (gameNiceId : TNiceId):Promise<string | boolean> => {
 
 interface NewGameApiParams {
   token: string;
-  form : IUser;
-  gameNiceId : TNiceId;
+  form: ICreateUser;
+  gameNiceId: TNiceId;
 }
 
-class Form implements IUser {
+class Form implements ICreateUser {
   firstName: string;
 
   lastName: string;
@@ -42,31 +42,34 @@ class Form implements IUser {
 
   isObserver: boolean;
 
-  isDiller: boolean;
 
   foto: string | undefined;
 
-  constructor({ firstName, lastName, job, isObserver, isDiller, foto } : IUser) {
+  constructor({
+    firstName,
+    lastName,
+    job,
+    isObserver,
+    foto,
+  }: ICreateUser) {
     this.firstName = firstName;
     this.lastName = lastName;
     this.job = job;
-    this.isDiller = isDiller;
     this.isObserver = isObserver;
     this.foto = foto;
   }
 }
 
 export interface NewGameParams {
-  user : IUser,
-  gameNiceId: TNiceId,
+  user: IUser;
+  gameNiceId: TNiceId;
 }
-
 
 /**
  * Restore session
  * @returns void
  */
-const restoreSession = async ():Promise<boolean> => {
+const restoreSession = async (): Promise<boolean> => {
   let res;
 
   const gameNiceId = location.pathname.slice(1);
@@ -86,7 +89,7 @@ const restoreSession = async ():Promise<boolean> => {
 
   const { token, roomId, success, errors } = res.data;
 
-  if ( errors ) {
+  if (errors) {
     console.log('errors', errors);
     return errors;
   }
@@ -109,14 +112,17 @@ const restoreSession = async ():Promise<boolean> => {
  * @param {Form} user
  * @returns void
  */
-const newGame = async ( { user, gameNiceId }: NewGameParams):Promise<string | boolean> => {
+const newGame = async ({
+  user,
+  gameNiceId,
+}: NewGameParams): Promise<string | boolean> => {
   let res;
 
   const currentToken = getToken();
 
-  const params : NewGameApiParams = {
+  const params: NewGameApiParams = {
     token: currentToken,
-    form : new Form(user),
+    form: new Form(user),
     gameNiceId,
   };
 
@@ -129,7 +135,7 @@ const newGame = async ( { user, gameNiceId }: NewGameParams):Promise<string | bo
 
   const { token, roomId, success, errors } = res.data;
 
-  if ( errors ) {
+  if (errors) {
     console.log('errors', errors);
     return errors;
   }
@@ -150,22 +156,21 @@ const newGame = async ( { user, gameNiceId }: NewGameParams):Promise<string | bo
 /**
  * Get all game data (without current player profile)
  */
-const fetchAllData = ():void => {
+const fetchAllData = (): void => {
   websocket.emit('getAllData');
 };
-
 
 /**
  * Get current player profile
  */
-const fetchUser = ():void => {
+const fetchUser = (): void => {
   websocket.emit('getUser');
 };
 
 /**
  * Change game status from 'lobby' to 'game'
  */
-const startGame = ():void => {
+const startGame = (): void => {
   websocket.emit('startGame');
 };
 
@@ -173,29 +178,29 @@ const startGame = ():void => {
  * For diller: Change game status from 'game' to 'result'
  * For player: exit from game
  */
-const cancelGame = ():void => {
+const cancelGame = (): void => {
   websocket.emit('cancelGame');
 };
 
 /**
  * Set status IIssue fopm 'new' to 'processing'
  */
-const startRound = ():void => {
+const startRound = (): void => {
   websocket.emit('startRound');
 };
 
 /**
  * Set status IIssue fopm 'processing' to 'finished' OR 'new'
  */
-const stopRound = ():void => {
+const stopRound = (): void => {
   websocket.emit('stopRound');
 };
 
-const setIssueAsCurrent = (issueId: number, flag: boolean):void => {
+const setIssueAsCurrent = (issueId: number, flag: boolean): void => {
   websocket.emit('setIssueAsCurrent', { issueId, flag });
 };
 
-const deleteUser = (niceId:TNiceId):void => {
+const deleteUser = (niceId: TNiceId): void => {
   websocket.emit('deleteUser', niceId);
 };
 
@@ -203,7 +208,7 @@ const deleteUser = (niceId:TNiceId):void => {
  * Add or update score
  * @param {Object} issue
  */
-const addScore = (score: TScore):void => {
+const addScore = (score: TScore): void => {
   websocket.emit('addScore', score);
 };
 
@@ -211,11 +216,11 @@ const addScore = (score: TScore):void => {
  * Add or update issue
  * @param {Object} issue
  */
-const addIssue = (issue: IIssue | ICreateIssue):void => {
+const addIssue = (issue: IIssue | ICreateIssue): void => {
   websocket.emit('addIssue', issue);
 };
 
-const deleteIssue = (issueId: string):void => {
+const deleteIssue = (issueId: string): void => {
   websocket.emit('deleteIssue', issueId);
 };
 

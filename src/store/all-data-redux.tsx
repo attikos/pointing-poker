@@ -19,6 +19,7 @@ const init: IServerData = {
       isDiller: false,
       isObserver: false, // может голосовать
       job: 'my work',
+      id: 16,
     },
     {
       niceId: 'ABC123',
@@ -27,6 +28,7 @@ const init: IServerData = {
       isDiller: true,
       isObserver: false, // может голосовать
       job: 'my work',
+      id: 21,
     },
     {
       niceId: 'ABC123',
@@ -35,6 +37,7 @@ const init: IServerData = {
       isDiller: false,
       isObserver: false, // не может голосовать
       job: 'my work',
+      id: 44,
     },
     {
       niceId: 'ABC123',
@@ -43,6 +46,7 @@ const init: IServerData = {
       isDiller: false,
       isObserver: false, // может голосовать
       job: 'my work',
+      id: 55,
     },
   ],
   issues: [
@@ -73,16 +77,16 @@ const init: IServerData = {
   ],
   scores: [
     {
-      issueId: 125,
-      userId: 1258,
+      issueId: 30,
+      userId: 16,
       score: '20',
       id: 25,
       updatedAt: '25',
       createdAt: 'ki',
     },
     {
-      issueId: 125,
-      userId: 1258,
+      issueId: 30,
+      userId: 55,
       score: '20',
       id: 26,
       updatedAt: '25',
@@ -90,7 +94,7 @@ const init: IServerData = {
     },
     {
       issueId: 125,
-      userId: 1258,
+      userId: 44,
       score: '20',
       id: 27,
       updatedAt: '25',
