@@ -28,22 +28,35 @@ const Game = (): JSX.Element => {
   const userData = useSelector((state: RootState) => state.userData);
   const members = useSelector((state: RootState) => state.allData.members);
   const issues = useSelector((state: RootState) => state.allData.issues);
+  const scores = useSelector((state: RootState) => state.allData.scores);
   const [isRoundNow, setIsRoundNow] = useState(false); // флаг, который показывает, идет ли сейчас раунд   const потому что ругается eslint
 
   /* TODO смена флага, когда все игроки проголосуют */
+  const findUserScore = (userId: number | undefined, issueId: number | undefined) => {
+    if (userId === undefined) return 'No id';
+    const score = scores.find((item) => item.userId === userId && item.issueId === issueId);
+    if (score === undefined) return 'unknown';
+    else return score.score + 'SP';
+  };
 
-  /* TODO счет изменить, когда будет готова структура данных с сервера */
-  const returnScoreColumn = () => {
+  
+  const returnScoreColumn = ( issueId: number | undefined) => {
     return (
       <div className={s.score}>
-        <div>Score: </div>
-        <div>Players: </div>
-        <div className={s.scoreCard}>10 SP </div>
-        <div className={s.scoreCard}>Player </div>
-        <div className={s.scoreCard}>20 SP </div>
-        <div className={s.scoreCard}>Player 2</div>
-        <div className={s.scoreCard}>30 SP </div>
-        <div className={s.scoreCard}>Player 3</div>
+        <div className={s.scoreTitle}>
+          <div>Score: </div>
+          <div>Players: </div>
+        </div>
+        {members.map((item) => {
+          console.log(item);
+          if (!item.isObserver)
+            return (
+              <div className={s.scoreRow}>
+                <div className={s.scoreCard}>{findUserScore(item.id, issueId)} </div>
+                <PlayerIcon item={item} />
+              </div>
+            );
+        })}
       </div>
     );
   };
@@ -67,7 +80,7 @@ const Game = (): JSX.Element => {
           </button>
         ))}
         <button className={s.pokerCard}>
-          <img src={coffeImg} alt='coffe' />
+          <img src={coffeImg} alt='coffee' />
         </button>
       </div>
     );
@@ -76,8 +89,9 @@ const Game = (): JSX.Element => {
   const selectNextIssue = () => {
     // TODO api.addScore();
     const currentIssue = issues.findIndex((item) => item.isCurrent);
+    api.setIssueAsCurrent(issues[currentIssue + 1].id, false);
     if (currentIssue > -1 && currentIssue + 1 < issues.length) {
-      api.setIssueAsCurrent(issues[currentIssue + 1].niceId);
+      api.setIssueAsCurrent(issues[currentIssue + 1].id, true);
     } else {
       api.cancelGame();
     }
@@ -146,9 +160,9 @@ const Game = (): JSX.Element => {
             </div>
           </div>
         ) : null}
-        {isRoundNow ? returnPlayerCards() : null}
+        {isRoundNow && !userData.isObserver ? returnPlayerCards() : null}
       </div>
-      <div className={s.scoreCont}> {returnScoreColumn()}</div>
+      <div className={s.scoreCont}> {returnScoreColumn(issues.find((item) => item.isCurrent)?.id)}</div>
     </div>
   );
 };
