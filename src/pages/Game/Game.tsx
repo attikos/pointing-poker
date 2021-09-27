@@ -7,7 +7,7 @@ import PlayerIcon from '../../components/PlayerIcon/PlayerIcon';
 import { IIssue } from '../../interface';
 import IssueCard from '../../components/IssueCard/IssueCard';
 import coffeImg from '../../assets/coffee.png';
-import api from '../../services/api'
+import api from '../../services/api';
 
 const POKER_CARDS: string[] = [
   '0',
@@ -73,6 +73,16 @@ const Game = (): JSX.Element => {
     );
   };
 
+  const selectNextIssue = () => {
+    // TODO api.addScore();
+    const currentIssue = issues.findIndex((item) => item.isCurrent);
+    if (currentIssue > -1 && currentIssue + 1 < issues.length) {
+      api.setIssueAsCurrent(issues[currentIssue + 1].niceId);
+    } else {
+      api.cancelGame();
+    }
+  };
+
   return (
     <div className={s.game}>
       <div className={s.mainUnit}>
@@ -99,7 +109,7 @@ const Game = (): JSX.Element => {
           {returnIssuesList(issues)}
           {userData.isDiller ? (
             <div>
-              { !isRoundNow ? (
+              {!isRoundNow ? (
                 <button
                   className={cn('btn btn-secondary btn-lg')}
                   onClick={() => setIsRoundNow(!isRoundNow)}
@@ -114,7 +124,10 @@ const Game = (): JSX.Element => {
                   >
                     Restr Round
                   </button>
-                  <button className={cn('btn btn-secondary btn-lg')}>
+                  <button
+                    className={cn('btn btn-secondary btn-lg')}
+                    onClick={() => selectNextIssue()}
+                  >
                     Next ISSUE
                   </button>{' '}
                 </div>

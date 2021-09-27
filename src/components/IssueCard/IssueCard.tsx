@@ -5,7 +5,7 @@ import { HiOutlineTrash } from 'react-icons/hi';
 
 const IssueCard = (props: { issue: IIssue }): JSX.Element => {
   return (
-    <div className={s.issuesCard}>
+    <div className={props.issue.isCurrent ? s.issuesCurrentCard : s.issuesCard}>
       <div className={s.issuesInfo}>
         {props.issue.isCurrent ? (
           <div className={s.issueCurrent}>is current</div>
