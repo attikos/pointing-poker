@@ -1,4 +1,4 @@
-import { TNiceId, TGameStatus, TIssuePriority, TIssueStatus } from './types';
+import { TGameStatus, TIssuePriority, TIssueStatus, TNiceId, TScore } from './types';
 
 export interface IUser {
   firstName: string;
@@ -17,7 +17,7 @@ export interface IUser {
 export interface IScore {
   issueId: number;
   userId: number;
-  score: string;
+  score: TScore;
   id?: number;
   updatedAt?: string;
   createdAt?: string;

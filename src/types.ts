@@ -1,4 +1,4 @@
-export type TScore = '?' | 'coffee' | '0' | '1' | '3' | '5' | '8' | '13' | '20' | '40' | '100';
+export type TScore = '?' | 'cof' | '0' | '1/2' | '1' | '2' | '3' | '5' | '8' | '13' | '20' | '40' | '100';
 
 export type TNiceId = string;
 

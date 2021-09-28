@@ -1,14 +1,16 @@
-import React, { useState } from 'react';
 import cn from 'classnames';
-import s from './Game.module.scss';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../store/store-redux';
+import coffeImg from '../../assets/coffee.png';
+import IssueCard from '../../components/IssueCard/IssueCard';
 import PlayerIcon from '../../components/PlayerIcon/PlayerIcon';
 import { IIssue } from '../../interface';
-import IssueCard from '../../components/IssueCard/IssueCard';
-import coffeImg from '../../assets/coffee.png';
+import api from '../../services/api';
+import { RootState } from '../../store/store-redux';
+import { TScore } from '../../types';
+import s from './Game.module.scss';
 
-const POKER_CARDS: string[] = [
+const POKER_CARDS: TScore[] = [
   '0',
   '1/2',
   '1',
@@ -28,6 +30,14 @@ const Game = (): JSX.Element => {
   const members = useSelector((state: RootState) => state.allData.members);
   const issues = useSelector((state: RootState) => state.allData.issues);
   const [isRoundNow, setIsRoundNow] = useState(false); // флаг, который показывает, идет ли сейчас раунд   const потому что ругается eslint
+
+  const onSetIsCurrentIssue = (issueId: number):void => {
+    api.setIssueAsCurrent(issueId, true);
+  };
+
+  const onSetScore = (score: TScore):void => {
+    api.addScore(score);
+  };
 
   /* TODO смена флага, когда все игроки проголосуют */
 
@@ -51,7 +61,7 @@ const Game = (): JSX.Element => {
     return (
       <div className={s.issuesList}>
         {iss.map((issue: IIssue, ind: number) => {
-          return <IssueCard issue={issue} key={ind} />;
+          return <IssueCard issue={issue} key={ind} onSetIsCurrentIssue={() => onSetIsCurrentIssue(issue.id)}/>;
         })}
       </div>
     );
@@ -61,12 +71,12 @@ const Game = (): JSX.Element => {
     return (
       <div className={s.pokerCardWrapper}>
         {POKER_CARDS.map((item) => (
-          <button className={s.pokerCard} key={item}>
+          <button className={s.pokerCard} key={item} onClick={() => onSetScore(item)}>
             {item}
           </button>
         ))}
-        <button className={s.pokerCard}>
-          <img src={coffeImg} alt='coffe' />
+        <button className={s.pokerCard} key="coffeImg" onClick={() => onSetScore('cof')}>
+          <img src={coffeImg} alt='coffee' />
         </button>
       </div>
     );
