@@ -7,7 +7,7 @@ const useGameRouter = (): void => {
   const game = useSelector((state: RootStateOrAny) => state.allData.game);
 
   useEffect(() => {
-    if (game.status === 'lobby' || game.status === 'game') {
+    if (game.status === 'lobby' || game.status === 'game' || game.status === 'result') {
       history.push(`/${game.niceId}`);
     } else {
       history.push('/');

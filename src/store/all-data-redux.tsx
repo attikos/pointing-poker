@@ -90,15 +90,15 @@ export const initServerData: IServerData = {
       createdAt: 'ki',
     },
   ],
-  usersIssues: {
-    idUser: {
-      issueId: 125,
-      userId: 1258,
-      score: '20',
-      id: 25,
-      updatedAt: '25',
-      createdAt: 'ki',
-    },
+  usersScores: {
+    1258: [
+      {
+        issueId: 125,
+        userId: 1258,
+        score: '20',
+        id: 25,
+      },
+    ],
   },
 };
 
@@ -116,7 +116,6 @@ const allDataReducer = (state: IServerData = initServerData,
   switch (action.type) {
     case UPDATE_ALL_DATA:
       stateCopy = {
-        ...state,
         ...action.value,
       };
       console.log('allDataReducers1', stateCopy);

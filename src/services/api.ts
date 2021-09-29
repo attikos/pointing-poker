@@ -165,16 +165,22 @@ const startGame = ():void => {
 };
 
 /**
- * For diller: Change game status from 'game' to 'result'
- * For player: exit from game
+ * For diller and player: exit from game
  */
-const cancelGame = ():void => {
+const leaveGame = ():void => {
   try {
-    websocket.emit('cancelGame');
+    websocket.emit('leaveGame');
   } catch (error) {
     websocket.close();
     console.error('error', error);
   }
+};
+
+/**
+ * For diller: Change game status from 'game' to 'result'
+ */
+const stopGame = ():void => {
+  websocket.emit('stopGame');
 };
 
 /**
@@ -224,7 +230,8 @@ const exportData = {
   checkGameId,
   newGame,
   startGame,
-  cancelGame,
+  leaveGame,
+  stopGame,
   startRound,
   stopRound,
   deleteUser,

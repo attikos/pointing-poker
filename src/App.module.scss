@@ -2,6 +2,13 @@
   text-align: center;
 }
 
+.wrapper {
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
 .appLogo {
   height: 40vmin;
   pointer-events: none;

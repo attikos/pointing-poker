@@ -193,8 +193,6 @@ export const websocket: IWebsocket = {
   },
 
   runCallback(eventName) {
-    console.log('runCallback', eventName);
-
     this.callbackList[ eventName ]?.();
   },
 

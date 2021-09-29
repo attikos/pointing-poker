@@ -28,7 +28,7 @@ export interface IServerData {
   members: IUser[];
   issues: IIssue[];
   scores: IScore[];
-  usersIssues: { [key: string]: IScore };
+  usersScores: { [key: number]: IScore[] };
 }
 
 export interface ValueURL {
