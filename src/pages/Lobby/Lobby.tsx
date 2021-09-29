@@ -28,10 +28,9 @@ const Lobby = (): JSX.Element => {
   const user = useSelector((state: RootStateOrAny) => state.userData);
   const issues = useSelector((state: RootStateOrAny) => state.allData.issues);
   const members = useSelector((state: RootStateOrAny) => state.allData.members);
-  const id = useSelector((state: RootStateOrAny) => state.allData.game.niceId);
+  const gameNiceId = useSelector((state: RootStateOrAny) => state.allData.game.gameNiceId);
 
   const deleteMember = (i: string) => {
-    console.log(i);
     api.deleteUser(i);
   };
 
@@ -47,9 +46,7 @@ const Lobby = (): JSX.Element => {
     }
     return '';
   };
-  const onStopGame = () => {
-    api.stopGame();
-  };
+
   // const isThisIssue = (issueId: number) => {
   //   return issues.find(((e: IIssue[], i: number) => e[i].id = issueId));
   // };
@@ -64,6 +61,10 @@ const Lobby = (): JSX.Element => {
     }
   };
 
+  const onStopGame = () => {
+    api.stopGame();
+  };
+
   const onLeaveGame = () => {
     api.leaveGame();
   };
@@ -75,6 +76,7 @@ const Lobby = (): JSX.Element => {
   const onDeleteIssue = (issueId: string) => {
     api.deleteIssue(issueId);
   };
+
   const editIssue = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const newPriority = `${issues[+isThisIssue(e)].priority}` as TIssuePriority;
     const newStatus = `${issues[+isThisIssue(e)].status}` as TIssueStatus;
@@ -138,8 +140,7 @@ const Lobby = (): JSX.Element => {
         </div>
       </div>
 
-
-      {(user.isDiller )
+      {(user.isDiller)
         ? (
           <div className={s.settingsLinks}>
             <div className={s.linkLobby}>
@@ -148,12 +149,12 @@ const Lobby = (): JSX.Element => {
                 <i><b>Link to lobby:</b></i>
               </h3>
               <div className={s.copyLinkLobby}>
-                <input className={s.inputLinkLobby} type='text' ref={textInput} value={`${id}`} readOnly />
+                <input className={s.inputLinkLobby} type='text' ref={textInput} value={`${gameNiceId}`} readOnly />
                 <button className={cn('btn btn-secondary btn-lg')} onClick={handleCopy}>Copy</button>
               </div>
             </div>
             <div className={s.settingsTopButtons}>
-              <button className={cn('btn btn-secondary btn-lg')} onClick={onStartGame}>StartGame</button>
+              <button className={cn('btn btn-secondary btn-lg')} onClick={onStartGame}>Start game</button>
               <button className={cn('btn btn-outline-secondary btn-lg')} onClick={onStopGame}>Cancel</button>
             </div>
           </div>

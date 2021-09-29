@@ -21,12 +21,14 @@ function App() {
   return (
     <div className={s.wrapper}>
       <Header />
+
       <div className="container">
         <Switch>
           <Route exact path="/" render={() => <Main />} />
           <Route exact path="/:gameNiceId" render={() => <PlayGame />} />
         </Switch>
       </div>
+
       <Footer />
     </div>
   );

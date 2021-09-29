@@ -9,10 +9,9 @@ import { ValueURL } from '../../interface';
 import api from '../../services/api';
 import PoppapToLobby from '../../components/PopapToLobby/PoppapToLobby';
 
-
-
 const Main = (): JSX.Element => {
-  const [popapActive, setPopapActive] = useState(true);
+  const [userRole, setUserRole] = useState('');
+  const [popapActive, setPopapActive] = useState(false);
   const [gameNiceId, setGameNiceId] = useState('');
 
   const onSubmitPlayerForm = (
@@ -20,12 +19,14 @@ const Main = (): JSX.Element => {
     { setSubmitting }: FormikHelpers<ValueURL>,
   ) => {
     setGameNiceId(values.gameNiceId);
-    setPopapActive(false);
+    setPopapActive(true);
+    setUserRole('player');
     setSubmitting(false);
   };
 
   const onStartDillerGame = () => {
-    setPopapActive(false);
+    setPopapActive(true);
+    setUserRole('master');
   };
 
   const validateID = async (value: string) => {
@@ -109,9 +110,9 @@ const Main = (): JSX.Element => {
 
       <PoppapToLobby
         popapActive={popapActive}
-        setActive={setPopapActive}
+        setPopapActive={setPopapActive}
         gameNiceId={gameNiceId}
-        // userRole={userRole}
+        userRole={userRole}
       />
 
     </main>
