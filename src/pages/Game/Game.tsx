@@ -1,16 +1,17 @@
-import React, { useState } from 'react';
 import cn from 'classnames';
-import s from './Game.module.scss';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import { RootState } from '../../store/store-redux';
+import coffeImg from '../../assets/coffee.png';
+import AdditionIssue from '../../components/AdditionIssue/AdditionIssue';
+import IssueCard from '../../components/IssueCard/IssueCard';
 import PlayerIcon from '../../components/PlayerIcon/PlayerIcon';
 import { IIssue } from '../../interface';
-import IssueCard from '../../components/IssueCard/IssueCard';
-import coffeImg from '../../assets/coffee.png';
 import api from '../../services/api';
-import AdditionIssue from '../../components/AdditionIssue/AdditionIssue';
+import { RootState } from '../../store/store-redux';
+import { TScore } from '../../types';
+import s from './Game.module.scss';
 
-const POKER_CARDS: string[] = [
+const POKER_CARDS: TScore[] = [
   '0',
   '1/2',
   '1',
@@ -31,7 +32,15 @@ const Game = (): JSX.Element => {
   const issues = useSelector((state: RootState) => state.allData.issues);
   const scores = useSelector((state: RootState) => state.allData.scores);
 
-  // TODO api.stopRound(), когда все игроки проголосуют
+  const onSetIsCurrentIssue = (issueId: number):void => {
+    api.setIssueAsCurrent(issueId, true);
+  };
+
+  const onSetScore = (score: TScore):void => {
+    api.addScore(score);
+  };
+
+  /* TODO смена флага, когда все игроки проголосуют */
 
   const findUserScore = (
     userId: number | undefined,
@@ -74,7 +83,7 @@ const Game = (): JSX.Element => {
     return (
       <div className={s.issuesList}>
         {iss.map((issue: IIssue, ind: number) => {
-          return <IssueCard issue={issue} key={ind} />;
+          return <IssueCard issue={issue} key={ind} onSetIsCurrentIssue={() => onSetIsCurrentIssue(issue.id)}/>;
         })}
         <AdditionIssue />
       </div>
@@ -85,11 +94,11 @@ const Game = (): JSX.Element => {
     return (
       <div className={s.pokerCardWrapper}>
         {POKER_CARDS.map((item) => (
-          <button className={s.pokerCard} key={item}>
+          <button className={s.pokerCard} key={item} onClick={() => onSetScore(item)}>
             {item}
           </button>
         ))}
-        <button className={s.pokerCard}>
+        <button className={s.pokerCard} key="coffeImg" onClick={() => onSetScore('cof')}>
           <img src={coffeImg} alt='coffee' />
         </button>
       </div>
@@ -103,7 +112,7 @@ const Game = (): JSX.Element => {
     if (currentIssue > -1 && currentIssue + 1 < issues.length) {
       api.setIssueAsCurrent(issues[currentIssue + 1].id, true);
     } else {
-      api.cancelGame();
+      api.stopGame();
     }
   };
 

@@ -10,7 +10,6 @@ import useRestoreSession from './controllers/useRestoreSession';
 import useGameRouter from './controllers/useGameRoute';
 
 function App() {
-  const [userRole, setUserRole] = useState('');
   const [restoreSession] = useRestoreSession();
 
   useEffect(() => {
@@ -23,10 +22,12 @@ function App() {
     <div className={s.wrapper}>
       <Header />
 
-      <Switch>
-        <Route exact path="/" render={() => <Main setUserRole={setUserRole}/>} />
-        <Route exact path="/:gameNiceId" render={() => <PlayGame  userRole={userRole} />} />
-      </Switch>
+      <div className="container">
+        <Switch>
+          <Route exact path="/" render={() => <Main />} />
+          <Route exact path="/:gameNiceId" render={() => <PlayGame />} />
+        </Switch>
+      </div>
 
       <Footer />
     </div>

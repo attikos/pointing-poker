@@ -11,11 +11,7 @@ import { RootStateOrAny, useSelector } from 'react-redux';
 import PoppapAddIssue from '../../components/PopapAddIssue/PoppapAddIssue';
 import api from '../../services/api';
 
-interface Props {
-  userRole: string;
-}
-
-const Lobby = ({ userRole }: Props): JSX.Element => {
+const Lobby = (): JSX.Element => {
   const [popapActive, setPopapActive] = useState(true);
   const [issueStatus, setissueStatus] = useState<TPopupIssueStatus>('create');
   const [indexIssue, setIndexIssue] = useState('');
@@ -28,6 +24,7 @@ const Lobby = ({ userRole }: Props): JSX.Element => {
   const issues = useSelector((state: RootStateOrAny) => state.allData.issues);
   const members = useSelector((state: RootStateOrAny) => state.allData.members);
   const niceId = useSelector((state: RootStateOrAny) => state.allData.game.niceId);
+  const user = useSelector((state: RootStateOrAny) => state.userData);
 
   const getInitials = (firstName: string, lastName: string) => {
     if (firstName && lastName) {
@@ -42,12 +39,19 @@ const Lobby = ({ userRole }: Props): JSX.Element => {
   };
 
   const isThisIssue = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
-    const element = e.currentTarget.id;
-    return element;
+    return e.currentTarget.id;
   };
 
-  const onExit = () => {
-    api.cancelGame();
+  const onStopGame = () => {
+    api.stopGame();
+  };
+
+  const onLeaveGame = () => {
+    api.leaveGame();
+  };
+
+  const onStartGame = () => {
+    api.startGame();
   };
 
   const onDeleteIssue = (issueId:string) => {
@@ -75,7 +79,7 @@ const Lobby = ({ userRole }: Props): JSX.Element => {
                     {getInitials(item.firstName, item.lastName)}
                   </div>
                   <div className={s.scramMasterInfo}>
-                    {(userRole === 'master') ? (<div>It&apos;s you:</div>) : null}
+                    {(user.isDiller) ? (<div>It&apos;s you:</div>) : null}
                     <div className={s.scramMasterInfoName}>
                       {item.firstName}
                       {' '}
@@ -90,28 +94,27 @@ const Lobby = ({ userRole }: Props): JSX.Element => {
         </div>
       </div>
 
-      {(userRole === 'master')
+      {(user.isDiller)
         ? (
           <div className={s.settingsLinks}>
             <div className={s.linkLobby}>
               <h3>
-                {' '}
-                <i><b>Link to lobby:</b></i>
+                <i><b>Lobby ID:</b></i>
               </h3>
               <div className={s.copyLinkLobby}>
-                <div className={s.inputLinkLobby}>{`http://localhost/${niceId}`}</div>
+                <div className={s.inputLinkLobby}>{niceId}</div>
                 <button className={cn('btn btn-secondary btn-lg')}>Copy</button>
               </div>
             </div>
             <div className={s.settingsTopButtons}>
-              <button className={cn('btn btn-secondary btn-lg')}>StartGame</button>
-              <button className={cn('btn btn-outline-secondary btn-lg')} onClick={onExit}>Cancel</button>
+              <button className={cn('btn btn-secondary btn-lg')} onClick={onStartGame}>Start game</button>
+              <button className={cn('btn btn-outline-secondary btn-lg')} onClick={onStopGame}>Cancel</button>
             </div>
           </div>
         ) : (
           <div className={s.settingsPlayer}>
             <div className={s.settingsTopButtons}>
-              <button className={cn('btn btn-outline-secondary btn-lg')} onClick={onExit}>Exit</button>
+              <button className={cn('btn btn-outline-secondary btn-lg')} onClick={onLeaveGame}>Exit</button>
             </div>
           </div>
         )}
@@ -144,7 +147,7 @@ const Lobby = ({ userRole }: Props): JSX.Element => {
         ))}
       </div>
       {
-        (userRole === 'master')
+        (user.isDiller)
           ? (
             <div>
               <div className={s.settingsIssues}>

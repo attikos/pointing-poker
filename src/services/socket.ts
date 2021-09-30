@@ -7,6 +7,7 @@ const env = require(`../env/${ process.env.NODE_ENV }.env`);
 interface ISubscription {
   emit: (arg:string, arg1?:any) => void
   on: (arg:string, arg1:(data:any) => any) => void
+  state: string
 }
 
 export interface IWebsocket {
@@ -47,26 +48,37 @@ export const websocket: IWebsocket = {
      * Connect and sunscribe to chat
      * Events: close, open, error
      */
-  connect() {
+  async connect() {
     if ( this.ws ) {
       try {
         this.close();
+        await new Promise<void>((resolve) => {
+          const DELAY_AFTER_CLOSE = 300;
+          setTimeout(() => resolve(), DELAY_AFTER_CLOSE);
+        });
       } catch (error) {
         this.ws.emit('close');
         console.log('error');
         this.ws = null;
       }
 
-      return new Promise( resolve => {
-        setTimeout( async () => {
-          await this.connect();
-          resolve();
-        }, 500);
-      });
+      await this.connect();
+
+      // return new Promise( resolve => {
+      //   setTimeout( async () => {
+      //     await this.connect();
+      //     resolve();
+      //   }, 300);
+      // });
     }
 
     // eslint-disable-next-line no-async-promise-executor
     return new Promise( async (resolve, reject) => {
+      if (!this.roomId) {
+        console.log(' Can\'t connect, roomId is empty');
+        return;
+      }
+
       try {
         const token = getToken();
         this.ws = this.ws || await Ws(env.API_URL_WEBSOCKET)
@@ -99,6 +111,10 @@ export const websocket: IWebsocket = {
   },
 
   emit(event, payload) {
+    if ( this.subscription?.state === 'closed' ) {
+      return this.close();
+    }
+
     this.subscription?.emit(event, payload);
   },
 
@@ -121,6 +137,11 @@ export const websocket: IWebsocket = {
         throw new Error('Websocket not connected. Subscription not available.');
       }
 
+      if (!this.roomId) {
+        console.log(' Can\'t subscribe, roomId is empty');
+        return;
+      }
+
       try {
         this.subscription = this.subscription || await this.ws?.subscribe(`room:${ this.roomId }`);
       } catch (err) {
@@ -133,7 +154,12 @@ export const websocket: IWebsocket = {
       });
 
       this.subscription?.on('all-data', (data) => {
-        console.log('allData', data);
+        console.log('server send allData:', data);
+        resolve(data);
+      });
+
+      this.subscription?.on('user', (data) => {
+        console.log('server send user:', data);
         resolve(data);
       });
 
@@ -167,8 +193,6 @@ export const websocket: IWebsocket = {
   },
 
   runCallback(eventName) {
-    console.log('run', eventName);
-
     this.callbackList[ eventName ]?.();
   },
 

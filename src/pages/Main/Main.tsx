@@ -9,13 +9,9 @@ import { ValueURL } from '../../interface';
 import api from '../../services/api';
 import PoppapToLobby from '../../components/PopapToLobby/PoppapToLobby';
 
-interface Props {
-  setUserRole: (arg0: string) => void;
-}
-
-const Main = ({ setUserRole }: Props): JSX.Element => {
-
-  const [popapActive, setPopapActive] = useState(true);
+const Main = (): JSX.Element => {
+  const [userRole, setUserRole] = useState('');
+  const [popapActive, setPopapActive] = useState(false);
   const [gameNiceId, setGameNiceId] = useState('');
 
   const onSubmitPlayerForm = (
@@ -23,9 +19,14 @@ const Main = ({ setUserRole }: Props): JSX.Element => {
     { setSubmitting }: FormikHelpers<ValueURL>,
   ) => {
     setGameNiceId(values.gameNiceId);
-    setPopapActive(false);
+    setPopapActive(true);
     setUserRole('player');
     setSubmitting(false);
+  };
+
+  const onStartDillerGame = () => {
+    setPopapActive(true);
+    setUserRole('master');
   };
 
   const validateID = async (value: string) => {
@@ -53,8 +54,7 @@ const Main = ({ setUserRole }: Props): JSX.Element => {
   return (
     <main className={s.main}>
       <div className={s.logo}>
-        {' '}
-        <img className={s.logoImg} src="./assets/pokPlan.png" alt="img" />
+        <img className={s.logoImg} src="/assets/pokPlan.png" alt="img" />
       </div>
       <div className="start">
         <div className={s.startHeader}>Start your planning:</div>
@@ -63,7 +63,7 @@ const Main = ({ setUserRole }: Props): JSX.Element => {
           <button
             className="btn btn-secondary btn-lg"
             type="button"
-            onClick={() => { setPopapActive(false); setUserRole('master'); }}
+            onClick={ onStartDillerGame }
           >
             Start new Game
           </button>
@@ -109,10 +109,10 @@ const Main = ({ setUserRole }: Props): JSX.Element => {
       </div>
 
       <PoppapToLobby
-        active={popapActive}
-        setActive={setPopapActive}
+        popapActive={popapActive}
+        setPopapActive={setPopapActive}
         gameNiceId={gameNiceId}
-        // userRole={userRole}
+        userRole={userRole}
       />
 
     </main>

@@ -7,9 +7,6 @@ import * as Yup from 'yup';
 import s from './PoppapToLobby.module.scss';
 import { IUser } from '../../interface';
 import { initialUserState } from '../../store/user-redux';
-import { useHistory } from 'react-router';
-import api from '../../services/api';
-import { useDispatch } from 'react-redux';
 import { TNiceId } from '../../types';
 import { useNewGame } from '../../controllers/useNewGame';
 
@@ -21,21 +18,16 @@ const SignupSchema = Yup.object().shape({
 });
 
 interface Props {
-  active: boolean;
-  setActive: (arg0: boolean) => void;
+  popapActive: boolean;
+  setPopapActive: (arg0: boolean) => void;
   gameNiceId: TNiceId;
+  userRole: string;
 }
 
-const PoppapToLobby = (props: Props): JSX.Element => {
-  const history = useHistory();
+const PoppapToLobby = ({ setPopapActive, popapActive, gameNiceId, userRole }: Props): JSX.Element => {
   const [newGame] = useNewGame();
 
   const [fio, setFio] = useState({ firstName: '', lastName: '' });
-  const {
-    setActive,
-    active,
-    gameNiceId,
-  } = props;
 
   const getIinitials = (firstName: string, lastName: string) => {
     if (firstName && lastName) {
@@ -56,12 +48,6 @@ const PoppapToLobby = (props: Props): JSX.Element => {
     newGame(values);
   };
 
-  const openTheLobby = (id: TNiceId, status: string): void => {
-    if (status === 'lobby') {
-      history.push(`/${id}`);
-    }
-  };
-
   const onFormSubmit = (
     values: IUser,
     { setSubmitting }: FormikHelpers<IUser>,
@@ -70,19 +56,17 @@ const PoppapToLobby = (props: Props): JSX.Element => {
       user: { ...values, ...fio },
       gameNiceId,
     });
-    openTheLobby(gameNiceId, 'lobby');
     setSubmitting(false);
   };
 
   const onExit = () => {
-    api.cancelGame();
+    setPopapActive(false);
   };
 
   return (
     <div
-      className={cn(s.formLobby,
-        { [s.active]: !active })}
-      onClick={() => setActive(true)}
+      className={ cn(s.formLobby, { [s.active]: popapActive } )}
+      onClick={() => setPopapActive(false)}
     >
       <div className={s.body}>
         <div className={s.content} onClick={(e) => e.stopPropagation()}>
@@ -94,7 +78,9 @@ const PoppapToLobby = (props: Props): JSX.Element => {
             <Form className={s.form}>
               <div className={s.formLobbyTop}>
                 <div className={s.formLobbyHeader}>
-                  Connect to lobby
+                  { userRole === 'master'
+                    ? 'Create session'
+                    : 'Connect to lobby' }
                 </div>
                 <div className="form-check form-switch" id={s.asObserver}>
                   <label
@@ -114,6 +100,7 @@ const PoppapToLobby = (props: Props): JSX.Element => {
               </div>
 
               <label htmlFor="firstName">Your First Name </label>
+
               <Field
                 id="firstName"
                 name="firstName"

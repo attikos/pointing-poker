@@ -2,15 +2,8 @@ import { IServerData } from '../interface';
 
 const UPDATE_ALL_DATA = 'UPDATE_ALL_DATA';
 
-const init: IServerData = {
-  game: {
-    // status: 'lobby',
-    // userId: 125,
-    // id: 125,
-    // niceId: 'HHH111',
-    // updatedAt: 'a',
-    // createdAt: 'a',
-  },
+export const initServerData: IServerData = {
+  game: {},
   members: [
     {
       niceId: 'ABC123',
@@ -101,15 +94,15 @@ const init: IServerData = {
       createdAt: 'ki',
     },
   ],
-  usersIssues: {
-    idUser: {
-      issueId: 125,
-      userId: 1258,
-      score: '20',
-      id: 25,
-      updatedAt: '25',
-      createdAt: 'ki',
-    },
+  usersScores: {
+    1258: [
+      {
+        issueId: 125,
+        userId: 1258,
+        score: '20',
+        id: 25,
+      },
+    ],
   },
 };
 
@@ -118,19 +111,18 @@ export const updateAllData = (value: IServerData): { type: string, value: IServe
   value,
 });
 
-const allDataReducer = (state: IServerData = init,
+const allDataReducer = (state: IServerData = initServerData,
   action: {
     type: string;
     value: IServerData;
   }): IServerData => {
-  console.log('allDataReducers1', state);
   let stateCopy;
   switch (action.type) {
     case UPDATE_ALL_DATA:
       stateCopy = {
-        ...state,
         ...action.value,
       };
+      console.log('allDataReducers1', stateCopy);
       return stateCopy;
     default:
       return state;

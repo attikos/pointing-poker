@@ -1,7 +1,7 @@
-import { axios, setToken, getToken } from './axios';
+import { ICreateIssue, ICreateUser, IIssue, IUser } from '../interface';
+import { TNiceId, TScore } from '../types';
+import { axios, getToken, setToken } from './axios';
 import { websocket } from './socket';
-import { IUser, IIssue, ICreateIssue, ICreateUser } from '../interface';
-import { TScore, TNiceId } from '../types';
 
 const checkGameId = async (gameNiceId: TNiceId): Promise<string | boolean> => {
   const DEFAULT_ERROR = 'Wrong game ID';
@@ -88,15 +88,11 @@ const restoreSession = async (): Promise<boolean> => {
 
   const { token, roomId, success, errors } = res.data;
 
-  if (errors) {
-    console.log('errors', errors);
+  if ( errors ) {
     return errors;
   }
 
   if (success && token && roomId) {
-    console.log('token', token);
-    console.log('roomId', roomId);
-
     setToken(token);
     websocket.setRoomId(roomId);
 
@@ -174,11 +170,22 @@ const startGame = (): void => {
 };
 
 /**
- * For diller: Change game status from 'game' to 'result'
- * For player: exit from game
+ * For diller and player: exit from game
  */
-const cancelGame = (): void => {
-  websocket.emit('cancelGame');
+const leaveGame = ():void => {
+  try {
+    websocket.emit('leaveGame');
+  } catch (error) {
+    websocket.close();
+    console.error('error', error);
+  }
+};
+
+/**
+ * For diller: Change game status from 'game' to 'result'
+ */
+const stopGame = ():void => {
+  websocket.emit('stopGame');
 };
 
 /**
@@ -195,7 +202,7 @@ const stopRound = (): void => {
   websocket.emit('stopRound');
 };
 
-const setIssueAsCurrent = (issueId: number, flag: boolean): void => {
+const setIssueAsCurrent = (issueId: number, flag?: boolean | undefined):void => {
   websocket.emit('setIssueAsCurrent', { issueId, flag });
 };
 
@@ -204,7 +211,7 @@ const deleteUser = (niceId: TNiceId): void => {
 };
 
 /**
- * Add or update score
+ * Add or update score for current issue.
  * @param {Object} issue
  */
 const addScore = (score: TScore): void => {
@@ -228,7 +235,8 @@ const exportData = {
   checkGameId,
   newGame,
   startGame,
-  cancelGame,
+  leaveGame,
+  stopGame,
   startRound,
   stopRound,
   deleteUser,

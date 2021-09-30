@@ -2,15 +2,15 @@ import React from 'react';
 import { RootStateOrAny, useSelector } from 'react-redux';
 import Game from '../Game/Game';
 import Lobby from '../Lobby/Lobby';
+import Result from '../Result/Result';
+import Loading from '../Loading/Loading';
 
-interface Props {
-  userRole: string;
-}
-const PlayGame = ({ userRole }: Props): JSX.Element => {
-  const allData = useSelector((state:RootStateOrAny) => state.allData);
-  const { status } = allData.game || {};
+const PlayGame = (): JSX.Element => {
+  const game = useSelector((state:RootStateOrAny) => state.allData.game);
+  const { status } = game || {};
+
   if (status === 'lobby') {
-    return <Lobby userRole={userRole}/>;
+    return <Lobby />;
   }
 
   if (status === 'game') {
@@ -18,10 +18,10 @@ const PlayGame = ({ userRole }: Props): JSX.Element => {
   }
 
   if (status === 'result') {
-    return <Game />; // TODO: Result
+    return <Result />;
   }
 
-  return <Lobby  userRole={userRole}/>; // default page - WIP, replace with result
+  return <Loading />;
 };
 
 export default PlayGame;
