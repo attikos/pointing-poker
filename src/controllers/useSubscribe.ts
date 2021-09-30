@@ -9,6 +9,9 @@ const useSubscribe = () => {
   const dispatch = useDispatch();
 
   const subscribe = async ():Promise<boolean> => {
+    dispatch(updateAllData(initServerData));
+    dispatch(updateUserAC(initialUserState));
+
     await websocket.connect();
     websocket.subscription?.on('all-data', (data: IServerData) => {
       dispatch(updateAllData(data));
