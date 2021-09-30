@@ -57,6 +57,7 @@ const Game = (): JSX.Element => {
     if (userId === undefined) return 'No id';
     const score = scores.find(
       (item) => item.userId === userId && item.issueId === issueId);
+    if (score?.score === 'cof') return  (<div><img src={coffeImg} alt='coffee' /></div>);
     if (score === undefined) {
       return 'unknown';
     } else {
