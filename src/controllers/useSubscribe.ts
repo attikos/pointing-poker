@@ -15,6 +15,8 @@ const useSubscribe = () => {
     dispatch(updateUserAC(initialUserState));
 
     await websocket.connect();
+
+    console.log('websocket.subscription', websocket.subscription);
     websocket.subscription?.on('all-data', (data: IServerData) => {
       dispatch(updateAllData(data));
     });
@@ -35,9 +37,12 @@ const useSubscribe = () => {
       dispatch(updateUserAC(initialUserState));
     });
 
+    console.log('before fetchAllData 1');
     return new Promise( response => {
       const DELAY_WS = 200;
       setTimeout(() => {
+        console.log('fetchAllData 1');
+
         api.fetchAllData();
         api.fetchUser();
         response(true);

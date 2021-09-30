@@ -50,26 +50,28 @@ export const websocket: IWebsocket = {
      */
   async connect() {
     if ( this.ws ) {
-      try {
-        this.close();
-        await new Promise<void>((resolve) => {
-          const DELAY_AFTER_CLOSE = 300;
-          setTimeout(() => resolve(), DELAY_AFTER_CLOSE);
-        });
-      } catch (error) {
-        this.ws.emit('close');
-        console.log('error');
-        this.ws = null;
-      }
+      // try {
+      //   this.close();
+      //   return new Promise<void>((resolve) => {
+      //     const DELAY_AFTER_CLOSE = 300;
+      //     setTimeout(() => resolve(), DELAY_AFTER_CLOSE);
+      //   });
+      // } catch (error) {
+      //   this.ws.emit('close');
+      //   console.log('error');
+      //   this.ws = null;
+      // }
 
-      await this.connect();
+      // await this.connect();
 
-      // return new Promise( resolve => {
-      //   setTimeout( async () => {
-      //     await this.connect();
-      //     resolve();
-      //   }, 300);
-      // });
+      this.close();
+
+      return new Promise( resolve => {
+        setTimeout( async () => {
+          await this.connect();
+          resolve();
+        }, 300);
+      });
     }
 
     // eslint-disable-next-line no-async-promise-executor
@@ -143,7 +145,8 @@ export const websocket: IWebsocket = {
       }
 
       try {
-        this.subscription = this.subscription || await this.ws?.subscribe(`room:${ this.roomId }`);
+        console.log('subscribe 2', this.ws);
+        this.subscription = await this.ws?.subscribe(`room:${ this.roomId }`);
       } catch (err) {
         console.log(err);
       }

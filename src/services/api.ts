@@ -151,7 +151,9 @@ const newGame = async ({
  * Diller as player or not
  */
 const setAsObserver = (flag: boolean): void =>{
-  websocket.emit('setAsObserver', flag);
+  const dataFlag = flag === undefined ? true : flag;
+
+  websocket.emit('setAsObserver', dataFlag);
 };
 /**
  * Get all game data (without current player profile)

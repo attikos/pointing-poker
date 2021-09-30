@@ -19,13 +19,15 @@ const userReducer = (state: IUser = initialUserState,
     type: string;
     value: IUser
   }): IUser => {
+
   let stateCopy;
-  console.log('userReducer', state);
+
   switch (action.type) {
     case UPDATE_USER:
       stateCopy = {
         ...action.value,
       };
+      console.log('userReducer', stateCopy);
       return stateCopy;
     default:
       return state;

@@ -11,27 +11,31 @@
     overflow-y: auto;
     overflow-x: hidden;
     transition: all 0.8s ease 0s;
-  
-  .body{
+    z-index: 5;
+
+  .body {
     min-height: 100%;
     display: flex;
     align-items: center;
     justify-content: center;
     padding: 30px 10px;
   }
-    .content {
-      background-color: #fff;
-      color: #000;
-      max-width: 870px;
-      padding: 10px;
-      position: relative;
-    }
-    .formLobbyTop {
-      display: flex;
-      justify-content: space-evenly;
-      padding-bottom: 2rem;
-    }
-   
+
+  .content {
+    background-color: #fff;
+    color: #000;
+    max-width: 570px;
+    width: 100%;
+    padding: 10px;
+    position: relative;
+    border-radius: 4px;
+  }
+  .formLobbyTop {
+    display: flex;
+    justify-content: space-evenly;
+    padding-bottom: 2rem;
+  }
+
   }
   .active {
     opacity: 1;
@@ -39,23 +43,20 @@
   }
   .formLobbyHeader {
     font-style: normal;
-    font-weight: bold;
-    font-size: 64px;
-    line-height: 75px;
-    color: #000000;
+    font-size: 32px;
+    line-height: 40px;
+    color: #333;
   }
+
 .form {
   display: flex;
   flex-direction: column;
   font-family: 'Roboto', sans-serif;
-font-style: normal;
-font-weight: bold;
-font-size: 24px;
-line-height: 28px;
-padding: 20px 120px;
-label{
-    width: 100px;
-}
+  font-style: normal;
+  font-size: 18px;
+  line-height: 18px;
+  padding: 20px 40px;
+
 .items{
     display: flex;
     align-items: center;
@@ -64,12 +65,12 @@ label{
 .input{
     max-width: 400px;
 margin: 10px;
-   
+
 }
 .buttonContainer{
-    padding-top: 100px;
+    padding-top: 20px;
     display: flex;
-    justify-content: space-between;
+    justify-content: space-around;
 }
 
 .button{
@@ -129,4 +130,3 @@ margin: 10px;
   border: 1px solid #ced4da;
   border-radius: 0.25rem;
 }
-

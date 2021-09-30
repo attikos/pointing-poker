@@ -122,49 +122,54 @@ const PopapAddIssue = ({ active, setActive, editElement, status, element }: Prop
                   <div className={s.formLobbyHeader}>
                     {(status === 'create') ? 'Create Issue' : 'Edit Issue'}
                   </div>
-
                 </div>
-                <div className={s.items}>
-                  <label htmlFor="title">Title:</label>
-                  <div className="input-group has-validation mb-3">
-                    <Field
-                      name="title"
-                      className={cn('form-control', s.input,
-                        { 'is-invalid': errors.title && touched.title })}
-                      value={valueInput(values, 'title')}
-                      onInput={(e: React.ChangeEvent<HTMLSelectElement>) => {
-                        handleChange('title');
-                        if (status === 'edit') {
-                          editElement({
-                            title: `${e.target.value}`,
-                            link: element.link,
-                            priority: element.priority,
-                            isCurrent: false,
-                            id: element.id,
-                            status: element.status,
-                          });
-                        } else if (status === 'create') {
-                          setAddIssue({
-                            title: `${e.target.value}`,
-                            link: addIssue.link,
-                            priority: addIssue.priority,
-                            isCurrent: false,
-                          });
-                        }
-                      }}
-                    />
+
+                <div className="mb-3 row">
+                  <label htmlFor="title" className="col-sm-3 col-form-label">Title:</label>
+
+                  <div className="col-sm-9 mb-3 has-validation">
+
+                      <Field
+                        name="title"
+                        className={cn('form-control',
+                          { 'is-invalid': errors.title && touched.title })}
+                        value={valueInput(values, 'title')}
+                        onInput={(e: React.ChangeEvent<HTMLSelectElement>) => {
+                          handleChange('title');
+                          if (status === 'edit') {
+                            editElement({
+                              title: `${e.target.value}`,
+                              link: element.link,
+                              priority: element.priority,
+                              isCurrent: false,
+                              id: element.id,
+                              status: element.status,
+                            });
+                          } else if (status === 'create') {
+                            setAddIssue({
+                              title: `${e.target.value}`,
+                              link: addIssue.link,
+                              priority: addIssue.priority,
+                              isCurrent: false,
+                            });
+                          }
+                        }}
+                      />
+
+                      <span className={cn('invalid-feedback', s.error)}>
+                        <ErrorMessage name="title" />
+                      </span>
                   </div>
-
                 </div>
-                <span className={cn('invalid-feedback', s.error)}>
-                  <ErrorMessage name="title" />
-                </span>
-                <div className={s.items}>
-                  <label htmlFor="link">Link:</label>
-                  <div className="input-group has-validation mb-3">
+
+
+                <div className="mb-3 row">
+                  <label htmlFor="link" className="col-sm-3 col-form-label">Link:</label>
+
+                  <div className="col-sm-9 mb-3">
                     <Field
                       name="link"
-                      className={cn('form-control', s.input)}
+                      className="form-control"
                       value={valueInput(values, 'link')}
                       onInput={(e: React.ChangeEvent<HTMLSelectElement>) => {
                         handleChange('link');
@@ -189,14 +194,16 @@ const PopapAddIssue = ({ active, setActive, editElement, status, element }: Prop
                     />
                   </div>
                 </div>
-                <div className={s.items}>
-                  <label htmlFor="link">Priority: </label>
-                  <div className="input-group has-validation mb-3">
+
+                {/* <div className={s.items}> */}
+                <div className="mb-3 row">
+                  <label htmlFor="link" className="col-sm-3 col-form-label">Priority: </label>
+                  <div className="col-sm-9">
                     <Field
                       as="select"
                       name="priority"
                       value={valueInput(values, 'priority')}
-                      className={cn('custom-select', s.select, s.input)}
+                      className="form-select"
                       id="inputGroupSelect03"
                       onInput={(e: React.ChangeEvent<HTMLSelectElement>) => {
                         const newPriority = e.target.value as TIssuePriority;
@@ -227,8 +234,9 @@ const PopapAddIssue = ({ active, setActive, editElement, status, element }: Prop
                     </Field>
                   </div>
                 </div>
+
                 <div className={s.buttonContainer}>
-                <div className={s.cancel}>
+                  <div className={s.cancel}>
                     <button
                       className={cn('btn btn-outline-secondary btn-lg')}
                       onClick={() => {
@@ -251,7 +259,7 @@ const PopapAddIssue = ({ active, setActive, editElement, status, element }: Prop
                       YES
                     </button>
                   </div>
-                 
+
                 </div>
               </Form>
             )}
@@ -262,4 +270,3 @@ const PopapAddIssue = ({ active, setActive, editElement, status, element }: Prop
   );
 };
 export default PopapAddIssue;
-

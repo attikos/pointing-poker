@@ -246,7 +246,14 @@ const Lobby = (): JSX.Element => {
                     <label className="form-check-label" htmlFor="flexSwitchCheckDefault">
                       Scram master as player
                     </label>
-                    <input type="checkbox" className="form-check-input" id="flexSwitchCheckDefault" onChange={(e) => { api.setAsObserver(!e.target.checked); }} />
+
+                    <input
+                      type="checkbox"
+                      className="form-check-input"
+                      id="flexSwitchCheckDefault"
+                      checked={!user.isObserver}
+                      onChange={(e) => { api.setAsObserver(!e.target.checked); }}
+                    />
                   </div>
                 </div>
 
