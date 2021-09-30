@@ -137,13 +137,13 @@ const Game = (): JSX.Element => {
     }
   };
 
-  const checkExistCurentIssue = () => {
-    return issues.find((item) => item.isCurrent) !== undefined ? true : false;
+  const checkExistCurrentIssue = () => {
+    return issues.some((item) => item.isCurrent);
   };
 
   const drawControlRoundBtn = () => {
     if (userData.isDiller) {
-      if (checkExistCurentIssue()) {
+      if (checkExistCurrentIssue()) {
         const statusIssue = issues.find((item) => item.isCurrent)?.status;
         if (statusIssue === 'new') {
           return (
