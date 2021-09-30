@@ -1,10 +1,10 @@
 import { combineReducers, createStore } from 'redux';
 import allDataReducer from './all-data-redux';
-import popapLobbyReducer from './user-redux';
+import userReducer from './user-redux';
 
 const reducers = combineReducers({
   allData: allDataReducer,
-  userData: popapLobbyReducer,
+  userData: userReducer,
 });
 const store = createStore(reducers);
 export type RootState = ReturnType<typeof store.getState>;
