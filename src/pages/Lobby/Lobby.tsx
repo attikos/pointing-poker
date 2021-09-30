@@ -11,12 +11,7 @@ import { RootStateOrAny, useSelector } from 'react-redux';
 import api from '../../services/api';
 import PoppapAddIssue from '../../components/PopapAddIssue/PoppapAddIssue';
 
-
-interface Props {
-  userRole: string;
-}
-
-const Lobby = ({ userRole }: Props): JSX.Element => {
+const Lobby = (): JSX.Element => {
   const textInput = useRef<HTMLInputElement>(null);
   const [popapActive, setPopapActive] = useState(true);
   const [issueStatus, setissueStatus] = useState<TPopupIssueStatus>('create');
@@ -106,7 +101,7 @@ const Lobby = ({ userRole }: Props): JSX.Element => {
         </div>
         <div className={s.scramMaster}>
           <h6>Scram master:</h6>
-          {(userRole === 'master') ? (<div className={s.scramMasterCard} >
+          {user.isDiller ? (<div className={s.scramMasterCard} >
             <div className={s.noFoto}>
               {getInitials(user.firstName, user.lastName)}
             </div>
@@ -144,7 +139,7 @@ const Lobby = ({ userRole }: Props): JSX.Element => {
       </div>
 
 
-      {(userRole === 'master')
+      {(user.isDiller )
         ? (
           <div className={s.settingsLinks}>
             <div className={s.linkLobby}>
@@ -192,14 +187,14 @@ const Lobby = ({ userRole }: Props): JSX.Element => {
               <div>{job}</div>
             </div>
 
-            <div className={s.memberDelete} onClick={() => (members[i].id && userRole === 'master') ? deleteMember(members[i].id) : null}>
+            <div className={s.memberDelete} onClick={() => (members[i].id && user.isDiller) ? deleteMember(members[i].id) : null}>
               <HiBan className={s.iconDel} />
             </div>
           </div>
         ))}
       </div>
       {
-        (userRole === 'master')
+        (user.isDiller)
           ? (
             <div>
               <div className={s.settingsIssues}>

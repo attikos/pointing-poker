@@ -9,11 +9,9 @@ import { ValueURL } from '../../interface';
 import api from '../../services/api';
 import PoppapToLobby from '../../components/PopapToLobby/PoppapToLobby';
 
-interface Props {
-  setUserRole: (arg0: string) => void;
-}
 
-const Main = ({ setUserRole }: Props): JSX.Element => {
+
+const Main = (): JSX.Element => {
   const [popapActive, setPopapActive] = useState(true);
   const [gameNiceId, setGameNiceId] = useState('');
 
@@ -23,13 +21,11 @@ const Main = ({ setUserRole }: Props): JSX.Element => {
   ) => {
     setGameNiceId(values.gameNiceId);
     setPopapActive(false);
-    setUserRole('player');
     setSubmitting(false);
   };
 
   const onStartDillerGame = () => {
     setPopapActive(false);
-    setUserRole('master');
   };
 
   const validateID = async (value: string) => {
