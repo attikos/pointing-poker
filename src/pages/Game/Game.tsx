@@ -132,7 +132,6 @@ const Game = (): JSX.Element => {
 
   const selectNextIssue = () => {
     const currentIssue = issues.findIndex((item) => item.isCurrent);
-    api.setIssueAsCurrent(issues[currentIssue + 1].id, false);
     if (currentIssue > -1 && currentIssue + 1 < issues.length) {
       api.setIssueAsCurrent(issues[currentIssue + 1].id, true);
     }
