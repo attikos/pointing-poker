@@ -28,7 +28,7 @@ const Lobby = (): JSX.Element => {
   const user = useSelector((state: RootStateOrAny) => state.userData);
   const issues = useSelector((state: RootStateOrAny) => state.allData.issues);
   const members = useSelector((state: RootStateOrAny) => state.allData.members);
-  const gameNiceId = useSelector((state: RootStateOrAny) => state.allData.game.gameNiceId);
+  const gameNiceId = useSelector((state: RootStateOrAny) => state.allData.game.niceId);
 
   const deleteMember = (i: string) => {
     api.deleteUser(i);
@@ -73,7 +73,7 @@ const Lobby = (): JSX.Element => {
     api.startGame();
   };
 
-  const onDeleteIssue = (issueId: string) => {
+  const onDeleteIssue = (issueId: number) => {
     api.deleteIssue(issueId);
   };
 
@@ -93,6 +93,13 @@ const Lobby = (): JSX.Element => {
     });
   };
 
+  const findDiller = () => {
+    return members.find((item: IUser, i: number) => item.isDiller);
+  };
+
+  const diller = findDiller();
+
+
   return (
     <div className={s.settings}>
       <div className={s.settingsTop}>
@@ -101,61 +108,58 @@ const Lobby = (): JSX.Element => {
             {issues.map((item: IIssue) => `${item.title}; `)}
           </div>
         </div>
+
         <div className={s.scramMaster}>
           <h6>Scram master:</h6>
-          {user.isDiller ? (<div className={s.scramMasterCard} >
-            <div className={s.noFoto}>
-              {getInitials(user.firstName, user.lastName)}
-            </div>
-            <div className={s.scramMasterInfo}>
-              <div>It&apos;s you:</div>
-              <div className={s.scramMasterInfoName}>
-                {user.firstName}
-                {' '}
-                {user.lastName}
+            <div className={s.scramMasterCard} >
+              <div className={s.noFoto}>
+                {getInitials(diller.firstName, diller.lastName)}
               </div>
-              <div>{user.job}</div>
+
+              <div className={s.scramMasterInfo}>
+                { user.isDiller && <div>It&apos;s you:</div> }
+
+                <div className={s.scramMasterInfoName}>
+                  {diller.firstName} {diller.lastName}
+                </div>
+
+                <div>{diller.job}</div>
+              </div>
             </div>
-          </div>) :
-            (members.map((item: IUser, i: number) => {
-              if (item.isDiller) {
-                return (
-                  <div className={s.scramMasterCard} key={i}>
-                    <div className={s.noFoto}>
-                      {getInitials(item.firstName, item.lastName)}
-                    </div>
-                    <div className={s.scramMasterInfo}>
-                      <div className={s.scramMasterInfoName}>
-                        {item.firstName}
-                        {' '}
-                        {item.lastName}
-                      </div>
-                      <div>{item.job}</div>
-                    </div>
-                  </div>
-                );
-              } return null;
-            })
-            )}
         </div>
       </div>
 
       {(user.isDiller)
         ? (
-          <div className={s.settingsLinks}>
-            <div className={s.linkLobby}>
+          <div className="row">
+            <div className={cn('col-6', s.linkLobby)}>
               <h3>
-                {' '}
                 <i><b>Link to lobby:</b></i>
               </h3>
-              <div className={s.copyLinkLobby}>
-                <input className={s.inputLinkLobby} type='text' ref={textInput} value={`${gameNiceId}`} readOnly />
-                <button className={cn('btn btn-secondary btn-lg')} onClick={handleCopy}>Copy</button>
+
+              <div className="input-group mb-3 w-50">
+                <input
+                  name="gameNiceId"
+                  type="text"
+                  value={gameNiceId}
+                  className={cn('form-control', s.inputLinkLobby)}
+                  readOnly
+                  ref={textInput}
+                />
+                <button
+                  className={cn('btn btn-secondary btn-lg')}
+                  onClick={handleCopy}
+                >
+                  Copy
+                </button>
               </div>
             </div>
-            <div className={s.settingsTopButtons}>
-              <button className={cn('btn btn-secondary btn-lg')} onClick={onStartGame}>Start game</button>
-              <button className={cn('btn btn-outline-secondary btn-lg')} onClick={onStopGame}>Cancel</button>
+
+            <div className={cn('col-6 align-self-end', s.linkLobby)}>
+              <div className={cn('w-50 ms-auto', s.settingsTopButtons)}>
+                <button className={cn('btn btn-secondary btn-lg')} onClick={onStartGame}>Start game</button>
+                <button className={cn('btn btn-outline-secondary btn-lg')} onClick={onStopGame}>Cancel</button>
+              </div>
             </div>
           </div>
         ) : (
@@ -214,7 +218,7 @@ const Lobby = (): JSX.Element => {
                       <HiPencil className={s.issuesChangeIcon} />
                     </div>
                     <div className={s.issuesDel}
-                      onClick={() => onDeleteIssue(`${item.id}`)}>
+                      onClick={() => onDeleteIssue(item.id)}>
                       <HiOutlineTrash className={s.issuesDelIcon} />
                     </div>
                   </div>
@@ -250,6 +254,7 @@ const Lobby = (): JSX.Element => {
             </div>
           ) : null
       }
+
       <PoppapAddIssue
         active={popapActive}
         status={issueStatus}

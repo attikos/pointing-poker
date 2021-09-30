@@ -24,7 +24,6 @@ const userReducer = (state: IUser = initialUserState,
   switch (action.type) {
     case UPDATE_USER:
       stateCopy = {
-        ...state,
         ...action.value,
       };
       return stateCopy;

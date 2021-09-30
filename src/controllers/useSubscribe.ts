@@ -9,6 +9,8 @@ const useSubscribe = () => {
   const dispatch = useDispatch();
 
   const subscribe = async ():Promise<boolean> => {
+    console.log('clear storage 1');
+
     dispatch(updateAllData(initServerData));
     dispatch(updateUserAC(initialUserState));
 
@@ -22,11 +24,13 @@ const useSubscribe = () => {
     });
 
     websocket.subscription?.on('close', () => {
+      console.log('clear storage 2');
       dispatch(updateAllData(initServerData));
       dispatch(updateUserAC(initialUserState));
     });
 
     websocket.ws?.on('close', () => {
+      console.log('clear storage 3');
       dispatch(updateAllData(initServerData));
       dispatch(updateUserAC(initialUserState));
     });
@@ -34,9 +38,9 @@ const useSubscribe = () => {
     return new Promise( response => {
       const DELAY_WS = 200;
       setTimeout(() => {
-        response(true);
         api.fetchAllData();
         api.fetchUser();
+        response(true);
       }, DELAY_WS);
     });
   };

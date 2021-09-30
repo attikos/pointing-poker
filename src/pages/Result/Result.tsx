@@ -2,7 +2,6 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 import IssueCard from '../../components/IssueCard/IssueCard';
 import StatisticCards from '../../components/Statistic/StatisticCards';
-import { API_URL } from '../../env/development.env';
 import { IIssue } from '../../interface';
 import api from '../../services/api';
 import { RootState } from '../../store/store-redux';
@@ -54,7 +53,7 @@ const Result = (): JSX.Element => {
   return (
     <div className={s.resultWrapper}>
       <div className={s.topic}>
-        {issues.map((item: IIssue) => `${item.title} `)}
+        {issues.map((item: IIssue) => item.title.slice(0, 10)).join(', ')}
       </div>
       <button
         className={cn('btn btn-secondary btn-lg h-25')}

@@ -231,7 +231,7 @@ const addIssue = (issue: IIssue | ICreateIssue): void => {
   websocket.emit('addIssue', issue);
 };
 
-const deleteIssue = (issueId: string): void => {
+const deleteIssue = (issueId: number): void => {
   websocket.emit('deleteIssue', issueId);
 };
 

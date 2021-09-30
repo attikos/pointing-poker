@@ -6,24 +6,23 @@ import s from './IssueCard.module.scss';
 
 interface IProps {
   issue: IIssue;
-  onSetIsCurrentIssue:any;
+  onSetIsCurrentIssue?: any;
+  onDeleteIssue?: any;
 }
-const IssueCard = ({ issue, onSetIsCurrentIssue }: IProps): JSX.Element => {
+const IssueCard = ({ issue, onSetIsCurrentIssue = () => {}, onDeleteIssue }: IProps): JSX.Element => {
   return (
     <div
       className={ cn( s.issuesCard, { [s.issuesCardCurrent] : issue.isCurrent }) }
       onClick={() => onSetIsCurrentIssue()}
     >
       <div className={s.issuesInfo}>
-        {issue.isCurrent ? (
-          <div className={s.issueCurrent}>is current</div>
-        ) : null}
         <div className={s.issuesInfoName}>{issue.title}</div>
         <div className={s.issuesPriority}>{issue.priority}</div>
       </div>
-      <div className={s.issuesDel}>
+
+      { onDeleteIssue ? (<div className={s.issuesDel} onClick={() => onDeleteIssue(issue.id)}>
         <HiOutlineTrash className={s.issuesDelIcon} />
-      </div>
+      </div>) : null }
     </div>
   );
 };

@@ -41,11 +41,11 @@ const Game = (): JSX.Element => {
     api.addScore(score);
   };
 
-  const currentInProcessing = () => {
-    return issues.find((item) => item.isCurrent)?.status === 'processing'
-      ? true
-      : false;
+  const onDeleteIssue = (issueId: number) => {
+    api.deleteIssue(issueId);
   };
+
+  const currentInProcessing = () => issues.some((item) => item.isCurrent);
 
   const findUserScore = (
     userId: number | undefined,
@@ -55,15 +55,22 @@ const Game = (): JSX.Element => {
       return 'In Processing';
     }
 
-    if (userId === undefined) return 'No id';
+    if (userId === undefined) {
+      return 'No id';
+    }
+
     const score = scores.find(
       (item) => item.userId === userId && item.issueId === issueId);
-    if (score?.score === 'cof') return  (<div><img src={coffeImg} alt='coffee' /></div>);
+
+    if (score?.score === 'cof') {
+      return (<div><img src={coffeImg} alt='coffee' /></div>);
+    }
+
     if (score === undefined) {
       return 'unknown';
-    } else {
-      return score.score + 'SP';
     }
+
+    return score.score + 'SP';
   };
 
   const returnScoreColumn = (issue: IIssue | undefined) => {
@@ -71,6 +78,7 @@ const Game = (): JSX.Element => {
       <div className={s.score}>
         <div className={s.scoreTitle}>
           <div>Score: </div>
+
           <div>Players: </div>
         </div>
         {members.map((item) => {
@@ -82,6 +90,7 @@ const Game = (): JSX.Element => {
                     ? 'In Progress'
                     : findUserScore(item.id, issue?.id)}
                 </div>
+
                 <PlayerIcon item={item} />
               </div>
             );
@@ -99,6 +108,7 @@ const Game = (): JSX.Element => {
               issue={issue}
               key={ind}
               onSetIsCurrentIssue={() => onSetIsCurrentIssue(issue.id)}
+              onDeleteIssue={() => onDeleteIssue(issue.id)}
             />
           );
         })}
@@ -187,7 +197,7 @@ const Game = (): JSX.Element => {
   const drawStatisticRound = () => {
     if (issues.find((item) => item.isCurrent)?.status === 'finished') {
       const idCurrentIssue = issues.find((item) => item.isCurrent)?.id;
-      
+
       return (
         <div className={s.statisticWrapper}>
           <div className={s.statisticTitle}>Statistics: </div>
@@ -204,13 +214,15 @@ const Game = (): JSX.Element => {
     <div className={s.game}>
       <div className={s.mainUnit}>
         <div className={s.mainUnitTopic}>
-          {issues.map((item: IIssue) => `${item.title} `)}
+          {issues.map((item: IIssue) => item.title.slice(0, 10)).join(', ')}
         </div>
+
         <div className={s.topSetting}>
           <div className={s.scramMasterCard}>
-            Scram master:{' '}
+            Scram master:
             <PlayerIcon item={members.find((item) => item.isDiller)} />
           </div>
+
           {userData.isDiller ? (
             <button
               className={cn('btn  btn-outline-secondary btn-lg h-25')}
@@ -227,9 +239,11 @@ const Game = (): JSX.Element => {
             </button>
           )}
         </div>
+
         <div className={s.issuesTitle}>
           Issues: <br />{' '}
         </div>
+
         <div className={s.issuesCont}>
           {returnIssuesList(issues)}
           {drawControlRoundBtn()}
@@ -240,6 +254,7 @@ const Game = (): JSX.Element => {
           ? returnPlayerCards()
           : null}
       </div>
+
       <div className={s.scoreCont}>
         {' '}
         {returnScoreColumn(issues.find((item) => item.isCurrent))}
