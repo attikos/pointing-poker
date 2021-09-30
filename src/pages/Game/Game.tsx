@@ -40,22 +40,28 @@ const Game = (): JSX.Element => {
     api.addScore(score);
   };
 
-  /* TODO смена флага, когда все игроки проголосуют */
+  const currentInProcessing = () => {
+    return issues.find((item) => item.isCurrent)?.status === 'processing'
+      ? true
+      : false;
+  };
 
   const findUserScore = (
     userId: number | undefined,
     issueId: number | undefined,
   ) => {
-    if (issues.find((item) => item.isCurrent)?.status !== 'processing') {
-      if (userId === undefined) return 'No id';
-      const score = scores.find((item) => item.userId === userId && item.issueId === issueId);
-      if (score === undefined) {
-        return 'unknown';
-      } else {
-        return score.score + 'SP';
-      }
+    if (currentInProcessing()) {
+      return 'In Processing';
     }
-    return 'In Processing';
+
+    if (userId === undefined) return 'No id';
+    const score = scores.find(
+      (item) => item.userId === userId && item.issueId === issueId);
+    if (score === undefined) {
+      return 'unknown';
+    } else {
+      return score.score + 'SP';
+    }
   };
 
   const returnScoreColumn = (issue: IIssue | undefined) => {
@@ -123,15 +129,104 @@ const Game = (): JSX.Element => {
   };
 
   const selectNextIssue = () => {
-    // TODO api.addScore();
     const currentIssue = issues.findIndex((item) => item.isCurrent);
     api.setIssueAsCurrent(issues[currentIssue + 1].id, false);
     if (currentIssue > -1 && currentIssue + 1 < issues.length) {
       api.setIssueAsCurrent(issues[currentIssue + 1].id, true);
-    } else {
-      // api.stopGame();
-      api.setIssueAsCurrent(issues[0].id, true);
     }
+  };
+
+  const checkExistCurentIssue = () => {
+    return issues.find((item) => item.isCurrent) !== undefined ? true : false;
+  };
+
+  const drawControlRoundBtn = () => {
+    if (userData.isDiller) {
+      if (checkExistCurentIssue()) {
+        const statusIssue = issues.find((item) => item.isCurrent)?.status;
+        if (statusIssue === 'new') {
+          return (
+            <button
+              className={cn('btn btn-secondary btn-lg')}
+              onClick={() => api.startRound()}
+            >
+              Run Round
+            </button>
+          );
+        } else if (statusIssue === 'processing') {
+          return (
+            <button
+              className={cn('btn btn-secondary btn-lg')}
+              onClick={() => api.stopRound()}
+            >
+              Stop Round
+            </button>
+          );
+        }
+        return (
+          <div>
+            <button
+              className={cn('btn btn-secondary btn-lg')}
+              onClick={() => api.startRound()}
+            >
+              Run Round
+            </button>
+            <button
+              className={cn('btn btn-secondary btn-lg')}
+              onClick={() => selectNextIssue()}
+            >
+              Next Round
+            </button>
+          </div>
+        );
+      } else return <div>Please select a issue</div>;
+    } else return null;
+  };
+
+  const drawStatisticRound = () => {
+    if (issues.find((item) => item.isCurrent)?.status === 'finished') {
+      const idCurrentIssue = issues.find((item) => item.isCurrent)?.id;
+      const scoreForCurrentIssue = scores.map((item) => {
+        if (item.issueId === idCurrentIssue) return item.score;
+      });
+
+      const res: { [TScore: string]: number } = {};
+
+      const a = scoreForCurrentIssue.forEach((item) => {
+        if (item !== undefined) {
+          if (res[item] !== undefined) {
+            res[item] = res[item] + 1;
+          } else res[item] = 1;
+        }
+      });
+
+      const listRes = () => {
+        const array: JSX.Element[] = [];
+        let summVoices = 0;
+        for (const key in res) {
+          summVoices += res[key];
+        }
+        for (const key in res) {
+          const percent = res[key] / summVoices * 100;
+          array.push(
+            <div className={s.cardWrapper}>
+              <div className={s.playingCard}>{key}</div>
+              <div className={s.statisticPercents}>{percent}%</div>
+            </div>);
+        }
+        return array;
+      };
+
+      return (
+        <div className={s.statisticWrapper}>
+          <div className={s.statisticTitle}>Statistics: </div>
+        <div className={s.statisticCardWrapper}>
+          {listRes()}
+        </div>
+        </div>
+      );
+    }
+    return null;
   };
 
   return (
@@ -146,11 +241,17 @@ const Game = (): JSX.Element => {
             <PlayerIcon item={members.find((item) => item.isDiller)} />
           </div>
           {userData.isDiller ? (
-            <button className={cn('btn  btn-outline-secondary btn-lg h-25')}>
+            <button
+              className={cn('btn  btn-outline-secondary btn-lg h-25')}
+              onClick={() => api.stopGame()}
+            >
               Stop Game
             </button>
           ) : (
-            <button className={cn('btn  btn-outline-secondary btn-lg h-25')}>
+            <button
+              className={cn('btn  btn-outline-secondary btn-lg h-25')}
+              onClick={() => api.leaveGame()}
+            >
               Exit
             </button>
           )}
@@ -160,48 +261,11 @@ const Game = (): JSX.Element => {
         </div>
         <div className={s.issuesCont}>
           {returnIssuesList(issues)}
-          {userData.isDiller ? (
-            <div>
-              {issues.find((item) => item.isCurrent)?.status !==
-              'processing' ? (
-                <button
-                  className={cn('btn btn-secondary btn-lg')}
-                  onClick={() => api.startRound()}
-                >
-                  Run Round
-                </button>
-                ) : (
-                <div>
-                  <button
-                    className={cn('btn btn-secondary btn-lg')}
-                    onClick={() => api.startRound()}
-                  >
-                    Restr Round
-                  </button>
-                  <button
-                    className={cn('btn btn-secondary btn-lg')}
-                    onClick={() => selectNextIssue()}
-                  >
-                    Next ISSUE
-                  </button>{' '}
-                </div>
-                )}
-            </div>
-          ) : (
-            <div />
-          )}
+          {drawControlRoundBtn()}
         </div>
-        {/* TODO  добавление статистики для мастера поменять
-        {userData.isDiller ? (
-          <div className={s.statistic}>
-            <div className={s.cardWrapper}>
-              <div className={s.playingCard}>100</div>
-              <div className={s.statisticPercents}>40%</div>
-            </div>
-          </div>
-        ) : null} */}
-        {issues.find((item) => item.isCurrent)?.status === 'processing' &&
-        !userData.isObserver
+
+        <div>{drawStatisticRound()}</div>
+        {currentInProcessing() && !userData.isObserver
           ? returnPlayerCards()
           : null}
       </div>
