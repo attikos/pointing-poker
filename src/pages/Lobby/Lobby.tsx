@@ -36,6 +36,7 @@ const Lobby = ({ userRole }: Props): JSX.Element => {
   const id = useSelector((state: RootStateOrAny) => state.allData.game.niceId);
 
   const deleteMember = (i: string) => {
+    console.log(i);
     api.deleteUser(i);
   };
 
@@ -51,46 +52,34 @@ const Lobby = ({ userRole }: Props): JSX.Element => {
     }
     return '';
   };
-<<<<<<< HEAD
   const onStopGame = () => {
     api.stopGame();
-  }
-    const isThisIssue = (issueId: number) => {
-      return issues.find(((e: IIssue[], i: number) => e[i].id = issueId));
-    };
-
-    const handleCopy = () => {
-      if (textInput.current) {
-        textInput.current.select();
-        document.execCommand('copy');
-      }
-    };
-=======
+  };
+  // const isThisIssue = (issueId: number) => {
+  //   return issues.find(((e: IIssue[], i: number) => e[i].id = issueId));
+  // };
   const isThisIssue = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     return e.currentTarget.id;
   };
->>>>>>> 6cca53b (fix editIssue)
 
-    const onLeaveGame = () => {
-      api.leaveGame();
-    };
+  const handleCopy = () => {
+    if (textInput.current) {
+      textInput.current.select();
+      document.execCommand('copy');
+    }
+  };
 
-    const onStartGame = () => {
-      api.startGame();
-    };
+  const onLeaveGame = () => {
+    api.leaveGame();
+  };
 
-<<<<<<< HEAD
-    const onDeleteIssue = (issueId: string) => {
-      api.deleteIssue(issueId);
-    };
+  const onStartGame = () => {
+    api.startGame();
+  };
 
-    return (
-      <div className={s.settings}>
-        <div className={s.settingsTop}>
-          <div className={s.topic}>
-            <div className={s.inputTopic}>
-              {issues.map((item: IIssue) => `${item.title} `)}
-=======
+  const onDeleteIssue = (issueId: string) => {
+    api.deleteIssue(issueId);
+  };
   const editIssue = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     const newPriority = `${issues[+isThisIssue(e)].priority}` as TIssuePriority;
     const newStatus = `${issues[+isThisIssue(e)].status}` as TIssueStatus;
@@ -120,67 +109,41 @@ const Lobby = ({ userRole }: Props): JSX.Element => {
           {(userRole === 'master') ? (<div className={s.scramMasterCard} >
             <div className={s.noFoto}>
               {getInitials(user.firstName, user.lastName)}
->>>>>>> 6cca53b (fix editIssue)
             </div>
-            <div className={s.iconPencil}>
+            <div className={s.scramMasterInfo}>
+              <div>It&apos;s you:</div>
+              <div className={s.scramMasterInfoName}>
+                {user.firstName}
+                {' '}
+                {user.lastName}
+              </div>
+              <div>{user.job}</div>
             </div>
-          </div>
-          <div className={s.scramMaster}>
-            <h6>Scram master:</h6>
-            {(userRole === 'master') ? (<div className={s.scramMasterCard} >
-              <div className={s.noFoto}>
-                {getInitials(user.firstName, user.lastName)}
-              </div>
-              <div className={s.scramMasterInfo}>
-                <div>It&apos;s you:</div>
-                <div className={s.scramMasterInfoName}>
-                  {user.firstName}
-                  {' '}
-                  {user.lastName}
-                </div>
-                <div>{user.job}</div>
-              </div>
-            </div>) :
-              (members.map((item: IUser, i: number) => {
-                if (item.isDiller) {
-                  return (
-                    <div className={s.scramMasterCard} key={i}>
-                      <div className={s.noFoto}>
-                        {getInitials(item.firstName, item.lastName)}
-                      </div>
-                      <div className={s.scramMasterInfo}>
-                        <div className={s.scramMasterInfoName}>
-                          {item.firstName}
-                          {' '}
-                          {item.lastName}
-                        </div>
-                        <div>{item.job}</div>
-                      </div>
+          </div>) :
+            (members.map((item: IUser, i: number) => {
+              if (item.isDiller) {
+                return (
+                  <div className={s.scramMasterCard} key={i}>
+                    <div className={s.noFoto}>
+                      {getInitials(item.firstName, item.lastName)}
                     </div>
-                  );
-                } return null;
-              })
-              )}
-          </div>
+                    <div className={s.scramMasterInfo}>
+                      <div className={s.scramMasterInfoName}>
+                        {item.firstName}
+                        {' '}
+                        {item.lastName}
+                      </div>
+                      <div>{item.job}</div>
+                    </div>
+                  </div>
+                );
+              } return null;
+            })
+            )}
         </div>
+      </div>
 
-<<<<<<< HEAD
-        {(user.isDiller)
-          ? (
-            <div className={s.settingsLinks}>
-              <div className={s.linkLobby}>
-                <h3>
-                  <i><b>Lobby ID:</b></i>
-                </h3>
-                <div className={s.copyLinkLobby}>
-                  <input className={s.inputLinkLobby} type='text' ref={textInput} value={`http://localhost/${id}`} readOnly />
-                  <button className={cn('btn btn-secondary btn-lg')} onClick={handleCopy}>Copy</button>
-                </div>
-              </div>
-              <div className={s.settingsTopButtons}>
-                <button className={cn('btn btn-secondary btn-lg')} onClick={api.startGame}>StartGame</button>
-                <button className={cn('btn btn-outline-secondary btn-lg')} onClick={api.stopGame}>Cancel</button>
-=======
+
       {(userRole === 'master')
         ? (
           <div className={s.settingsLinks}>
@@ -190,102 +153,48 @@ const Lobby = ({ userRole }: Props): JSX.Element => {
                 <i><b>Link to lobby:</b></i>
               </h3>
               <div className={s.copyLinkLobby}>
-                <input className={s.inputLinkLobby} type='text' ref={textInput} value={`http://localhost/${id}`} readOnly />
+                <input className={s.inputLinkLobby} type='text' ref={textInput} value={`${id}`} readOnly />
                 <button className={cn('btn btn-secondary btn-lg')} onClick={handleCopy}>Copy</button>
->>>>>>> 6cca53b (fix editIssue)
               </div>
             </div>
-          ) : (
-            <div className={s.settingsPlayer}>
-              <div className={s.settingsTopButtons}>
-                <button className={cn('btn btn-outline-secondary btn-lg')} onClick={onLeaveGame}>Exit</button>
-              </div>
+            <div className={s.settingsTopButtons}>
+              <button className={cn('btn btn-secondary btn-lg')} onClick={onStartGame}>StartGame</button>
+              <button className={cn('btn btn-outline-secondary btn-lg')} onClick={onStopGame}>Cancel</button>
             </div>
-          )}
-        <div className={s.settingsMembers}>
-          <div className={s.memberTitle}> Members:</div>
-          {members.map(({
-            firstName, isDiller, isObserver, job, lastName, niceId,
-          }: IUser, i: number) => (
-            <div
-              className={cn(s.memberCard,
-                { [s.isObserverCard]: (!isDiller && isObserver) })}
-              key={i}
-            >
-              <div className={s.noFoto}>
-                {getInitials(firstName, lastName)}
+          </div>
+        ) : (
+          <div className={s.settingsPlayer}>
+            <div className={s.settingsTopButtons}>
+              <button className={cn('btn btn-outline-secondary btn-lg')} onClick={onLeaveGame}>Exit</button>
+            </div>
+          </div>
+        )}
+      <div className={s.settingsMembers}>
+        <div className={s.memberTitle}> Members:</div>
+        {members.map(({
+          firstName, isDiller, isObserver, job, lastName,
+        }: IUser, i: number) => (
+          <div
+            className={cn(s.memberCard,
+              { [s.isObserverCard]: (!isDiller && isObserver) })}
+            key={i}
+          >
+            <div className={s.noFoto}>
+              {getInitials(firstName, lastName)}
+            </div>
+            <div className={s.memberInfo}>
+              {(!isDiller && isObserver) ? (<div className={s.isObserver}><AiOutlineEye className={s.isObserverIcon} /></div>) : null}
+              <div className={s.memberInfoName}>
+                {firstName}
+                {' '}
+                {lastName}
               </div>
-              <div className={s.memberInfo}>
-                {(!isDiller && isObserver) ? (<div className={s.isObserver}><AiOutlineEye className={s.isObserverIcon} /></div>) : null}
-                <div className={s.memberInfoName}>
-                  {firstName}
-                  {' '}
-                  {lastName}
-                </div>
-                <div>{job}</div>
-              </div>
+              <div>{job}</div>
+            </div>
 
-<<<<<<< HEAD
-              <div className={s.memberDelete} onClick={() => (niceId) ? deleteMember(niceId) : null}>
-                <HiBan className={s.iconDel} />
-              </div>
-=======
-            <div className={s.memberDelete} onClick={() => (niceId && userRole === 'master') ? deleteMember(niceId) : null}>
+            <div className={s.memberDelete} onClick={() => (members[i].id && userRole === 'master') ? deleteMember(members[i].id) : null}>
               <HiBan className={s.iconDel} />
->>>>>>> e2eab37 (add: setAsObserver)
             </div>
-<<<<<<< HEAD
-          ))}
-        </div>
-        {
-          (user.isDiller)
-            ? (
-              <div>
-                <div className={s.settingsIssues}>
-                  <div className={s.issuesTitle}>
-                    Issues:
-                  </div>
-                  {issues.map((item: IIssue, i: number) => (
-                    <div className={s.issuesCard} key={i}>
-                      <div className={s.issuesInfo}>
-                        <div className={s.issuesInfoName}>{item.title}</div>
-                        <div className={s.issuesPriority}>{item.priority}</div>
-                      </div>
-                      <div
-                        className={s.issuesChange}
-                        id={`${i}`}
-                        onClick={() => {
-                          const newPriority = `${issues[+isThisIssue(item.id)].priority}` as TIssuePriority;
-
-                          setPopapActive(false); setissueStatus('edit');
-                          setIndexIssue(isThisIssue(item.id));
-                          setDataIssue({
-                            title: `${issues[+isThisIssue(item.id)].title}`,
-                            link: `${issues[+isThisIssue(item.id)].link}`,
-                            priority: newPriority,
-                            isCurrent: false,
-                          });
-                        }}
-                      >
-                        <HiPencil className={s.issuesChangeIcon} />
-                      </div>
-                      <div className={s.issuesDel} onClick={() => onDeleteIssue(isThisIssue(item.id))}>
-                        <HiOutlineTrash className={s.issuesDelIcon} />
-                      </div>
-                    </div>
-                  ))}
-                  <div
-                    className={s.issuesCardAdd}
-                    onClick={() => {
-                      setPopapActive(false);
-                      setissueStatus('create');
-                    }}
-                  >
-                    <div className={s.issuesCardAddTitle}>Create new Issue</div>
-
-                    <div className={s.issuesAdd}>
-                      <HiOutlinePlus className={s.issuesAddIcon} />
-=======
           </div>
         ))}
       </div>
@@ -309,49 +218,52 @@ const Lobby = ({ userRole }: Props): JSX.Element => {
                       <HiPencil className={s.issuesChangeIcon} />
                     </div>
                     <div className={s.issuesDel}
-                      onClick={() => api.deleteIssue(`${item.id}`)}>
+                      onClick={() => onDeleteIssue(`${item.id}`)}>
                       <HiOutlineTrash className={s.issuesDelIcon} />
->>>>>>> 6cca53b (fix editIssue)
                     </div>
+                  </div>
+                ))}
+                <div
+                  className={s.issuesCardAdd}
+                  onClick={() => {
+                    setPopapActive(false);
+                    setissueStatus('create');
+                  }}
+                >
+                  <div className={s.issuesCardAddTitle}>Create new Issue</div>
+
+                  <div className={s.issuesAdd}>
+                    <HiOutlinePlus className={s.issuesAddIcon} />
                   </div>
                 </div>
-<<<<<<< HEAD
-                <div className={s.settingsGame}>
-                  <div className={s.gameTitle}>
-                    Game settings:
-                  </div>
-                  <div className={s.settingsGameItem}>
-                    <div className="form-check form-switch">
-                      <label className="form-check-label" htmlFor="flexSwitchCheckDefault">
-                        Scram master as player
-                      </label>
-                      <input type="checkbox" className="form-check-input" id="flexSwitchCheckDefault" />
-                    </div>
-=======
+              </div>
+              <div className={s.settingsGame}>
+                <div className={s.gameTitle}>
+                  Game settings:
+                </div>
                 <div className={s.settingsGameItem}>
                   <div className="form-check form-switch">
                     <label className="form-check-label" htmlFor="flexSwitchCheckDefault">
                       Scram master as player
                     </label>
-                    <input type="checkbox" className="form-check-input" id="flexSwitchCheckDefault" onChange={(e)=>{api.setAsObserver(!e.target.checked);}}/>
->>>>>>> e2eab37 (add: setAsObserver)
+                    <input type="checkbox" className="form-check-input" id="flexSwitchCheckDefault" onChange={(e) => { api.setAsObserver(!e.target.checked); }} />
                   </div>
-
                 </div>
-              </div>
-            ) : null
-        }
-        <PoppapAddIssue
-          active={popapActive}
-          status={issueStatus}
-          setActive={setPopapActive}
-          element={dataIssue}
-          editElement={setDataIssue}
-          index={+indexIssue}
-        />
-      </div>
 
-    );
-  
+              </div>
+            </div>
+          ) : null
+      }
+      <PoppapAddIssue
+        active={popapActive}
+        status={issueStatus}
+        setActive={setPopapActive}
+        element={dataIssue}
+        editElement={setDataIssue}
+        index={+indexIssue}
+      />
+    </div>
+
+  );
 };
 export default Lobby;

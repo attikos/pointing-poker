@@ -9,9 +9,12 @@ import { ValueURL } from '../../interface';
 import api from '../../services/api';
 import PoppapToLobby from '../../components/PopapToLobby/PoppapToLobby';
 
-const Main = (): JSX.Element => {
-  const [userRole, setUserRole] = useState('');
-  const [popapActive, setPopapActive] = useState(false);
+interface Props {
+  setUserRole: (arg0: string) => void;
+}
+
+const Main = ({ setUserRole }: Props): JSX.Element => {
+  const [popapActive, setPopapActive] = useState(true);
   const [gameNiceId, setGameNiceId] = useState('');
 
   const onSubmitPlayerForm = (
@@ -19,13 +22,13 @@ const Main = (): JSX.Element => {
     { setSubmitting }: FormikHelpers<ValueURL>,
   ) => {
     setGameNiceId(values.gameNiceId);
-    setPopapActive(true);
+    setPopapActive(false);
     setUserRole('player');
     setSubmitting(false);
   };
 
   const onStartDillerGame = () => {
-    setPopapActive(true);
+    setPopapActive(false);
     setUserRole('master');
   };
 
@@ -110,9 +113,9 @@ const Main = (): JSX.Element => {
 
       <PoppapToLobby
         popapActive={popapActive}
-        setPopapActive={setPopapActive}
+        setActive={setPopapActive}
         gameNiceId={gameNiceId}
-        userRole={userRole}
+        // userRole={userRole}
       />
 
     </main>

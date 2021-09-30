@@ -5,12 +5,14 @@ import Lobby from '../Lobby/Lobby';
 import Result from '../Result/Result';
 import Loading from '../Loading/Loading';
 
-const PlayGame = (): JSX.Element => {
-  const game = useSelector((state:RootStateOrAny) => state.allData.game);
-  const { status } = game || {};
-
+interface Props {
+  userRole: string;
+}
+const PlayGame = ({ userRole }: Props): JSX.Element => {
+  const allData = useSelector((state:RootStateOrAny) => state.allData);
+  const { status } = allData.game || {};
   if (status === 'lobby') {
-    return <Lobby />;
+    return <Lobby userRole={userRole}/>;
   }
 
   if (status === 'game') {
@@ -18,10 +20,10 @@ const PlayGame = (): JSX.Element => {
   }
 
   if (status === 'result') {
-    return <Result />;
+    return <Game />; // TODO: Result
   }
 
-  return <Loading />;
+  return <Lobby  userRole={userRole}/>; // default page - WIP, replace with result
 };
 
 export default PlayGame;
