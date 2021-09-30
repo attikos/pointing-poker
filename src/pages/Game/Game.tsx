@@ -210,7 +210,7 @@ const Game = (): JSX.Element => {
           const percent = res[key] / summVoices * 100;
           array.push(
             <div className={s.cardWrapper}>
-              <div className={s.playingCard}>{key}</div>
+              <div className={s.playingCard}>{key === 'cof' ? <img src={coffeImg} alt='coffee' /> : key}</div>
               <div className={s.statisticPercents}>{percent}%</div>
             </div>);
         }
