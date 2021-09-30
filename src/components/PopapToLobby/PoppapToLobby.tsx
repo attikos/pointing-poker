@@ -9,6 +9,7 @@ import { IUser } from '../../interface';
 import { initialUserState } from '../../store/user-redux';
 import { TNiceId } from '../../types';
 import { useNewGame } from '../../controllers/useNewGame';
+import { useHistory } from 'react-router';
 
 const SignupSchema = Yup.object().shape({
   firstName: Yup.string()
@@ -19,15 +20,16 @@ const SignupSchema = Yup.object().shape({
 
 interface Props {
   popapActive: boolean;
-  setPopapActive: (arg0: boolean) => void;
+  setActive: (arg0: boolean) => void;
   gameNiceId: TNiceId;
-  userRole: string;
 }
 
-const PoppapToLobby = ({ setPopapActive, popapActive, gameNiceId, userRole }: Props): JSX.Element => {
+const PoppapToLobby = ({ popapActive, setActive, gameNiceId }: Props): JSX.Element => {
+  const history = useHistory();
   const [newGame] = useNewGame();
 
   const [fio, setFio] = useState({ firstName: '', lastName: '' });
+
 
   const getIinitials = (firstName: string, lastName: string) => {
     if (firstName && lastName) {
@@ -48,6 +50,12 @@ const PoppapToLobby = ({ setPopapActive, popapActive, gameNiceId, userRole }: Pr
     newGame(values);
   };
 
+  const openTheLobby = (id: TNiceId, status: string): void => {
+    if (status === 'lobby') {
+      history.push(`/${id}`);
+    }
+  };
+
   const onFormSubmit = (
     values: IUser,
     { setSubmitting }: FormikHelpers<IUser>,
@@ -56,17 +64,21 @@ const PoppapToLobby = ({ setPopapActive, popapActive, gameNiceId, userRole }: Pr
       user: { ...values, ...fio },
       gameNiceId,
     });
+    openTheLobby(gameNiceId, 'lobby');
+    // setActive(true);
     setSubmitting(false);
   };
 
   const onExit = () => {
-    setPopapActive(false);
+    setActive(true);
+    // api.cancelGame();
   };
 
   return (
     <div
-      className={ cn(s.formLobby, { [s.active]: popapActive } )}
-      onClick={() => setPopapActive(false)}
+      className={cn(s.formLobby,
+        { [s.active]: !popapActive })}
+      onClick={() => setActive(true)}
     >
       <div className={s.body}>
         <div className={s.content} onClick={(e) => e.stopPropagation()}>
@@ -78,9 +90,7 @@ const PoppapToLobby = ({ setPopapActive, popapActive, gameNiceId, userRole }: Pr
             <Form className={s.form}>
               <div className={s.formLobbyTop}>
                 <div className={s.formLobbyHeader}>
-                  { userRole === 'master'
-                    ? 'Create session'
-                    : 'Connect to lobby' }
+                  Connect to lobby
                 </div>
                 <div className="form-check form-switch" id={s.asObserver}>
                   <label
@@ -100,12 +110,11 @@ const PoppapToLobby = ({ setPopapActive, popapActive, gameNiceId, userRole }: Pr
               </div>
 
               <label htmlFor="firstName">Your First Name </label>
-
               <Field
                 id="firstName"
                 name="firstName"
                 className={s.input}
-                onInput={(e: any) => setFio({ ...fio, firstName: e.target.value })}
+                onInput={(e: React.ChangeEvent<HTMLSelectElement>) => setFio({ ...fio, firstName: e.target.value })}
               />
               <span className={s.error}><ErrorMessage name="firstName" /></span>
 
@@ -114,7 +123,7 @@ const PoppapToLobby = ({ setPopapActive, popapActive, gameNiceId, userRole }: Pr
                 id="lastName"
                 name="lastName"
                 className={s.input}
-                onInput={(e: any) => setFio({ ...fio, lastName: e.target.value })}
+                onInput={(e: React.ChangeEvent<HTMLSelectElement>) => setFio({ ...fio, lastName: e.target.value })}
               />
               <label htmlFor="job">Your Job Position (optional)</label>
               <Field id="job" name="job" className={s.input} />
@@ -138,7 +147,8 @@ const PoppapToLobby = ({ setPopapActive, popapActive, gameNiceId, userRole }: Pr
                 <div className={s.cancel}>
                   <div
                     className={cn('btn btn-outline-secondary btn-lg')}
-                    onClick={onExit}
+                    onClick={() => { setActive(true); onExit(); }}
+
                   >
                     Cancel
                   </div>
