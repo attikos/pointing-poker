@@ -80,24 +80,9 @@
   
 }
 
-.statisticCardWrapper {
-  display: flex;  
-}
-
 .statisticTitle {
   font-size: 24px;
   margin-bottom: 10px;
-}
-
-.cardWrapper {
-  text-align: center;
-  width: 83px;
-  height: auto;
-  margin-right: 10px;
-}
-
-.statisticPercents {
-  font-size: 24px;
 }
 
 .topSetting {
@@ -113,8 +98,7 @@
   justify-content: center;
 }
 
-.pokerCard,
-.playingCard {
+.pokerCard {
   display: flex;
   justify-content: center;
   align-items: center;

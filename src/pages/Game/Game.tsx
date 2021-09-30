@@ -5,6 +5,7 @@ import coffeImg from '../../assets/coffee.png';
 import AdditionIssue from '../../components/AdditionIssue/AdditionIssue';
 import IssueCard from '../../components/IssueCard/IssueCard';
 import PlayerIcon from '../../components/PlayerIcon/PlayerIcon';
+import Statistic from '../../components/Statistic/StatisticCards';
 import { IIssue } from '../../interface';
 import api from '../../services/api';
 import { RootState } from '../../store/store-redux';
@@ -187,42 +188,12 @@ const Game = (): JSX.Element => {
   const drawStatisticRound = () => {
     if (issues.find((item) => item.isCurrent)?.status === 'finished') {
       const idCurrentIssue = issues.find((item) => item.isCurrent)?.id;
-      const scoreForCurrentIssue = scores.map((item) => {
-        if (item.issueId === idCurrentIssue) return item.score;
-      });
-
-      const res: { [TScore: string]: number } = {};
-
-      const a = scoreForCurrentIssue.forEach((item) => {
-        if (item !== undefined) {
-          if (res[item] !== undefined) {
-            res[item] = res[item] + 1;
-          } else res[item] = 1;
-        }
-      });
-
-      const listRes = () => {
-        const array: JSX.Element[] = [];
-        let summVoices = 0;
-        for (const key in res) {
-          summVoices += res[key];
-        }
-        for (const key in res) {
-          const percent = res[key] / summVoices * 100;
-          array.push(
-            <div className={s.cardWrapper}>
-              <div className={s.playingCard}>{key === 'cof' ? <img src={coffeImg} alt='coffee' /> : key}</div>
-              <div className={s.statisticPercents}>{percent}%</div>
-            </div>);
-        }
-        return array;
-      };
-
+      
       return (
         <div className={s.statisticWrapper}>
           <div className={s.statisticTitle}>Statistics: </div>
         <div className={s.statisticCardWrapper}>
-          {listRes()}
+          <Statistic idCurrentIssue={idCurrentIssue}/>
         </div>
         </div>
       );

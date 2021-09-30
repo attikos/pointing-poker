@@ -1,0 +1,31 @@
+.cardWrapper {
+    text-align: center;
+    width: 83px;
+    height: auto;
+    margin-right: 10px;
+  }
+
+  .playingCard {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: 48px;
+    width: 83px;
+    height: 127px;
+    border: 1px solid #e1e1e1;
+    background-color: white;
+    border-radius: 12px;
+    margin-right: 16px;
+    margin-bottom: 20px;
+    box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
+    cursor: pointer;
+  }
+
+  .statisticPercents {
+    font-size: 24px;
+  }
+
+  .statisticCardWrapper {
+    display: flex;  
+  }
+  
