@@ -11,7 +11,7 @@ import cn from 'classnames';
 
 const Result = (): JSX.Element => {
   const issues = useSelector((state: RootState) => state.allData.issues);
-  
+  const arrayResults: any = {};
 
   const removeStatusCurrent = () => {
     const currentIssue = issues.find((item) => item.isCurrent);
@@ -28,11 +28,27 @@ const Result = (): JSX.Element => {
         {issues.map((item) => (
           <div key={item.id}>
             <IssueCard issue={item} onSetIsCurrentIssue={() => null} />
-            <StatisticCards idCurrentIssue={item.id} />
+            <StatisticCards
+              idCurrentIssue={item.id}
+              returnResult={(issueId: number, results: any) =>
+                (arrayResults['issueId: ' + issueId] = results)
+              }
+            />
           </div>
         ))}
       </div>
     );
+  };
+
+  const downloadResults = () => {
+    const blob = new Blob([JSON.stringify(arrayResults, null, 2)], {
+      type: 'application/json',
+    });
+    const a = document.createElement('a');
+    a.download = 'result.txt';
+    a.href = URL.createObjectURL(blob);
+    a.click();
+    URL.revokeObjectURL(a.href);
   };
 
   return (
@@ -40,11 +56,15 @@ const Result = (): JSX.Element => {
       <div className={s.topic}>
         {issues.map((item: IIssue) => `${item.title} `)}
       </div>
-      <button className={cn('btn btn-secondary btn-lg h-25')} onClick={()=>{}}>Save</button>
+      <button
+        className={cn('btn btn-secondary btn-lg h-25')}
+        onClick={() => downloadResults()}
+      >
+        Save result
+      </button>
       {listResults()}
     </div>
   );
 };
-
 
 export default Result;

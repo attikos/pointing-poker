@@ -6,9 +6,10 @@ import coffeImg from '../../assets/coffee.png';
 
 interface IProps {
   idCurrentIssue: number | undefined;
+  returnResult?: any;
 }
 
-const Statistic = ({ idCurrentIssue }: IProps): JSX.Element => {
+const Statistic = ({ idCurrentIssue, returnResult }: IProps): JSX.Element => {
   const scores = useSelector((state: RootState) => state.allData.scores);
 
   const scoreForCurrentIssue = scores.map((item) => {
@@ -43,6 +44,8 @@ const Statistic = ({ idCurrentIssue }: IProps): JSX.Element => {
     }
     return cards;
   };
+
+  if (returnResult) returnResult(idCurrentIssue, res);
 
   return <div className={s.statisticCardWrapper}>{listRes()} </div>;
 };
