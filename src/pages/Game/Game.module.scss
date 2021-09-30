@@ -7,16 +7,66 @@
 
 .mainUnit {
   width: 70%;
+  padding-right: 50px;
+}
+
+.mainUnitTopic {
+  font-family: 'Ruda', sans-serif;
+  font-style: normal;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 30px;
+  text-align: center;
+  margin-bottom: 55px;
+}
+
+.scramMasterCard {
+  font-size: 12px;
+  line-height: 15px;
+  color: rgba(0, 0, 0, 0.6);
 }
 
 .score {
   display: flex;
+  flex-wrap: wrap;
   padding-left: 38px;
+  font-size: 24px;
+}
+
+.scoreTitle {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  font-weight: bold;
+}
+
+.scoreCont {
+  border-left: 1px solid rgba(0, 0, 0, 0.5);
+  height: auto;
+  max-width: 500px;
+}
+
+.scoreRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  margin-bottom: 6px;
+}
+
+.scoreCard {
+  width: 200px;
+  height: 51px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 26px;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
 }
 
 .issuesCont {
   display: flex;
   justify-content: space-between;
+  align-items: center;
 }
 
 .issuesTitle {
@@ -29,39 +79,15 @@
   height: auto;
 }
 
-
-
 .statisticPercents {
   font-size: 24px;
-}
-
-.scoreCont {
-  border-left: 1px solid rgba(0, 0, 0, 0.5);
-  height: auto;
-}
-
-.score {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  justify-items: center;
-  grid-column-gap: 15px;
-  grid-row-gap: 8px;
-}
-
-.scoreCard {
-  width: 200px;
-  height: 51px;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  font-size: 26px;
-  box-shadow: 2px 2px 10px 0px rgba(30, 30, 30, 0.53);
 }
 
 .topSetting {
   display: flex;
   justify-content: space-between;
   align-items: flex-end;
+  margin-bottom: 100px;
 }
 
 .pokerCardWrapper {
@@ -70,7 +96,8 @@
   justify-content: center;
 }
 
-.pokerCard, .playingCard {
+.pokerCard,
+.playingCard {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -88,4 +115,16 @@
 
 .pokerCard:hover {
   background-color: #60dabf54;
+}
+
+@media (max-width: 960px) {
+  .game {
+    flex-wrap: wrap;
+  }
+  .mainUnit {
+    width: 100%;
+  }
+  .scoreCont {
+    border: none;
+  }
 }

@@ -1,4 +1,5 @@
-.issuesCard {
+.issuesCard,
+.issuesCurrentCard {
   margin: 0.5rem;
   max-width: 20rem;
   padding: 1rem;
@@ -33,7 +34,6 @@
   height: 30px;
 }
 
-.issuesDelIcon:hover
-{
+.issuesDelIcon:hover {
   cursor: pointer;
 }

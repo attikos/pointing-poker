@@ -2,6 +2,7 @@ import cn from 'classnames';
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import coffeImg from '../../assets/coffee.png';
+import AdditionIssue from '../../components/AdditionIssue/AdditionIssue';
 import IssueCard from '../../components/IssueCard/IssueCard';
 import PlayerIcon from '../../components/PlayerIcon/PlayerIcon';
 import { IIssue } from '../../interface';
@@ -29,7 +30,7 @@ const Game = (): JSX.Element => {
   const userData = useSelector((state: RootState) => state.userData);
   const members = useSelector((state: RootState) => state.allData.members);
   const issues = useSelector((state: RootState) => state.allData.issues);
-  const [isRoundNow, setIsRoundNow] = useState(false); // флаг, который показывает, идет ли сейчас раунд   const потому что ругается eslint
+  const scores = useSelector((state: RootState) => state.allData.scores);
 
   const onSetIsCurrentIssue = (issueId: number):void => {
     api.setIssueAsCurrent(issueId, true);
@@ -41,18 +42,39 @@ const Game = (): JSX.Element => {
 
   /* TODO смена флага, когда все игроки проголосуют */
 
-  /* TODO счет изменить, когда будет готова структура данных с сервера */
-  const returnScoreColumn = () => {
+  const findUserScore = (
+    userId: number | undefined,
+    issueId: number | undefined,
+  ) => {
+    if (userId === undefined) return 'No id';
+    const score = scores.find((item) => item.userId === userId && item.issueId === issueId);
+    if (score === undefined) {
+      return 'unknown';
+    } else {
+      return score.score + 'SP';
+    }
+  };
+
+  const returnScoreColumn = (issue: IIssue | undefined) => {
     return (
       <div className={s.score}>
-        <div>Score: </div>
-        <div>Players: </div>
-        <div className={s.scoreCard}>10 SP </div>
-        <div className={s.scoreCard}>Player </div>
-        <div className={s.scoreCard}>20 SP </div>
-        <div className={s.scoreCard}>Player 2</div>
-        <div className={s.scoreCard}>30 SP </div>
-        <div className={s.scoreCard}>Player 3</div>
+        <div className={s.scoreTitle}>
+          <div>Score: </div>
+          <div>Players: </div>
+        </div>
+        {members.map((item) => {
+          if (!item.isObserver)
+            return (
+              <div className={s.scoreRow}>
+                <div className={s.scoreCard}>
+                  {issue?.status === 'processing'
+                    ? 'In Progress'
+                    : findUserScore(item.id, issue?.id)}
+                </div>
+                <PlayerIcon item={item} />
+              </div>
+            );
+        })}
       </div>
     );
   };
@@ -63,6 +85,7 @@ const Game = (): JSX.Element => {
         {iss.map((issue: IIssue, ind: number) => {
           return <IssueCard issue={issue} key={ind} onSetIsCurrentIssue={() => onSetIsCurrentIssue(issue.id)}/>;
         })}
+        <AdditionIssue />
       </div>
     );
   };
@@ -82,12 +105,25 @@ const Game = (): JSX.Element => {
     );
   };
 
+  const selectNextIssue = () => {
+    // TODO api.addScore();
+    const currentIssue = issues.findIndex((item) => item.isCurrent);
+    api.setIssueAsCurrent(issues[currentIssue + 1].id, false);
+    if (currentIssue > -1 && currentIssue + 1 < issues.length) {
+      api.setIssueAsCurrent(issues[currentIssue + 1].id, true);
+    } else {
+      api.stopGame();
+    }
+  };
+
   return (
     <div className={s.game}>
       <div className={s.mainUnit}>
-        <div>Компонент с spring planning</div>
+        <div className={s.mainUnitTopic}>
+          {issues.map((item: IIssue) => `${item.title} `)}
+        </div>
         <div className={s.topSetting}>
-          <div>
+          <div className={s.scramMasterCard}>
             Scram master:{' '}
             <PlayerIcon item={members.find((item) => item.isDiller)} />
           </div>
@@ -108,32 +144,36 @@ const Game = (): JSX.Element => {
           {returnIssuesList(issues)}
           {userData.isDiller ? (
             <div>
-              { !isRoundNow ? (
+              {issues.find((item) => item.isCurrent)?.status !==
+              'processing' ? (
                 <button
                   className={cn('btn btn-secondary btn-lg')}
-                  onClick={() => setIsRoundNow(!isRoundNow)}
+                  onClick={() => api.startRound()}
                 >
                   Run Round
                 </button>
-              ) : (
+                ) : (
                 <div>
                   <button
                     className={cn('btn btn-secondary btn-lg')}
-                    onClick={() => setIsRoundNow(!isRoundNow)}
+                    onClick={() => api.startRound()}
                   >
                     Restr Round
                   </button>
-                  <button className={cn('btn btn-secondary btn-lg')}>
+                  <button
+                    className={cn('btn btn-secondary btn-lg')}
+                    onClick={() => selectNextIssue()}
+                  >
                     Next ISSUE
                   </button>{' '}
                 </div>
-              )}
+                )}
             </div>
           ) : (
             <div />
           )}
         </div>
-        {/* TODO  добавление статистики для мастера поменять*/}
+        {/* TODO  добавление статистики для мастера поменять
         {userData.isDiller ? (
           <div className={s.statistic}>
             <div className={s.cardWrapper}>
@@ -141,10 +181,16 @@ const Game = (): JSX.Element => {
               <div className={s.statisticPercents}>40%</div>
             </div>
           </div>
-        ) : null}
-        {isRoundNow ? returnPlayerCards() : null}
+        ) : null} */}
+        {issues.find((item) => item.isCurrent)?.status === 'processing' &&
+        !userData.isObserver
+          ? returnPlayerCards()
+          : null}
       </div>
-      <div className={s.scoreCont}> {returnScoreColumn()}</div>
+      <div className={s.scoreCont}>
+        {' '}
+        {returnScoreColumn(issues.find((item) => item.isCurrent))}
+      </div>
     </div>
   );
 };
