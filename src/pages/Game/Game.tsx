@@ -1,5 +1,5 @@
 import cn from 'classnames';
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import coffeImg from '../../assets/coffee.png';
 import AdditionIssue from '../../components/AdditionIssue/AdditionIssue';
@@ -32,11 +32,11 @@ const Game = (): JSX.Element => {
   const issues = useSelector((state: RootState) => state.allData.issues);
   const scores = useSelector((state: RootState) => state.allData.scores);
 
-  const onSetIsCurrentIssue = (issueId: number):void => {
+  const onSetIsCurrentIssue = (issueId: number): void => {
     api.setIssueAsCurrent(issueId, true);
   };
 
-  const onSetScore = (score: TScore):void => {
+  const onSetScore = (score: TScore): void => {
     api.addScore(score);
   };
 
@@ -46,13 +46,16 @@ const Game = (): JSX.Element => {
     userId: number | undefined,
     issueId: number | undefined,
   ) => {
-    if (userId === undefined) return 'No id';
-    const score = scores.find((item) => item.userId === userId && item.issueId === issueId);
-    if (score === undefined) {
-      return 'unknown';
-    } else {
-      return score.score + 'SP';
+    if (issues.find((item) => item.isCurrent)?.status !== 'processing') {
+      if (userId === undefined) return 'No id';
+      const score = scores.find((item) => item.userId === userId && item.issueId === issueId);
+      if (score === undefined) {
+        return 'unknown';
+      } else {
+        return score.score + 'SP';
+      }
     }
+    return 'In Processing';
   };
 
   const returnScoreColumn = (issue: IIssue | undefined) => {
@@ -83,7 +86,13 @@ const Game = (): JSX.Element => {
     return (
       <div className={s.issuesList}>
         {iss.map((issue: IIssue, ind: number) => {
-          return <IssueCard issue={issue} key={ind} onSetIsCurrentIssue={() => onSetIsCurrentIssue(issue.id)}/>;
+          return (
+            <IssueCard
+              issue={issue}
+              key={ind}
+              onSetIsCurrentIssue={() => onSetIsCurrentIssue(issue.id)}
+            />
+          );
         })}
         <AdditionIssue />
       </div>
@@ -94,11 +103,19 @@ const Game = (): JSX.Element => {
     return (
       <div className={s.pokerCardWrapper}>
         {POKER_CARDS.map((item) => (
-          <button className={s.pokerCard} key={item} onClick={() => onSetScore(item)}>
+          <button
+            className={s.pokerCard}
+            key={item}
+            onClick={() => onSetScore(item)}
+          >
             {item}
           </button>
         ))}
-        <button className={s.pokerCard} key="coffeImg" onClick={() => onSetScore('cof')}>
+        <button
+          className={s.pokerCard}
+          key='coffeImg'
+          onClick={() => onSetScore('cof')}
+        >
           <img src={coffeImg} alt='coffee' />
         </button>
       </div>
@@ -112,7 +129,8 @@ const Game = (): JSX.Element => {
     if (currentIssue > -1 && currentIssue + 1 < issues.length) {
       api.setIssueAsCurrent(issues[currentIssue + 1].id, true);
     } else {
-      api.stopGame();
+      // api.stopGame();
+      api.setIssueAsCurrent(issues[0].id, true);
     }
   };
 
