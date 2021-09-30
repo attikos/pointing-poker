@@ -43,13 +43,14 @@
 .scoreCont {
   border-left: 1px solid rgba(0, 0, 0, 0.5);
   height: auto;
-  max-width: 500px;
+  max-width: 400px;
 }
 
 .scoreRow {
   display: grid;
   grid-template-columns: 1fr 1fr;
   align-items: center;
+  grid-column-gap: 10px;
   margin-bottom: 6px;
 }
 
@@ -73,14 +74,15 @@
   font-size: 24px;
 }
 
-.cardWrapper {
+.statisticWrapper {
+  margin-top: 20px;
   text-align: center;
-  width: 83px;
-  height: auto;
+  
 }
 
-.statisticPercents {
+.statisticTitle {
   font-size: 24px;
+  margin-bottom: 10px;
 }
 
 .topSetting {
@@ -96,8 +98,7 @@
   justify-content: center;
 }
 
-.pokerCard,
-.playingCard {
+.pokerCard {
   display: flex;
   justify-content: center;
   align-items: center;

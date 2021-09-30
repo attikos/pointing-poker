@@ -1,10 +1,11 @@
 import cn from 'classnames';
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import coffeImg from '../../assets/coffee.png';
 import AdditionIssue from '../../components/AdditionIssue/AdditionIssue';
 import IssueCard from '../../components/IssueCard/IssueCard';
 import PlayerIcon from '../../components/PlayerIcon/PlayerIcon';
+import Statistic from '../../components/Statistic/StatisticCards';
 import { IIssue } from '../../interface';
 import api from '../../services/api';
 import { RootState } from '../../store/store-redux';
@@ -32,22 +33,32 @@ const Game = (): JSX.Element => {
   const issues = useSelector((state: RootState) => state.allData.issues);
   const scores = useSelector((state: RootState) => state.allData.scores);
 
-  const onSetIsCurrentIssue = (issueId: number):void => {
+  const onSetIsCurrentIssue = (issueId: number): void => {
     api.setIssueAsCurrent(issueId, true);
   };
 
-  const onSetScore = (score: TScore):void => {
+  const onSetScore = (score: TScore): void => {
     api.addScore(score);
   };
 
-  /* TODO смена флага, когда все игроки проголосуют */
+  const currentInProcessing = () => {
+    return issues.find((item) => item.isCurrent)?.status === 'processing'
+      ? true
+      : false;
+  };
 
   const findUserScore = (
     userId: number | undefined,
     issueId: number | undefined,
   ) => {
+    if (currentInProcessing()) {
+      return 'In Processing';
+    }
+
     if (userId === undefined) return 'No id';
-    const score = scores.find((item) => item.userId === userId && item.issueId === issueId);
+    const score = scores.find(
+      (item) => item.userId === userId && item.issueId === issueId);
+    if (score?.score === 'cof') return  (<div><img src={coffeImg} alt='coffee' /></div>);
     if (score === undefined) {
       return 'unknown';
     } else {
@@ -83,7 +94,13 @@ const Game = (): JSX.Element => {
     return (
       <div className={s.issuesList}>
         {iss.map((issue: IIssue, ind: number) => {
-          return <IssueCard issue={issue} key={ind} onSetIsCurrentIssue={() => onSetIsCurrentIssue(issue.id)}/>;
+          return (
+            <IssueCard
+              issue={issue}
+              key={ind}
+              onSetIsCurrentIssue={() => onSetIsCurrentIssue(issue.id)}
+            />
+          );
         })}
         <AdditionIssue />
       </div>
@@ -94,11 +111,19 @@ const Game = (): JSX.Element => {
     return (
       <div className={s.pokerCardWrapper}>
         {POKER_CARDS.map((item) => (
-          <button className={s.pokerCard} key={item} onClick={() => onSetScore(item)}>
+          <button
+            className={s.pokerCard}
+            key={item}
+            onClick={() => onSetScore(item)}
+          >
             {item}
           </button>
         ))}
-        <button className={s.pokerCard} key="coffeImg" onClick={() => onSetScore('cof')}>
+        <button
+          className={s.pokerCard}
+          key='coffeImg'
+          onClick={() => onSetScore('cof')}
+        >
           <img src={coffeImg} alt='coffee' />
         </button>
       </div>
@@ -106,14 +131,73 @@ const Game = (): JSX.Element => {
   };
 
   const selectNextIssue = () => {
-    // TODO api.addScore();
     const currentIssue = issues.findIndex((item) => item.isCurrent);
-    api.setIssueAsCurrent(issues[currentIssue + 1].id, false);
     if (currentIssue > -1 && currentIssue + 1 < issues.length) {
       api.setIssueAsCurrent(issues[currentIssue + 1].id, true);
-    } else {
-      api.stopGame();
     }
+  };
+
+  const checkExistCurrentIssue = () => {
+    return issues.some((item) => item.isCurrent);
+  };
+
+  const drawControlRoundBtn = () => {
+    if (userData.isDiller) {
+      if (checkExistCurrentIssue()) {
+        const statusIssue = issues.find((item) => item.isCurrent)?.status;
+        if (statusIssue === 'new') {
+          return (
+            <button
+              className={cn('btn btn-secondary btn-lg')}
+              onClick={() => api.startRound()}
+            >
+              Run Round
+            </button>
+          );
+        } else if (statusIssue === 'processing') {
+          return (
+            <button
+              className={cn('btn btn-secondary btn-lg')}
+              onClick={() => api.stopRound()}
+            >
+              Stop Round
+            </button>
+          );
+        }
+        return (
+          <div>
+            <button
+              className={cn('btn btn-secondary btn-lg')}
+              onClick={() => api.startRound()}
+            >
+              Run Round
+            </button>
+            <button
+              className={cn('btn btn-secondary btn-lg')}
+              onClick={() => selectNextIssue()}
+            >
+              Next Round
+            </button>
+          </div>
+        );
+      } else return <div>Please select a issue</div>;
+    } else return null;
+  };
+
+  const drawStatisticRound = () => {
+    if (issues.find((item) => item.isCurrent)?.status === 'finished') {
+      const idCurrentIssue = issues.find((item) => item.isCurrent)?.id;
+      
+      return (
+        <div className={s.statisticWrapper}>
+          <div className={s.statisticTitle}>Statistics: </div>
+        <div className={s.statisticCardWrapper}>
+          <Statistic idCurrentIssue={idCurrentIssue}/>
+        </div>
+        </div>
+      );
+    }
+    return null;
   };
 
   return (
@@ -128,11 +212,17 @@ const Game = (): JSX.Element => {
             <PlayerIcon item={members.find((item) => item.isDiller)} />
           </div>
           {userData.isDiller ? (
-            <button className={cn('btn  btn-outline-secondary btn-lg h-25')}>
+            <button
+              className={cn('btn  btn-outline-secondary btn-lg h-25')}
+              onClick={() => api.stopGame()}
+            >
               Stop Game
             </button>
           ) : (
-            <button className={cn('btn  btn-outline-secondary btn-lg h-25')}>
+            <button
+              className={cn('btn  btn-outline-secondary btn-lg h-25')}
+              onClick={() => api.leaveGame()}
+            >
               Exit
             </button>
           )}
@@ -142,48 +232,11 @@ const Game = (): JSX.Element => {
         </div>
         <div className={s.issuesCont}>
           {returnIssuesList(issues)}
-          {userData.isDiller ? (
-            <div>
-              {issues.find((item) => item.isCurrent)?.status !==
-              'processing' ? (
-                <button
-                  className={cn('btn btn-secondary btn-lg')}
-                  onClick={() => api.startRound()}
-                >
-                  Run Round
-                </button>
-                ) : (
-                <div>
-                  <button
-                    className={cn('btn btn-secondary btn-lg')}
-                    onClick={() => api.startRound()}
-                  >
-                    Restr Round
-                  </button>
-                  <button
-                    className={cn('btn btn-secondary btn-lg')}
-                    onClick={() => selectNextIssue()}
-                  >
-                    Next ISSUE
-                  </button>{' '}
-                </div>
-                )}
-            </div>
-          ) : (
-            <div />
-          )}
+          {drawControlRoundBtn()}
         </div>
-        {/* TODO  добавление статистики для мастера поменять
-        {userData.isDiller ? (
-          <div className={s.statistic}>
-            <div className={s.cardWrapper}>
-              <div className={s.playingCard}>100</div>
-              <div className={s.statisticPercents}>40%</div>
-            </div>
-          </div>
-        ) : null} */}
-        {issues.find((item) => item.isCurrent)?.status === 'processing' &&
-        !userData.isObserver
+
+        <div>{drawStatisticRound()}</div>
+        {currentInProcessing() && !userData.isObserver
           ? returnPlayerCards()
           : null}
       </div>
