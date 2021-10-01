@@ -1,5 +1,5 @@
 import React from 'react';
-import { useSelector } from 'react-redux';
+import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
 import IssueCard from '../../components/IssueCard/IssueCard';
 import StatisticCards from '../../components/Statistic/StatisticCards';
 import { IIssue } from '../../interface';
@@ -7,6 +7,7 @@ import api from '../../services/api';
 import { RootState } from '../../store/store-redux';
 import s from './Results.module.scss';
 import cn from 'classnames';
+import { Link } from 'react-router-dom';
 
 const Result = (): JSX.Element => {
   const issues = useSelector((state: RootState) => state.allData.issues);
@@ -55,12 +56,19 @@ const Result = (): JSX.Element => {
       <div className={s.topic}>
         {issues.map((item: IIssue) => item.title.slice(0, 10)).join(', ')}
       </div>
-      <button
-        className={cn('btn btn-secondary btn-lg h-25')}
-        onClick={() => downloadResults()}
-      >
-        Save result
-      </button>
+      <div className={s.controlBtn}>
+        <Link to='/'>
+          <button className={cn('btn btn-secondary btn-lg')}>
+            One more game
+          </button>
+        </Link>
+        <button
+          className={cn('btn btn-secondary btn-lg')}
+          onClick={() => downloadResults()}
+        >
+          Save result
+        </button>
+      </div>
       {listResults()}
     </div>
   );
