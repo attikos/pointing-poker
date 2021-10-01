@@ -230,7 +230,7 @@ const PopapAddIssue = ({ active, setActive, editElement, status, element }: Prop
                     >
                       <option value="low">Low</option>
                       <option value="middle">Middle</option>
-                      <option value="hight">Hight</option>
+                      <option value="high">High</option>
                     </Field>
                   </div>
                 </div>

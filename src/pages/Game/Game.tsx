@@ -1,4 +1,6 @@
+import { Button } from 'bootstrap';
 import cn from 'classnames';
+import { eventNames } from 'process';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import coffeImg from '../../assets/coffee.png';
@@ -33,19 +35,35 @@ const Game = (): JSX.Element => {
   const issues = useSelector((state: RootState) => state.allData.issues);
   const scores = useSelector((state: RootState) => state.allData.scores);
 
+  const currentInProcessing = () => {
+    return issues.find((item) => item.isCurrent)?.status === 'processing'
+      ? true
+      : false;
+  };
+
   const onSetIsCurrentIssue = (issueId: number): void => {
-    api.setIssueAsCurrent(issueId, true);
+    if (!currentInProcessing()) api.setIssueAsCurrent(issueId, true);
   };
 
   const onSetScore = (score: TScore): void => {
     api.addScore(score);
   };
 
+  const onSetColor = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if ((event.target as Element).tagName === 'BUTTON') {
+      const children = (event.target as Element).parentElement?.children;
+      if (children !== undefined) {
+        for (const child of Object.values(children)) {
+          child.classList.remove(s.pokerCardActive);
+        }
+        (event.target as Element).classList.add(s.pokerCardActive);
+      }
+    }
+  };
+
   const onDeleteIssue = (issueId: number) => {
     api.deleteIssue(issueId);
   };
-
-  const currentInProcessing = () => issues.some((item) => item.isCurrent);
 
   const findUserScore = (
     userId: number | undefined,
@@ -63,7 +81,11 @@ const Game = (): JSX.Element => {
       (item) => item.userId === userId && item.issueId === issueId);
 
     if (score?.score === 'cof') {
-      return (<div><img src={coffeImg} alt='coffee' /></div>);
+      return (
+        <div>
+          <img src={coffeImg} alt='coffee' />
+        </div>
+      );
     }
 
     if (score === undefined) {
@@ -109,6 +131,7 @@ const Game = (): JSX.Element => {
               key={ind}
               onSetIsCurrentIssue={() => onSetIsCurrentIssue(issue.id)}
               onDeleteIssue={() => onDeleteIssue(issue.id)}
+              isDiller = {userData.isDiller}
             />
           );
         })}
@@ -119,12 +142,12 @@ const Game = (): JSX.Element => {
 
   const returnPlayerCards = () => {
     return (
-      <div className={s.pokerCardWrapper}>
+      <div className={s.pokerCardWrapper} onClick={(e) => onSetColor(e)}>
         {POKER_CARDS.map((item) => (
           <button
             className={s.pokerCard}
             key={item}
-            onClick={() => onSetScore(item)}
+            onClick={(e) => onSetScore(item)}
           >
             {item}
           </button>
@@ -201,9 +224,9 @@ const Game = (): JSX.Element => {
       return (
         <div className={s.statisticWrapper}>
           <div className={s.statisticTitle}>Statistics: </div>
-        <div className={s.statisticCardWrapper}>
-          <Statistic idCurrentIssue={idCurrentIssue}/>
-        </div>
+          <div className={s.statisticCardWrapper}>
+            <Statistic idCurrentIssue={idCurrentIssue} />
+          </div>
         </div>
       );
     }
