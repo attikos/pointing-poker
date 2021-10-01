@@ -8,15 +8,20 @@ interface IProps {
   issue: IIssue;
   onSetIsCurrentIssue?: any;
   onDeleteIssue?: any;
+  isDiller?: boolean;
 }
 const IssueCard = ({
   issue,
   onSetIsCurrentIssue = () => {},
   onDeleteIssue,
+  isDiller,
 }: IProps): JSX.Element => {
   return (
     <div
-      className={cn(s.issuesCard, { [s.issuesCardCurrent]: issue.isCurrent })}
+      className={cn(
+        s.issuesCard,
+        { [s.issuesCardCurrent]: issue.isCurrent },
+        { [s.issueHover]: isDiller })}
       onClick={() => onSetIsCurrentIssue()}
     >
       <div className={s.issuesInfo}>

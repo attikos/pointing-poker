@@ -131,6 +131,7 @@ const Game = (): JSX.Element => {
               key={ind}
               onSetIsCurrentIssue={() => onSetIsCurrentIssue(issue.id)}
               onDeleteIssue={() => onDeleteIssue(issue.id)}
+              isDiller = {userData.isDiller}
             />
           );
         })}
