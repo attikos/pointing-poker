@@ -109,12 +109,12 @@ const Result = (): JSX.Element => {
       </div>
       <div className={s.controlBtn}>
         <Link to='/'>
-          <button className={cn('btn btn-secondary btn-lg')}>
+          <button className={cn('btn btn-primary')}>
             One more game
           </button>
         </Link>
         <button
-          className={cn('btn btn-secondary btn-lg')}
+          className={cn('btn btn-primary')}
           onClick={() => downloadResults()}
         >
           Save result

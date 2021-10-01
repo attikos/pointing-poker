@@ -109,7 +109,7 @@ const PoppapToLobby = ({ setPopapActive, popapActive, gameNiceId, userRole }: Pr
                     className={cn('form-control', { 'is-invalid': errors.firstName && touched.firstName })}
                     onInput={(e: React.ChangeEvent<HTMLSelectElement>) => setFio({ ...fio, firstName: e.target.value })}
                   />
-                  <span className={s.error}><ErrorMessage name="firstName" /></span>
+                  <span className={s.error}><ErrorMessage name="firstName" /></span><br/>
 
                   <label htmlFor="lastName">Your Last Name (optional)</label>
                   <Field

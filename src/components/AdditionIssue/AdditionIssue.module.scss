@@ -1,13 +1,14 @@
 .issuesCardAddTitle {
-  font-size: 26px;
+  font-size: 16px;
   text-align: start;
 }
 
 .issuesCard,
 .issuesCardAdd {
   margin: 0.5rem;
+  background: #f1f0f0;
   max-width: 20rem;
-  padding: 1rem;
+  min-height: 47px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -17,8 +18,8 @@
 }
 
 .issuesAddIcon {
-    width: 30px;
-    height: 30px;
+    width: 20px;
+    height: 20px;
   }
 
   .issuesAddIcon:hover {
