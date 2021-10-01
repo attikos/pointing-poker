@@ -89,10 +89,7 @@ const Result = (): JSX.Element => {
     const createUtf16LeBlob = (csv: string) => {
       const bom = decodeURIComponent('%EF%BB%BF'); // "\uFEFF\n";
       csv = bom + csv;
-      const csvA = new Uint16Array(
-        csv.split('').map(function (k, v) {
-          return k.charCodeAt(0);
-        }));
+      const csvA = new Uint16Array(csv.split('').map((k) => k.charCodeAt(0)));
       const blob = new Blob([csvA], { type: 'text/csv;charset=UTF-16LE;' });
       return blob;
     };
