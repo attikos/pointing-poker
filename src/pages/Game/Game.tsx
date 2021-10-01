@@ -33,8 +33,14 @@ const Game = (): JSX.Element => {
   const issues = useSelector((state: RootState) => state.allData.issues);
   const scores = useSelector((state: RootState) => state.allData.scores);
 
+  const currentInProcessing = () => {
+    return issues.find((item) => item.isCurrent)?.status === 'processing'
+      ? true
+      : false;
+  };
+
   const onSetIsCurrentIssue = (issueId: number): void => {
-    api.setIssueAsCurrent(issueId, true);
+    if (!currentInProcessing()) api.setIssueAsCurrent(issueId, true);
   };
 
   const onSetScore = (score: TScore): void => {
@@ -44,8 +50,6 @@ const Game = (): JSX.Element => {
   const onDeleteIssue = (issueId: number) => {
     api.deleteIssue(issueId);
   };
-
-  const currentInProcessing = () => issues.some((item) => item.isCurrent);
 
   const findUserScore = (
     userId: number | undefined,
@@ -63,7 +67,11 @@ const Game = (): JSX.Element => {
       (item) => item.userId === userId && item.issueId === issueId);
 
     if (score?.score === 'cof') {
-      return (<div><img src={coffeImg} alt='coffee' /></div>);
+      return (
+        <div>
+          <img src={coffeImg} alt='coffee' />
+        </div>
+      );
     }
 
     if (score === undefined) {
@@ -201,9 +209,9 @@ const Game = (): JSX.Element => {
       return (
         <div className={s.statisticWrapper}>
           <div className={s.statisticTitle}>Statistics: </div>
-        <div className={s.statisticCardWrapper}>
-          <Statistic idCurrentIssue={idCurrentIssue}/>
-        </div>
+          <div className={s.statisticCardWrapper}>
+            <Statistic idCurrentIssue={idCurrentIssue} />
+          </div>
         </div>
       );
     }
