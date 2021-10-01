@@ -1,4 +1,6 @@
+import { Button } from 'bootstrap';
 import cn from 'classnames';
+import { eventNames } from 'process';
 import React from 'react';
 import { useSelector } from 'react-redux';
 import coffeImg from '../../assets/coffee.png';
@@ -45,6 +47,18 @@ const Game = (): JSX.Element => {
 
   const onSetScore = (score: TScore): void => {
     api.addScore(score);
+  };
+
+  const onSetColor = (event: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
+    if ((event.target as Element).tagName === 'BUTTON') {
+      const children = (event.target as Element).parentElement?.children;
+      if (children !== undefined) {
+        for (const child of Object.values(children)) {
+          child.classList.remove(s.pokerCardActive);
+        }
+        (event.target as Element).classList.add(s.pokerCardActive);
+      }
+    }
   };
 
   const onDeleteIssue = (issueId: number) => {
@@ -127,12 +141,12 @@ const Game = (): JSX.Element => {
 
   const returnPlayerCards = () => {
     return (
-      <div className={s.pokerCardWrapper}>
+      <div className={s.pokerCardWrapper} onClick={(e) => onSetColor(e)}>
         {POKER_CARDS.map((item) => (
           <button
             className={s.pokerCard}
             key={item}
-            onClick={() => onSetScore(item)}
+            onClick={(e) => onSetScore(item)}
           >
             {item}
           </button>
