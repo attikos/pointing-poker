@@ -26,9 +26,9 @@
   .startHeader {
     font-style: normal;
     font-weight: bold;
-    font-size: 48px;
+    font-size: 34px;
     line-height: 56px;
-    color: #66999b;
+    color: #adb5bd;
     padding: 0.5rem 5rem 2rem 0;
   }
   .startButton {
@@ -76,6 +76,7 @@
   line-height: 28px;
   color: #000;
 }
+
 .button{
-  z-index: -1;
+  border-radius: 0;
 }
