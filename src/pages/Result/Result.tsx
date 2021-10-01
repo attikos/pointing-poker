@@ -72,9 +72,8 @@ const Result = (): JSX.Element => {
   }
 
   const downloadResults = () => {
-    const data:string[] = [
-      'issue; priority; link; result(score:voices)\r\n',
-    ];
+    let data = 'issue; priority; link; result(score:voices)\r\n';
+
     for (const key in arrayResults) {
       let numberColumns = 1;
       let arr: string = parsStr(key).reduce((accumulator, item) => {
@@ -83,12 +82,22 @@ const Result = (): JSX.Element => {
       });
       arr = arr.split(':')[1]; // because string 'issue: name; priority; link', but need 'name; priority; link'
       if (numberColumns !== NUMBER_OF_COLUMNS) arr = arr + ';-'; //because link optional
-      data.push(`${arr};${parsObj(arrayResults[key])}\r\n`);
+      data = data + `${arr};${parsObj(arrayResults[key])}\r\n`;
     }
 
-    const blob = new Blob(data, {
-      type: 'text/csv;charset=utf-16LE;',
-    });
+    //источник https://gist.github.com/hoonzis/4e22de8697300d3aa3f04489485a9105
+    const createUtf16LeBlob = (csv: string) => {
+      const bom = decodeURIComponent('%EF%BB%BF'); // "\uFEFF\n";
+      csv = bom + csv;
+      const csvA = new Uint16Array(
+        csv.split('').map(function (k, v) {
+          return k.charCodeAt(0);
+        }));
+      const blob = new Blob([csvA], { type: 'text/csv;charset=UTF-16LE;' });
+      return blob;
+    };
+
+    const blob = createUtf16LeBlob(data);
     const a = document.createElement('a');
     a.download = 'result.csv';
     a.href = URL.createObjectURL(blob);
