@@ -1,5 +1,5 @@
 import React from 'react';
-import { RootStateOrAny, useDispatch, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import IssueCard from '../../components/IssueCard/IssueCard';
 import StatisticCards from '../../components/Statistic/StatisticCards';
 import { IIssue } from '../../interface';
@@ -8,8 +8,6 @@ import { RootState } from '../../store/store-redux';
 import s from './Results.module.scss';
 import cn from 'classnames';
 import { Link } from 'react-router-dom';
-import { array } from 'yup';
-import { split } from 'lodash';
 
 const NUMBER_OF_COLUMNS = 3;
 
@@ -64,23 +62,32 @@ const Result = (): JSX.Element => {
     return str;
   };
 
-  
+  function strEncodeUTF16(str: string) {
+    const buf = new ArrayBuffer(str.length * 2);
+    const bufView = new Uint16Array(buf);
+    for (let i = 0, strLen = str.length; i < strLen; i++) {
+      bufView[i] = str.charCodeAt(i);
+    }
+    return bufView;
+  }
 
   const downloadResults = () => {
-    const data: any = [
-      ['issue', 'priority', 'link', 'result(score:voices)', '\r\n'],
+    const data:string[] = [
+      'issue; priority; link; result(score:voices)\r\n',
     ];
     for (const key in arrayResults) {
-      const arr = parsStr(key).map((item) => item.split(':')[1]);
-      if (arr.length !== NUMBER_OF_COLUMNS) arr.push('-');
-      data.push([
-        arr,
-        parsObj(arrayResults[key]),
-        '\r\n',
-      ]);
+      let numberColumns = 1;
+      let arr: string = parsStr(key).reduce((accumulator, item) => {
+        numberColumns++;
+        return `${accumulator};${item.split(':')[1]}`;
+      });
+      arr = arr.split(':')[1]; // because string 'issue: name; priority; link', but need 'name; priority; link'
+      if (numberColumns !== NUMBER_OF_COLUMNS) arr = arr + ';-'; //because link optional
+      data.push(`${arr};${parsObj(arrayResults[key])}\r\n`);
     }
+
     const blob = new Blob(data, {
-      type: 'text/csv;charset=utf-8',
+      type: 'text/csv;charset=utf-16LE;',
     });
     const a = document.createElement('a');
     a.download = 'result.csv';
@@ -98,7 +105,7 @@ const Result = (): JSX.Element => {
         ATTENTION! For view results in Excel: click the Data tab, then From
         Text. Select the CSV file that has the data clustered into one column.
         Select Delimited, then make sure the File Origin is Unicode UTF-8.
-        Select Comma. Finally, click Finish.
+        Select semicolon. Finally, click Finish.
       </div>
       <div className={s.controlBtn}>
         <Link to='/'>
