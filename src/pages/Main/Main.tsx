@@ -8,6 +8,7 @@ import s from './Main.module.scss';
 import { ValueURL } from '../../interface';
 import api from '../../services/api';
 import PoppapToLobby from '../../components/PopapToLobby/PoppapToLobby';
+import logo from '../../assets/pokPlan.jpg';
 
 const Main = (): JSX.Element => {
   const [userRole, setUserRole] = useState('');
@@ -54,14 +55,14 @@ const Main = (): JSX.Element => {
   return (
     <main className={s.main}>
       <div className={s.logo}>
-        <img className={s.logoImg} src="/assets/pokPlan.png" alt="img" />
+        <img className={s.logoImg} src={logo} alt="img" />
       </div>
       <div className="start">
         <div className={s.startHeader}>Start your planning:</div>
         <div>
           <span className={cn('me-3', s.label)}>Create session:</span>
           <button
-            className="btn btn-secondary btn-lg"
+            className={cn('btn btn-primary', s.button )}
             type="button"
             onClick={ onStartDillerGame }
           >
@@ -93,7 +94,7 @@ const Main = (): JSX.Element => {
                   placeholder="Game ID"
                 />
                 <button
-                  className={cn('btn btn-secondary btn-lg'/* , s.startButton */)}
+                  className={cn('btn btn-primary', s.button )}
                   type="submit"
                 >
                   Connect

@@ -17,7 +17,7 @@ const PlayerIcon = (props: { item: IUser | undefined }): JSX.Element => {
         {getInitials(props.item.firstName, props.item.lastName)}
       </div>
       <div className={s.info}>
-        {props.item.isDiller ? <div>It&apos;s you</div> : null}
+       
         <div className={s.infoName}>
           {props.item.firstName} {props.item?.lastName}
         </div>

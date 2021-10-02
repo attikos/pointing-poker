@@ -66,7 +66,7 @@ const PoppapToLobby = ({ setPopapActive, popapActive, gameNiceId, userRole }: Pr
 
   return (
     <div
-      className={ cn(s.formLobby, { [s.active]: popapActive } )}
+      className={cn(s.formLobby, { [s.active]: popapActive })}
       onClick={() => setPopapActive(false)}
     >
       <div className={s.body}>
@@ -76,76 +76,78 @@ const PoppapToLobby = ({ setPopapActive, popapActive, gameNiceId, userRole }: Pr
             validationSchema={SignupSchema}
             onSubmit={onFormSubmit}
           >
-            <Form className={s.form}>
-              <div className={s.formLobbyTop}>
-                <div className={s.formLobbyHeader}>
-                  { userRole === 'master'
-                    ? 'Create session'
-                    : 'Connect to lobby' }
-                </div>
-                <div className="form-check form-switch" id={s.asObserver}>
-                  <label
-                    className="form-check-label"
-                    htmlFor="flexSwitchCheckDefault"
-                  >
-                    Connect as Observer
-                  </label>
+            {({ errors, touched }) => (
+              <Form className={s.form}>
+                <div className={s.formLobbyTop}>
+                  <div className={s.formLobbyHeader}>
+                    {userRole === 'master'
+                      ? 'Create session'
+                      : 'Connect to lobby'}
+                  </div>
+                  <div className="form-check form-switch" id={s.asObserver}>
+                    <label
+                      className="form-check-label"
+                      htmlFor="flexSwitchCheckDefault"
+                    >
+                      Connect as Observer
+                    </label>
 
-                  <Field
-                    className="form-check-input"
-                    type="checkbox"
-                    name="isObserver"
-                    id="flexSwitchCheckDefault"
-                  />
-                </div>
-              </div>
-
-              <label htmlFor="firstName">Your First Name </label>
-
-              <Field
-                id="firstName"
-                name="firstName"
-                className={s.input}
-                onInput={(e: React.ChangeEvent<HTMLSelectElement>) => setFio({ ...fio, firstName: e.target.value })}
-              />
-              <span className={s.error}><ErrorMessage name="firstName" /></span>
-
-              <label htmlFor="lastName">Your Last Name (optional)</label>
-              <Field
-                id="lastName"
-                name="lastName"
-                className={s.input}
-                onInput={(e: React.ChangeEvent<HTMLSelectElement>) => setFio({ ...fio, lastName: e.target.value })}
-              />
-              <label htmlFor="job">Your Job Position (optional)</label>
-              <Field id="job" name="job" className={s.input} />
-
-              {initials && (
-                <div className={s.foto}>
-                  <div className={s.noFoto}>{initials}</div>
-                </div>
-              )}
-
-              <div className={s.buttonContainer}>
-                <div className={s.confirm}>
-                  <button
-                    className={cn('btn btn-secondary btn-lg')}
-                    type="submit"
-                  >
-                    Confirm
-                  </button>
-                </div>
-
-                <div className={s.cancel}>
-                  <div
-                    className={cn('btn btn-outline-secondary btn-lg')}
-                    onClick={ onExit }
-                  >
-                    Cancel
+                    <Field
+                      className="form-check-input"
+                      type="checkbox"
+                      name="isObserver"
+                      id="flexSwitchCheckDefault"
+                    />
                   </div>
                 </div>
-              </div>
-            </Form>
+                <div className={cn('col-sm-9 mb-3 has-validation')}>
+                  <label htmlFor="firstName">Your First Name </label>
+
+                  <Field
+                    id="firstName"
+                    name="firstName"
+                    className={cn('form-control', { 'is-invalid': errors.firstName && touched.firstName })}
+                    onInput={(e: React.ChangeEvent<HTMLSelectElement>) => setFio({ ...fio, firstName: e.target.value })}
+                  />
+                  <span className={s.error}><ErrorMessage name="firstName" /></span><br/>
+
+                  <label htmlFor="lastName">Your Last Name (optional)</label>
+                  <Field
+                    id="lastName"
+                    name="lastName"
+                    className={cn('form-control')}
+                    onInput={(e: React.ChangeEvent<HTMLSelectElement>) => setFio({ ...fio, lastName: e.target.value })}
+                  />
+                  <label htmlFor="job">Your Job Position (optional)</label>
+                  <Field id="job" name="job"  className={cn('form-control')} />
+                </div>
+                {initials && (
+                  <div className={s.foto}>
+                    <div className={s.noFoto}>{initials}</div>
+                  </div>
+                )}
+
+                <div className={s.buttonContainer}>
+                  <div className={s.confirm}>
+                    <button
+                      className={cn('btn btn-primary')}
+                      type="submit"
+                    >
+                      Confirm
+                    </button>
+                  </div>
+
+                  <div className={s.cancel}>
+                    <div
+                      className={cn('btn btn-outline-primary')}
+                      onClick={onExit}
+                    >
+                      Cancel
+                    </div>
+                  </div>
+                </div>
+              </Form>
+            )}
           </Formik>
         </div>
       </div>

@@ -10,6 +10,7 @@
 }
 
 .scramMasterCard {
+  background: #f1f0f0;
   max-width: 20rem;
   box-shadow: 0px 4px 4px rgba(0, 0, 0, 25%);
   display: flex;
@@ -32,15 +33,15 @@
 .memberInfo,
 .issuesInfo {
   // padding-left: 1rem;
-  color: #000000;
-  font-size: 18px;
+  color: #4c414a;
+  font-size: 12px;
   width: 150px;
 }
 .scramMasterInfoName,
 .memberInfoName,
 .issuesInfoName,
 .issuesCardAddTitle{
-  font-size: 26px;
+  font-size: 16px;
   text-align: start;
 }
 .inputLinkLobby {
@@ -72,9 +73,10 @@
 .memberCard,
 .issuesCard,
 .issuesCardAdd {
-  margin: 0.5rem;
+  margin:  0.5rem ;
+  background: #f1f0f0;
   max-width: 20rem;
-  padding: 1rem ;
+  min-height: 47px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -92,15 +94,15 @@
   width: 50px;
 }
 .iconDel{
-  width: 40px;
-  height: 40px;
+  width: 20px;
+  height: 20px;
 }
 
 .issuesChangeIcon,
 .issuesDelIcon,
 .issuesAddIcon {
-  width: 30px;
-  height: 30px;
+  width: 20px;
+  height: 20px;
 }
 .issuesChangeIcon:hover,
 .issuesDelIcon:hover,
@@ -112,6 +114,7 @@
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  padding-left: 5px;
 }
 
 .memberTitle,
@@ -157,13 +160,13 @@
 }
 
 .noFoto {
-  width: 5rem;
-  height: 5rem;
-  border-radius: 50%;
-  background: #60dabf;
+  width: 47px;
+    height: 47px;
+    border-radius: 13px 3px;
+    background: #6760da;
   font-weight: bold;
-  box-shadow: inset 0px 4px 4px black;
-  font-size: 48px;
+ 
+  font-size: 24px;
   line-height: 56px;
   display: flex;
   align-items: center;
@@ -171,7 +174,7 @@
   color: #ffffff;
   text-shadow: 0px 4px 4px black;
   justify-content: center;
-  margin: 0 0.5rem;
+  margin: 0 0.5rem 0 0;
 }
 .inputTopic {
   border: none;
@@ -179,7 +182,7 @@
   width: 80%;
   text-align: center;
   font-family: "Ruda", sans-serif;
-  font-size: 24px;
+  font-size: 16px;
   // box-shadow: inset 0px 4px 4px black;
 }
 .topic {
@@ -217,7 +220,7 @@
     justify-content: center;
     align-items: center;
     text-align: center;
-    width: 40px;
+    width: 20px;
     position: absolute;
     top: 0;
     right: 0;
