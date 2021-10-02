@@ -12,6 +12,23 @@
   position: relative;
 }
 
+.average {
+  width: 47px;
+  height: 47px;
+  border-radius: 13px 3px;
+  background: #8ccb5e;
+  font-weight: bold;
+  font-size: 24px;
+  line-height: 56px;
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: #ffffff;
+  text-shadow: 0px 4px 4px black;
+  justify-content: center;
+  margin: 0 0.5rem 0 0;
+}
+
 .issueHover {
   cursor: pointer;
 }

@@ -62,15 +62,6 @@ const Result = (): JSX.Element => {
     return str;
   };
 
-  function strEncodeUTF16(str: string) {
-    const buf = new ArrayBuffer(str.length * 2);
-    const bufView = new Uint16Array(buf);
-    for (let i = 0, strLen = str.length; i < strLen; i++) {
-      bufView[i] = str.charCodeAt(i);
-    }
-    return bufView;
-  }
-
   const downloadResults = () => {
     let data = 'issue; priority; link; result(score:voices)\r\n';
 
@@ -115,12 +106,12 @@ const Result = (): JSX.Element => {
       </div>
       <div className={s.controlBtn}>
         <Link to='/'>
-          <button className={cn('btn btn-primary')}>
+          <button className={cn('btn btn-secondary btn-lg')}>
             One more game
           </button>
         </Link>
         <button
-          className={cn('btn btn-primary')}
+          className={cn('btn btn-secondary btn-lg')}
           onClick={() => downloadResults()}
         >
           Save result

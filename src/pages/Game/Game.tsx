@@ -1,7 +1,7 @@
 import { Button } from 'bootstrap';
 import cn from 'classnames';
 import { eventNames } from 'process';
-import React from 'react';
+import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
 import coffeImg from '../../assets/coffee.png';
 import AdditionIssue from '../../components/AdditionIssue/AdditionIssue';
@@ -121,22 +121,47 @@ const Game = (): JSX.Element => {
     );
   };
 
+  const returnAverage = (issue: IIssue) => {
+    if (issue.status === 'finished') {
+      let maxResultScore = '';
+      const scoreForCurrentIssue = scores.map((item) => {
+        if (item.issueId === issue.id) return item.score;
+      });
+
+      const res: { [TScore: string]: number } = {};
+
+      scoreForCurrentIssue.forEach((item) => {
+        if (item !== undefined) {
+          if (res[item] !== undefined) {
+            res[item] = res[item] + 1;
+          } else res[item] = 1;
+        }
+      });
+
+      for (const key in res) {
+        if (res[maxResultScore] === undefined) maxResultScore = key;
+        if (res[maxResultScore] < res[key]) maxResultScore = key;
+      }
+      return maxResultScore;
+    }
+  };
+
   const returnIssuesList = (iss: IIssue[]) => {
     return (
       <div className={s.issuesList}>
-         <AdditionIssue />
+        <AdditionIssue /> 
         {iss.map((issue: IIssue, ind: number) => {
           return (
             <IssueCard
               issue={issue}
               key={ind}
+              average={returnAverage(issue)}
               onSetIsCurrentIssue={() => onSetIsCurrentIssue(issue.id)}
               onDeleteIssue={() => onDeleteIssue(issue.id)}
-              isDiller = {userData.isDiller}
+              isDiller={userData.isDiller}
             />
           );
         })}
-       
       </div>
     );
   };

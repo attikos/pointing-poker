@@ -6,16 +6,25 @@ import s from './IssueCard.module.scss';
 
 interface IProps {
   issue: IIssue;
+  average?: string;
   onSetIsCurrentIssue?: any;
   onDeleteIssue?: any;
   isDiller?: boolean;
 }
+
 const IssueCard = ({
   issue,
+  average,
   onSetIsCurrentIssue = () => {},
   onDeleteIssue,
   isDiller,
 }: IProps): JSX.Element => {
+  const returnAverage = () => {
+    if (average !== undefined)
+      return <div className={s.average}>{average}</div>;
+    return null;
+  };
+
   return (
     <div
       className={cn(
@@ -24,11 +33,12 @@ const IssueCard = ({
         { [s.issueHover]: isDiller })}
       onClick={() => onSetIsCurrentIssue()}
     >
+      {returnAverage()}
       <div className={s.issuesInfo}>
         <div className={s.issuesInfoName}>{issue.title}</div>
         <div className={s.issuesPriority}>{issue.priority}</div>
       </div>
-      {issue.status === 'finished' ? <HiCheck /> : null}
+      {/*issue.status === 'finished' ? <HiCheck /> : null*/}
       {onDeleteIssue ? (
         <div className={s.issuesDel} onClick={() => onDeleteIssue(issue.id)}>
           <HiOutlineTrash className={s.issuesDelIcon} />
