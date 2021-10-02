@@ -36,7 +36,7 @@ const IssueCard = ({
     >
       {returnAverage()}
       <div className={s.issuesInfo}>
-        <div className={s.issuesInfoName} title={issue.title}>{shortText(issue.title, 12)}</div>
+        <div className={s.issuesInfoName} title={issue.title}>{shortText(issue.title, 20)}</div>
         <div className={s.issuesPriority}>{issue.priority}</div>
       </div>
       {/*issue.status === 'finished' ? <HiCheck /> : null*/}

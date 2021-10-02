@@ -146,20 +146,23 @@ const Game = (): JSX.Element => {
 
   const returnIssuesList = (iss: IIssue[]) => {
     return (
-      <div className={s.issuesList}>
+      <div className={s.issuesListWrapper}>
         <AdditionIssue />
-        {iss.map((issue: IIssue, ind: number) => {
-          return (
-            <IssueCard
-              issue={issue}
-              key={ind}
-              average={returnAverage(issue)}
-              onSetIsCurrentIssue={() => onSetIsCurrentIssue(issue.id)}
-              onDeleteIssue={() => onDeleteIssue(issue.id)}
-              isDiller={userData.isDiller}
-            />
-          );
-        })}
+
+        <div className={s.issuesList}>
+          {iss.map((issue: IIssue, ind: number) => {
+            return (
+              <IssueCard
+                issue={issue}
+                key={ind}
+                average={returnAverage(issue)}
+                onSetIsCurrentIssue={() => onSetIsCurrentIssue(issue.id)}
+                onDeleteIssue={() => onDeleteIssue(issue.id)}
+                isDiller={userData.isDiller}
+              />
+            );
+          })}
+        </div>
       </div>
     );
   };
