@@ -1,7 +1,5 @@
-import { Button } from 'bootstrap';
 import cn from 'classnames';
-import { eventNames } from 'process';
-import React, { useState } from 'react';
+import React from 'react';
 import { useSelector } from 'react-redux';
 import coffeImg from '../../assets/coffee.png';
 import AdditionIssue from '../../components/AdditionIssue/AdditionIssue';

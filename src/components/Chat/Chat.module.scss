@@ -1,0 +1,32 @@
+.rows{
+    display: flex;
+    flex-wrap: wrap;
+}
+.rowMessage {
+  display: flex;
+  flex-wrap: nowrap;
+  margin-bottom: 15px;
+}
+
+.message {
+  background: #ffffff;
+  box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+  border-radius: 20px 0px 0px 20px;
+  padding: 5px 5px 5px 10px;
+}
+
+.chatWrapper {
+    max-width: 400px;
+}
+
+.rows {
+    max-height: 300px;
+    overflow-y: auto;
+}
+
+.dateMessage {
+    font-size: 10px;
+    color: gray;
+    text-align: right;
+}
+
