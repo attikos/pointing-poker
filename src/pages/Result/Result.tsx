@@ -111,7 +111,7 @@ const Result = (): JSX.Element => {
         ATTENTION! For view results in Excel: click the Data tab, then From
         Text. Select the CSV file that has the data clustered into one column.
         Select Delimited, then make sure the File Origin is Unicode UTF-8.
-        Select semicolon. Finally, click Finish.
+        Select semicolon(;). Finally, click Finish.
       </div>
       <div className={s.controlBtn}>
         <Link to='/'>
