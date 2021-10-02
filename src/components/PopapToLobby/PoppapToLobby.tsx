@@ -128,15 +128,6 @@ const PoppapToLobby = ({ setPopapActive, popapActive, gameNiceId, userRole }: Pr
                 )}
 
                 <div className={s.buttonContainer}>
-                  <div className={s.confirm}>
-                    <button
-                      className={cn('btn btn-primary')}
-                      type="submit"
-                    >
-                      Confirm
-                    </button>
-                  </div>
-
                   <div className={s.cancel}>
                     <div
                       className={cn('btn btn-outline-primary')}
@@ -144,6 +135,15 @@ const PoppapToLobby = ({ setPopapActive, popapActive, gameNiceId, userRole }: Pr
                     >
                       Cancel
                     </div>
+                  </div>
+
+                  <div className={s.confirm}>
+                    <button
+                      className={cn('btn btn-primary')}
+                      type="submit"
+                    >
+                      Confirm
+                    </button>
                   </div>
                 </div>
               </Form>

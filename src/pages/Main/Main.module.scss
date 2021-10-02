@@ -40,7 +40,7 @@
     text-align: center;
     color: #ffffff;
     font-family: "Ruda", sans-serif;
-    text-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
+    text-shadow: 0px 4px 6px rgba(0, 0, 0, 0.25);
     background: #2b3a67;
     border: 1px solid #496a81;
     box-sizing: border-box;
@@ -53,22 +53,8 @@
   }
   .error{
     color: red;
-    // width: 1rem;
   }
 }
-
-// .label {
-//   font-style: normal;
-//   font-weight: 300;
-//   font-size: 24px;
-//   line-height: 28px;
-//   display: flex;
-//   justify-content: space-between;
-//   color: #000000;
-//   padding-top: 1rem;
-//   padding-right: 1rem;
-//   max-width: 500px;
-// }
 
 .label {
   font-weight: 300;

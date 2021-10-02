@@ -104,7 +104,7 @@ const Game = (): JSX.Element => {
         {members.map((item) => {
           if (!item.isObserver)
             return (
-              <div className={s.scoreRow}>
+              <div className={s.scoreRow} key={item.id}>
                 <div className={s.scoreCard}>
                   {issue?.status === 'processing'
                     ? 'In Progress'
@@ -147,7 +147,7 @@ const Game = (): JSX.Element => {
   const returnIssuesList = (iss: IIssue[]) => {
     return (
       <div className={s.issuesList}>
-        <AdditionIssue /> 
+        <AdditionIssue />
         {iss.map((issue: IIssue, ind: number) => {
           return (
             <IssueCard
@@ -205,7 +205,7 @@ const Game = (): JSX.Element => {
         if (statusIssue === 'new') {
           return (
             <button
-              className={cn('btn btn-primary')}
+              className={cn('btn btn-primary mb-auto mt-1')}
               onClick={() => api.startRound()}
             >
               Run Round
@@ -214,7 +214,7 @@ const Game = (): JSX.Element => {
         } else if (statusIssue === 'processing') {
           return (
             <button
-              className={cn('btn btn-primary ')}
+              className={cn('btn btn-primary mb-auto mt-1')}
               onClick={() => api.stopRound()}
             >
               Stop Round
@@ -266,7 +266,7 @@ const Game = (): JSX.Element => {
 
         <div className={s.topSetting}>
           <div className={s.scramMasterCard}>
-            Scram master:
+            <p className="mb-1">Scram master:</p>
             <PlayerIcon item={members.find((item) => item.isDiller)} />
           </div>
 

@@ -10,6 +10,7 @@ import { TIssuePriority, TIssueStatus, TPopupIssueStatus } from '../../types';
 import { RootStateOrAny, useSelector } from 'react-redux';
 import api from '../../services/api';
 import PoppapAddIssue from '../../components/PopapAddIssue/PoppapAddIssue';
+import { shortText } from '../../utils/short-text';
 
 const Lobby = (): JSX.Element => {
   const textInput = useRef<HTMLInputElement>(null);
@@ -105,7 +106,7 @@ const Lobby = (): JSX.Element => {
       <div className={s.settingsTop}>
         <div className={s.topic}>
           <div className={s.inputTopic}>
-            {issues.map((item: IIssue) => `${item.title}; `)}
+            {issues.map((item: IIssue) => item.title.slice(0, 10)).join(', ')}
           </div>
         </div>
 
@@ -155,8 +156,8 @@ const Lobby = (): JSX.Element => {
 
             <div className={cn('col-6 align-self-end', s.linkLobby)}>
               <div className={cn('w-50 ms-auto', s.settingsTopButtons)}>
-                <button className={cn('btn btn-primary')} onClick={onStartGame}>Start game</button>
                 <button className={cn('btn btn-outline-primary')} onClick={onStopGame}>Cancel</button>
+                <button className={cn('btn btn-primary')} onClick={onStartGame}>Start game</button>
               </div>
             </div>
           </div>
@@ -206,7 +207,7 @@ const Lobby = (): JSX.Element => {
                 {issues.map((item: IIssue, i: number) => (
                   <div className={s.issuesCard} key={i}>
                     <div className={s.issuesInfo}>
-                      <div className={s.issuesInfoName}>{item.title}</div>
+                      <div className={s.issuesInfoName} title={item.title}>{shortText(item.title, 12)}</div>
                       <div className={s.issuesPriority}>{item.priority}</div>
                     </div>
                     <div className={s.issuesChange}

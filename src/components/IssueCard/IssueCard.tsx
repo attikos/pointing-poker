@@ -1,7 +1,8 @@
-import cn from 'classnames';
 import React from 'react';
-import { HiCheck, HiOutlineTrash } from 'react-icons/hi';
+import cn from 'classnames';
+import { HiOutlineTrash } from 'react-icons/hi';
 import { IIssue } from '../../interface';
+import { shortText } from '../../utils/short-text';
 import s from './IssueCard.module.scss';
 
 interface IProps {
@@ -35,7 +36,7 @@ const IssueCard = ({
     >
       {returnAverage()}
       <div className={s.issuesInfo}>
-        <div className={s.issuesInfoName}>{issue.title}</div>
+        <div className={s.issuesInfoName} title={issue.title}>{shortText(issue.title, 12)}</div>
         <div className={s.issuesPriority}>{issue.priority}</div>
       </div>
       {/*issue.status === 'finished' ? <HiCheck /> : null*/}

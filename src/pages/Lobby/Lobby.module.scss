@@ -1,8 +1,7 @@
 .settings {
   max-width: 1000px;
   margin: 0 auto;
-  // font-size: 24px;
-  color: #000;
+  color: #4c414a;
   padding-bottom: 50px;
 }
 .scramMaster {
@@ -12,13 +11,16 @@
 .scramMasterCard {
   background: #f1f0f0;
   max-width: 20rem;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 25%);
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 25%);
   display: flex;
   justify-content: flex-start;
   align-items: center;
+  border-top-left-radius: 13px;
+  border-bottom-left-radius: 3px;
 }
 .settingsTop {
-  padding: 3rem 1rem 0;
+  padding: 3rem 0 0;
+
   h3,
   h6 {
     text-align: left;
@@ -77,13 +79,23 @@
   background: #f1f0f0;
   max-width: 20rem;
   min-height: 47px;
+  padding: 2px 5px;
   display: flex;
   justify-content: space-between;
   align-items: center;
   text-align: center;
-  box-shadow: 0px 4px 4px rgba(0, 0, 0, 25%);
+  box-shadow: 0px 4px 6px rgba(0, 0, 0, 25%);
   position: relative;
 }
+
+.issuesCardAdd {
+  cursor: pointer;
+
+  &:hover {
+    background: #e7e7e7;
+  }
+}
+
 .memberInfo {
   width: 150px;
   display: flex;
@@ -137,7 +149,7 @@
 }
 .issuesAdd {
   padding-left: 1rem;
- 
+
 }
 
 .masterPlayer{
@@ -161,18 +173,16 @@
 
 .noFoto {
   width: 47px;
-    height: 47px;
-    border-radius: 13px 3px;
-    background: #6760da;
+  height: 47px;
+  border-radius: 13px 3px;
+  background: #6760da;
   font-weight: bold;
- 
   font-size: 24px;
   line-height: 56px;
   display: flex;
   align-items: center;
   text-align: center;
   color: #ffffff;
-  text-shadow: 0px 4px 4px black;
   justify-content: center;
   margin: 0 0.5rem 0 0;
 }
@@ -183,7 +193,6 @@
   text-align: center;
   font-family: "Ruda", sans-serif;
   font-size: 16px;
-  // box-shadow: inset 0px 4px 4px black;
 }
 .topic {
   display: flex;
@@ -214,25 +223,21 @@
   justify-content: flex-end;
 }
 .isObserver{
-
-    padding: 0 0 1rem 0;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    text-align: center;
-    width: 20px;
-    position: absolute;
-    top: 0;
-    right: 0;
+  padding: 0 0 1rem 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  width: 20px;
+  position: absolute;
+  top: 0;
+  right: 0;
 }
 .isObserverIcon{
   width: 100%;
   height: 100%;
 }
 .isObserverCard{
-background-color: #98999933;
-box-shadow: inset 0px 4px 4px black;
-// color: #989999;
+  background-color: #98999933;
+  box-shadow: inset 0px 4px 6px black;
 }
-
-
