@@ -1,9 +1,13 @@
 import React from 'react';
 import { IUser } from '../../interface';
+import { shortText } from '../../utils/short-text';
 import s from './PlayerIcon.module.scss';
 
-const PlayerIcon = (props: { item: IUser | undefined }): JSX.Element => {
-  if (props.item === undefined) {
+interface IProps {
+  item: IUser | undefined;
+}
+const PlayerIcon = ({ item }: IProps): JSX.Element => {
+  if (item === undefined) {
     return <div>No scram master</div>;
   }
   const getInitials = (firstName: string, lastName: string | undefined) => {
@@ -14,14 +18,14 @@ const PlayerIcon = (props: { item: IUser | undefined }): JSX.Element => {
   return (
     <div className={s.card}>
       <div className={s.noFoto}>
-        {getInitials(props.item.firstName, props.item.lastName)}
+        {getInitials(item.firstName, item.lastName)}
       </div>
       <div className={s.info}>
-       
+
         <div className={s.infoName}>
-          {props.item.firstName} {props.item?.lastName}
+          {shortText(`${item.firstName} ${item.lastName}`, 12)}
         </div>
-        <div>{props.item?.job}</div>
+        <div>{item?.job}</div>
       </div>
     </div>
   );

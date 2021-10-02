@@ -42,6 +42,12 @@ const PoppapToLobby = ({ setPopapActive, popapActive, gameNiceId, userRole }: Pr
     return '';
   };
 
+  const initFormData = { ...initialUserState };
+  if (userRole === 'player') {
+    initFormData.isObserver = false;
+    initFormData.isDiller = false;
+  }
+
   const initials = getIinitials(fio.firstName, fio.lastName);
 
   const handleSubmit = async (values: { user: IUser, gameNiceId: TNiceId }): Promise<void> => {
@@ -72,7 +78,7 @@ const PoppapToLobby = ({ setPopapActive, popapActive, gameNiceId, userRole }: Pr
       <div className={s.body}>
         <div className={s.content} onClick={(e) => e.stopPropagation()}>
           <Formik
-            initialValues={initialUserState}
+            initialValues={initFormData}
             validationSchema={SignupSchema}
             onSubmit={onFormSubmit}
           >

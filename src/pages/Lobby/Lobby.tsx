@@ -119,7 +119,7 @@ const Lobby = (): JSX.Element => {
 
             <div className={s.scramMasterInfo}>
               <div className={s.scramMasterInfoName}>
-                {diller.firstName} {diller.lastName}
+                {shortText(`${diller.firstName} ${diller.lastName}`, 24)}
               </div>
 
               <div>{diller.job}</div>
