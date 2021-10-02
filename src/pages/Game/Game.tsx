@@ -124,6 +124,7 @@ const Game = (): JSX.Element => {
   const returnIssuesList = (iss: IIssue[]) => {
     return (
       <div className={s.issuesList}>
+         <AdditionIssue />
         {iss.map((issue: IIssue, ind: number) => {
           return (
             <IssueCard
@@ -135,7 +136,7 @@ const Game = (): JSX.Element => {
             />
           );
         })}
-        <AdditionIssue />
+       
       </div>
     );
   };
@@ -181,7 +182,7 @@ const Game = (): JSX.Element => {
         if (statusIssue === 'new') {
           return (
             <button
-              className={cn('btn btn-secondary btn-lg')}
+              className={cn('btn btn-primary')}
               onClick={() => api.startRound()}
             >
               Run Round
@@ -190,7 +191,7 @@ const Game = (): JSX.Element => {
         } else if (statusIssue === 'processing') {
           return (
             <button
-              className={cn('btn btn-secondary btn-lg')}
+              className={cn('btn btn-primary ')}
               onClick={() => api.stopRound()}
             >
               Stop Round
@@ -200,13 +201,13 @@ const Game = (): JSX.Element => {
         return (
           <div>
             <button
-              className={cn('btn btn-secondary btn-lg')}
+              className={cn('btn btn btn-primary btn-lg')}
               onClick={() => api.startRound()}
             >
               Run Round
             </button>
             <button
-              className={cn('btn btn-secondary btn-lg')}
+              className={cn('btn btn btn-primary btn-lg')}
               onClick={() => selectNextIssue()}
             >
               Next Round
@@ -248,14 +249,14 @@ const Game = (): JSX.Element => {
 
           {userData.isDiller ? (
             <button
-              className={cn('btn  btn-outline-secondary btn-lg h-25')}
+              className={cn('btn  btn btn-outline-primary h-25')}
               onClick={() => api.stopGame()}
             >
               Stop Game
             </button>
           ) : (
             <button
-              className={cn('btn  btn-outline-secondary btn-lg h-25')}
+              className={cn('btn  btn-outline-primary h-25')}
               onClick={() => api.leaveGame()}
             >
               Exit

@@ -238,7 +238,7 @@ const PopapAddIssue = ({ active, setActive, editElement, status, element }: Prop
                 <div className={s.buttonContainer}>
                   <div className={s.cancel}>
                     <button
-                      className={cn('btn btn-outline-secondary btn-lg')}
+                      className={cn('btn btn-outline-primary')}
                       onClick={() => {
                         setActive(true); setAddIssue({
                           title: '',
@@ -253,7 +253,7 @@ const PopapAddIssue = ({ active, setActive, editElement, status, element }: Prop
                   </div>
                   <div className={s.confirm}>
                     <button
-                      className={cn('btn btn-secondary btn-lg')}
+                      className={cn('btn btn-primary')}
                       type="submit"
                     >
                       YES

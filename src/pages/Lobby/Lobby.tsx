@@ -111,21 +111,19 @@ const Lobby = (): JSX.Element => {
 
         <div className={s.scramMaster}>
           <h6>Scram master:</h6>
-            <div className={s.scramMasterCard} >
-              <div className={s.noFoto}>
-                {getInitials(diller.firstName, diller.lastName)}
-              </div>
-
-              <div className={s.scramMasterInfo}>
-                { user.isDiller && <div>It&apos;s you:</div> }
-
-                <div className={s.scramMasterInfoName}>
-                  {diller.firstName} {diller.lastName}
-                </div>
-
-                <div>{diller.job}</div>
-              </div>
+          <div className={s.scramMasterCard} >
+            <div className={s.noFoto}>
+              {getInitials(diller.firstName, diller.lastName)}
             </div>
+
+            <div className={s.scramMasterInfo}>
+              <div className={s.scramMasterInfoName}>
+                {diller.firstName} {diller.lastName}
+              </div>
+
+              <div>{diller.job}</div>
+            </div>
+          </div>
         </div>
       </div>
 
@@ -147,7 +145,7 @@ const Lobby = (): JSX.Element => {
                   ref={textInput}
                 />
                 <button
-                  className={cn('btn btn-secondary btn-lg')}
+                  className={cn('btn btn-primary')}
                   onClick={handleCopy}
                 >
                   Copy
@@ -157,15 +155,15 @@ const Lobby = (): JSX.Element => {
 
             <div className={cn('col-6 align-self-end', s.linkLobby)}>
               <div className={cn('w-50 ms-auto', s.settingsTopButtons)}>
-                <button className={cn('btn btn-secondary btn-lg')} onClick={onStartGame}>Start game</button>
-                <button className={cn('btn btn-outline-secondary btn-lg')} onClick={onStopGame}>Cancel</button>
+                <button className={cn('btn btn-primary')} onClick={onStartGame}>Start game</button>
+                <button className={cn('btn btn-outline-primary')} onClick={onStopGame}>Cancel</button>
               </div>
             </div>
           </div>
         ) : (
           <div className={s.settingsPlayer}>
             <div className={s.settingsTopButtons}>
-              <button className={cn('btn btn-outline-secondary btn-lg')} onClick={onLeaveGame}>Exit</button>
+              <button className={cn('btn btn-outline-primary')} onClick={onLeaveGame}>Exit</button>
             </div>
           </div>
         )}
@@ -174,9 +172,8 @@ const Lobby = (): JSX.Element => {
         {members.map(({
           firstName, isDiller, isObserver, job, lastName,
         }: IUser, i: number) => (
-          <div
-            className={cn(s.memberCard,
-              { [s.isObserverCard]: (!isDiller && isObserver) })}
+          (!isDiller) ? (<div className={cn(s.memberCard,
+            { [s.isObserverCard]: (!isDiller && isObserver) })}
             key={i}
           >
             <div className={s.noFoto}>
@@ -195,7 +192,7 @@ const Lobby = (): JSX.Element => {
             <div className={s.memberDelete} onClick={() => (members[i].id && user.isDiller) ? deleteMember(members[i].id) : null}>
               <HiBan className={s.iconDel} />
             </div>
-          </div>
+          </div>) : null
         ))}
       </div>
       {

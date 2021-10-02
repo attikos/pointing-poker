@@ -1,21 +1,7 @@
 
 
 .formLobby {
-  // height: 100vh;
-  // width: 100vw;
-  // background-color: rgba(0, 0, 0, 0.4);
-  // box-shadow: 0px 4px 4px rgba(0, 0, 0, 0.25);
-  // position: fixed;
-  // top: 0;
-  // left: 0;
-  // display: flex;
-  // align-items: center;
-  // justify-content: center;
-  // opacity: 0;
-  // pointer-events: none;
-  // transition: 0.5s;
-
-
+ 
   position: fixed;
   width: 100%;
   height: 100%;
@@ -28,9 +14,7 @@
   overflow-x: hidden;
   transition: all 0.8s ease 0s;
   z-index: 3;
-  // display: flex;
-  // align-items: center;
-  // justify-content: center;
+ 
 
 .body{
   min-height: 100%;
@@ -40,16 +24,11 @@
   padding: 30px 10px;
 }
   .content {
-    // background-color: #fff;
-    // max-width: 870px;
-    // // height: 100%;
-    // padding: 10px;
-
-
+   
     background-color: #fff;
-    color: #000;
+    color: #4c414a;
     max-width: 870px;
-    // height: 100%;
+  
     padding: 20px;
     position: relative;
     border-radius: 4px;
@@ -62,18 +41,15 @@
 
 }
 .active {
-  // opacity: 1;
-  // pointer-events: all;
-
   opacity: 1;
   visibility: visible;
 }
 .formLobbyHeader {
     font-style: normal;
     font-weight: bold;
-    font-size: 64px;
+    font-size: 36px;
     line-height: 75px;
-    color: #000000;
+    color: #4c414a;
   }
 .form {
   display: flex;
@@ -111,14 +87,7 @@
 .cancel{
 
 }
-.buttonBlue{
-    color: #ffffff;
-    background: #2b3a67;
-}
-.buttonWhite{
-    color: #2b3a67;
-    background: #ffffff;
-}
+
 #asObserver{
   display: flex;
   flex-direction: column;
@@ -129,23 +98,24 @@
   padding: 1rem ;
 }
 .noFoto {
-  width: 74px;
-  height: 74px;
-  border-radius: 50%;
-  background: #60dabf;
+  width: 60px;
+  height: 60px;
+  border-radius: 13px 3px;
+  background: #6760da;
   font-weight: bold;
-  box-shadow: inset 0px 3px 3px rgba(0, 0, 0, 0.25);
-  font-size: 42px;
+  font-size: 24px;
   line-height: 56px;
   display: flex;
   align-items: center;
   text-align: center;
   color: #ffffff;
-  text-shadow: -1px 3px 4px rgba(0, 0, 0, 0.25);
   justify-content: center;
-  border: 1px solid #009070;
+ 
 }
 .error{
-  color: red;
+  color: #dc3545;
   height: 1rem;
+}
+.form{
+
 }
