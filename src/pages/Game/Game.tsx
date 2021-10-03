@@ -147,7 +147,7 @@ const Game = (): JSX.Element => {
   const returnIssuesList = (iss: IIssue[]) => {
     return (
       <div className={s.issuesListWrapper}>
-        <AdditionIssue />
+        
 
         <div className={s.issuesList}>
           {iss.map((issue: IIssue, ind: number) => {
@@ -291,7 +291,8 @@ const Game = (): JSX.Element => {
         </div>
 
         <div className={s.issuesTitle}>
-          Issues: <br />{' '}
+          Issues: 
+          <AdditionIssue />
         </div>
 
         <div className={s.issuesCont}>

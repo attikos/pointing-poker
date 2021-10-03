@@ -7,6 +7,7 @@ import { RootState } from '../../store/store-redux';
 import { TPopupIssueStatus } from '../../types';
 import PoppapAddIssue from '../PopapAddIssue/PoppapAddIssue';
 import s from './AdditionIssue.module.scss';
+import cn from 'classnames';
 
 const AdditionIssue = () => {
   const [popapActive, setPopapActive] = useState(true);
@@ -22,19 +23,16 @@ const AdditionIssue = () => {
   const issues = useSelector((state: RootState) => state.allData.issues);
   return (
     <div>
-      <div
-        className={s.issuesCardAdd}
+      <button
+        className={cn('btn btn-outline-primary btn-sm', s.issueCreateBtn)}
         onClick={() => {
           setPopapActive(false);
           setissueStatus('create');
         }}
       >
-        <div className={s.issuesCardAddTitle}>Create new Issue</div>
+        <HiOutlinePlus className={s.issuesAddIcon} />
+      </button>
 
-        <div className={s.issuesAdd}>
-          <HiOutlinePlus className={s.issuesAddIcon} />
-        </div>
-      </div>
       <PoppapAddIssue
         active={popapActive}
         status={issueStatus}
