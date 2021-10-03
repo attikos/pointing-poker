@@ -145,14 +145,12 @@ export const websocket: IWebsocket = {
       }
 
       try {
-        console.log('subscribe 2', this.ws);
         this.subscription = await this.ws?.subscribe(`room:${ this.roomId }`);
       } catch (err) {
         console.log(err);
       }
 
       this.subscription?.on('ready', () => {
-        console.log('ready');
         resolve(true);
       });
 

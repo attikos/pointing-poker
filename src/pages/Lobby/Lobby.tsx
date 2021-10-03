@@ -209,16 +209,13 @@ const Lobby = (): JSX.Element => {
                   <div>{job}</div>
                 </div>
 
-                <div
-                  className={s.memberDelete}
-                  onClick={() =>
-                    members[i].id && user.isDiller
-                      ? deleteMember(members[i].id)
-                      : null
-                  }
-                >
-                  <HiBan className={s.iconDel} />
-                </div>
+                { user.isDiller ?
+                  (<div
+                    className={s.memberDelete}
+                    onClick={() => deleteMember(members[i].niceId)}
+                  >
+                    <HiBan className={s.iconDel} />
+                  </div>) : null }
               </div>
             ) : null)}
       </div>
