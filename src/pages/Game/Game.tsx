@@ -148,7 +148,6 @@ const Game = (): JSX.Element => {
     return (
       <div className={s.issuesListWrapper}>
         
-
         <div className={s.issuesList}>
           {iss.map((issue: IIssue, ind: number) => {
             return (

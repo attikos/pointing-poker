@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import { HiOutlinePlus } from 'react-icons/hi';
 import { useSelector } from 'react-redux';
-import { ICreateIssue, IIssue } from '../../interface';
+import { IIssue } from '../../interface';
 import { RootState } from '../../store/store-redux';
 import { TPopupIssueStatus } from '../../types';
 import PoppapAddIssue from '../PopapAddIssue/PoppapAddIssue';

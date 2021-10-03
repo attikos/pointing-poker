@@ -39,8 +39,7 @@ const IssueCard = ({
         <div className={s.issuesInfoName} title={issue.title}>{shortText(issue.title, 20)}</div>
         <div className={s.issuesPriority}>{issue.priority}</div>
       </div>
-      {/*issue.status === 'finished' ? <HiCheck /> : null*/}
-      {onDeleteIssue ? (
+      {isDiller && onDeleteIssue ? (
         <div className={s.issuesDel} onClick={() => onDeleteIssue(issue.id)}>
           <HiOutlineTrash className={s.issuesDelIcon} />
         </div>
