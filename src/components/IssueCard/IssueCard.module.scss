@@ -24,7 +24,6 @@
   align-items: center;
   text-align: center;
   color: #ffffff;
-  text-shadow: 0px 4px 6px black;
   justify-content: center;
   margin: 0 0.5rem 0 0;
 }
@@ -50,6 +49,10 @@
 .issuesInfoName {
   font-size: 16px;
   text-align: start;
+}
+
+.issuesPriority {
+  font-size: 14px;
 }
 
 .issuesDelIcon {

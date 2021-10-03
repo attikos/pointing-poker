@@ -208,7 +208,7 @@ const Game = (): JSX.Element => {
         if (statusIssue === 'new') {
           return (
             <button
-              className={cn('btn btn-primary mb-auto mt-1')}
+              className={cn('btn btn-primary mb-auto mt-1 me-2')}
               onClick={() => api.startRound()}
             >
               Run Round
@@ -217,7 +217,7 @@ const Game = (): JSX.Element => {
         } else if (statusIssue === 'processing') {
           return (
             <button
-              className={cn('btn btn-primary mb-auto mt-1')}
+              className={cn('btn btn-primary mb-auto me-1')}
               onClick={() => api.stopRound()}
             >
               Stop Round
@@ -227,13 +227,13 @@ const Game = (): JSX.Element => {
         return (
           <div>
             <button
-              className={cn('btn btn btn-primary btn-lg')}
+              className={cn('btn btn-primary me-2')}
               onClick={() => api.startRound()}
             >
               Run Round
             </button>
             <button
-              className={cn('btn btn btn-primary btn-lg')}
+              className={cn('btn btn-secondary me')}
               onClick={() => selectNextIssue()}
             >
               Next Round
@@ -275,14 +275,14 @@ const Game = (): JSX.Element => {
 
           {userData.isDiller ? (
             <button
-              className={cn('btn  btn btn-outline-primary h-25')}
+              className={cn('btn btn-outline-primary h-25')}
               onClick={() => api.stopGame()}
             >
               Stop Game
             </button>
           ) : (
             <button
-              className={cn('btn  btn-outline-primary h-25')}
+              className={cn('btn btn-outline-primary h-25')}
               onClick={() => api.leaveGame()}
             >
               Exit
