@@ -11,6 +11,8 @@ import { RootStateOrAny, useSelector } from 'react-redux';
 import api from '../../services/api';
 import PoppapAddIssue from '../../components/PopapAddIssue/PoppapAddIssue';
 import { shortText } from '../../utils/short-text';
+import Chat from '../../components/Chat/Chat';
+import InputFromFile from '../../components/InputFromFile/InputFromFile';
 
 const Lobby = (): JSX.Element => {
   const textInput = useRef<HTMLInputElement>(null);
@@ -204,6 +206,19 @@ const Lobby = (): JSX.Element => {
                 <div className={s.issuesTitle}>
                   Issues:
                 </div>
+                <div className={s.issueAddBtns}>
+                <button
+                  className={cn('btn btn-primary', s.issueCreateBtn)}
+                  onClick={() => {
+                    setPopapActive(false);
+                    setissueStatus('create');
+                  }}
+                >
+                  Create new Issue
+                    <HiOutlinePlus className={s.issuesAddIcon} />
+                </button>
+                <InputFromFile/>
+                </div>
                 {issues.map((item: IIssue, i: number) => (
                   <div className={s.issuesCard} key={i}>
                     <div className={s.issuesInfo}>
@@ -221,19 +236,6 @@ const Lobby = (): JSX.Element => {
                     </div>
                   </div>
                 ))}
-                <div
-                  className={s.issuesCardAdd}
-                  onClick={() => {
-                    setPopapActive(false);
-                    setissueStatus('create');
-                  }}
-                >
-                  <div className={s.issuesCardAddTitle}>Create new Issue</div>
-
-                  <div className={s.issuesAdd}>
-                    <HiOutlinePlus className={s.issuesAddIcon} />
-                  </div>
-                </div>
               </div>
               <div className={s.settingsGame}>
                 <div className={s.gameTitle}>

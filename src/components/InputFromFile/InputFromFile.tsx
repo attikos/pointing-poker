@@ -1,19 +1,12 @@
 import React from 'react';
 import cn from 'classnames';
 import s from './InputFromFile.module.scss';
-import { ICreateIssue } from '../../interface';
 import api from '../../services/api';
+import { HiOutlinePlus } from 'react-icons/hi';
 
 const InputFromFile = () => {
   const [active, setActive] = React.useState(false);
   const [files, setFile] = React.useState<FileList | null>();
-
-  const initialValues: ICreateIssue = {
-    title: '',
-    link: '',
-    priority: 'low',
-    isCurrent: false,
-  };
 
   const parseFile = async (text: any) => {
     if (typeof text === 'string') {
@@ -28,7 +21,7 @@ const InputFromFile = () => {
             issue[1] === 'high'
           ) {
             let link = '';
-            if (issue.length > 2) link = issue[2];
+            if (issue.length > 2 && issue[2] !== '\n') link = issue[2];
             api.addIssue({
               title: issue[0],
               link: issue[2],
@@ -54,39 +47,49 @@ const InputFromFile = () => {
     }
   };
 
+
   const modalWindow = () => {
     if (active) {
       return (
-        <div className={s.modalWindow}>
-          <div className={cn('modal-dialog modal-dialog-centered')}>
-            <div className={cn('modal-content')}>
-              <div className={cn('modal-header')}>
-                <h5 className={cn('modal-title')}>Add issues from file</h5>
-                <button type='button' className={cn('close')}>
-                  <span aria-hidden='true'>&times;</span>
+        <div className={s.background} onClick={() => setActive(false)}> 
+          <div className={s.modalWindow} onClick={(e) => e.stopPropagation()}>
+              <div className={cn('modal-content', s.modalContent)}>
+                <div className={cn('modal-header')}>
+                  <h5 className={cn('modal-title')}>Add issues from file</h5>
+                  <button type='button' className={cn('btn-close')} onClick={()=> setActive(false)} />
+                </div>
+                <div className={cn('modal-body')}>
+                  Format data in file: <br />
+                  <b>issueName;issuePriority[; issueLink]</b>
+                  <br />
+                  Example: <br />
+                  develop header; high;
+                  https://ru.reactjs.org/docs/hello-world.html; <br />
+                  develop footer; middle; <br />
+                  <b>
+                    Priority - low/middle/high.
+                    <br /> Issues separated by line break (\n) <br />
+                    File format - .csv or .txt
+                    <br />{' '}
+                  </b>
+                </div>
+                <div className={cn('input-group mb-3')}>
+                  <input
+                    type={'file'}
+                    className={cn('form-control')}
+                    accept='.csv,.txt'
+                    onChange={(e) => setFile(e.target.files)}
+                  />
+                   <button
+                  className={cn('btn btn-primary')}
+                  onClick={() => {
+                    setActive(false);
+                    createIssues();
+                  }}
+                >
+                  Upload
                 </button>
-              </div>
-              <div className={cn('modal-body')}>
-                Format data in file: <br />
-                <b>issueName;issuePriority[; issueLink]</b>
-                <br />
-                Example: <br/>
-                develop header; high;
-                https://ru.reactjs.org/docs/hello-world.html; <br />
-                develop footer; middle; <br />
-                <b>Priority - low/middle/high.<br /> Issues separated by line break (\n) <br />
-                File format - .csv or .txt<br /> </b>
-              </div>
-              <input type='file'  accept=".csv,.txt" onChange={(e) => setFile(e.target.files)} />
-              <button
-                className={cn('btn btn-primary')}
-                onClick={() => {
-                  setActive(false);
-                  createIssues();
-                }}
-              >
-                Upload
-              </button>
+                </div>
             </div>
           </div>
         </div>
@@ -97,11 +100,11 @@ const InputFromFile = () => {
   return (
     <div>
       <button
-        type='button'
         className={cn('btn btn-primary')}
         onClick={() => setActive(true)}
       >
-        Choose file
+        Add from file
+        <HiOutlinePlus className={s.issuesAddIcon} />
       </button>
       {modalWindow()}
     </div>
