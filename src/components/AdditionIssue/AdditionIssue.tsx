@@ -9,7 +9,12 @@ import PoppapAddIssue from '../PopapAddIssue/PoppapAddIssue';
 import s from './AdditionIssue.module.scss';
 import cn from 'classnames';
 
-const AdditionIssue = () => {
+interface IProps {
+  btnAddStyle: string;
+  btnAddText?: string;
+}
+
+const AdditionIssue = ({ btnAddStyle, btnAddText }: IProps) => {
   const [popapActive, setPopapActive] = useState(true);
   const [issueStatus, setissueStatus] = useState<TPopupIssueStatus>('create');
   const [dataIssue, setDataIssue] = useState<IIssue>({
@@ -24,12 +29,13 @@ const AdditionIssue = () => {
   return (
     <div>
       <button
-        className={cn('btn btn-outline-primary btn-sm', s.issueCreateBtn)}
+        className={cn(btnAddStyle)}
         onClick={() => {
           setPopapActive(false);
           setissueStatus('create');
         }}
       >
+        {btnAddText ? btnAddText : null}
         <HiOutlinePlus className={s.issuesAddIcon} />
       </button>
 

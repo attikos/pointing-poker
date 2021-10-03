@@ -46,8 +46,7 @@
 
 .scramMasterInfoName,
 .memberInfoName,
-.issuesInfoName,
-.issuesCardAddTitle {
+.issuesInfoName {
   font-size: 16px;
   text-align: start;
 }
@@ -79,8 +78,7 @@
   padding-top: 20px;
 }
 .memberCard,
-.issuesCard,
-.issuesCardAdd {
+.issuesCard {
   margin: 0.5rem;
   background: #f1f0f0;
   max-width: 20rem;
@@ -94,24 +92,10 @@
   position: relative;
 }
 
-.issuesCardAdd {
-  cursor: pointer;
-  background: #0d6efd;
-  color: white;
-
-  &:hover {
-    background: #0b5ed7;
-  }
-}
-
 .issueAddBtns {
   width: 100%;
   display: flex;
   justify-content: start;
-}
-
-.issueCreateBtn {
-  margin-right: 15px;
 }
 
 .memberInfo {
@@ -136,7 +120,6 @@
 }
 .issuesChangeIcon:hover,
 .issuesDelIcon:hover,
-.issuesAddIcon:hover,
 .iconDel:hover {
   cursor: pointer;
 }
@@ -164,9 +147,6 @@
 }
 .issuesChange {
   padding: 0 1rem;
-}
-.issuesAdd {
-  padding-left: 1rem;
 }
 
 .masterPlayer {

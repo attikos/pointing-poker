@@ -291,8 +291,8 @@ const Game = (): JSX.Element => {
         </div>
 
         <div className={s.issuesTitle}>
-          Issues: 
-          <AdditionIssue />
+          Issues: &nbsp;
+          <AdditionIssue btnAddStyle={'btn btn-outline-primary btn-sm ms-10'}/>
         </div>
 
         <div className={s.issuesCont}>
