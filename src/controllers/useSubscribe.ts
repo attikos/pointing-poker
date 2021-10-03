@@ -1,22 +1,21 @@
 import { IServerData, IUser } from '../interface';
 import { updateAllData, initServerData } from '../store/all-data-redux';
 import { websocket } from '../services/socket';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { updateUserAC, initialUserState } from '../store/user-redux';
 import api from '../services/api';
+import { RootState } from '../store/store-redux';
 
 const useSubscribe = () => {
   const dispatch = useDispatch();
+  const userData = useSelector((state: RootState) => state.userData);
 
   const subscribe = async ():Promise<boolean> => {
-    console.log('clear storage 1');
-
     dispatch(updateAllData(initServerData));
     dispatch(updateUserAC(initialUserState));
 
     await websocket.connect();
 
-    console.log('websocket.subscription', websocket.subscription);
     websocket.subscription?.on('all-data', (data: IServerData) => {
       dispatch(updateAllData(data));
     });
@@ -25,24 +24,32 @@ const useSubscribe = () => {
       dispatch(updateUserAC(data));
     });
 
+    websocket.subscription?.on('user-dropped', (TNiceId) => {
+
+      // TODO - получить доступ к редактсу из обработчика событий. Иначе - userData пустой
+      console.log('user-dropped', TNiceId);
+      console.log('userData.niceId', userData.niceId);
+
+      if (userData.niceId === TNiceId) {
+        websocket.close();
+        dispatch(updateAllData(initServerData));
+        dispatch(updateUserAC(initialUserState));
+      }
+    });
+
     websocket.subscription?.on('close', () => {
-      console.log('clear storage 2');
       dispatch(updateAllData(initServerData));
       dispatch(updateUserAC(initialUserState));
     });
 
     websocket.ws?.on('close', () => {
-      console.log('clear storage 3');
       dispatch(updateAllData(initServerData));
       dispatch(updateUserAC(initialUserState));
     });
 
-    console.log('before fetchAllData 1');
     return new Promise( response => {
       const DELAY_WS = 200;
       setTimeout(() => {
-        console.log('fetchAllData 1');
-
         api.fetchAllData();
         api.fetchUser();
         response(true);
