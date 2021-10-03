@@ -8,6 +8,7 @@ import { RootState } from '../../store/store-redux';
 import s from './Results.module.scss';
 import cn from 'classnames';
 import { Link } from 'react-router-dom';
+import { HiDocumentDownload, HiRefresh } from 'react-icons/hi';
 
 const NUMBER_OF_COLUMNS = 3;
 
@@ -98,25 +99,32 @@ const Result = (): JSX.Element => {
       <div className={s.topic}>
         {issues.map((item: IIssue) => item.title.slice(0, 10)).join(', ')}
       </div>
-      <div className={s.attention}>
-        ATTENTION! For view results in Excel: click the Data tab, then From
-        Text. Select the CSV file that has the data clustered into one column.
-        Select Delimited, then make sure the File Origin is Unicode UTF-8.
-        Select semicolon(;). Finally, click Finish.
+
+      <div className="alert alert-success">
+          <strong>ATTENTION!</strong><br/>
+          For view results in Excel: click the Data tab, then From
+          Text. Select the CSV file that has the data clustered into one column.
+          Select Delimited, then make sure the File Origin is Unicode UTF-8.
+          Select semicolon(;). Finally, click Finish.
       </div>
-      <div className={s.controlBtn}>
-        <Link to='/'>
-          <button className={cn('btn btn-secondary btn-lg')}>
-            One more game
-          </button>
-        </Link>
+
+      <div className={cn('my-4', s.controlBtn)}>
         <button
-          className={cn('btn btn-secondary btn-lg')}
+          className={cn('btn btn-secondary me-3')}
           onClick={() => downloadResults()}
         >
           Save result
+          <HiDocumentDownload className="ms-1 fs-5" />
         </button>
+
+        <Link to='/'>
+          <button className={cn('btn btn-outline-primary')}>
+            One more game
+            <HiRefresh className="ms-1 fs-5" />
+          </button>
+        </Link>
       </div>
+
       {listResults()}
     </div>
   );
