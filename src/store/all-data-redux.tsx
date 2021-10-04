@@ -122,7 +122,6 @@ const allDataReducer = (state: IServerData = initServerData,
       stateCopy = {
         ...action.value,
       };
-      console.log('allDataReducers1', stateCopy);
       return stateCopy;
     default:
       return state;

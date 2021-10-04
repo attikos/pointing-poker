@@ -10,20 +10,22 @@ import store from './store/store-redux';
 import api from './services/api';
 import { websocket, IWebsocket  } from './services/socket';
 import { axios } from './services/axios';
+import toast from './utils/toastify';
 
 window.bootstrap = bootstrap;
 window.axios = axios;
 window.api = api;
 window.websocket = websocket;
+window.toast = toast;
 
 declare global {
   interface Window {
     api: any;
     axios: any;
     websocket: IWebsocket;
+    toast: any;
   }
 }
-// const customHistory = createBrowserHistory();
 
 ReactDOM.render(
   <React.StrictMode>

@@ -131,14 +131,10 @@ const newGame = async ({
   const { token, roomId, success, errors } = res.data;
 
   if (errors) {
-    console.log('errors', errors);
     return errors;
   }
 
   if (success && token && roomId) {
-    console.log('token', token);
-    console.log('roomId', roomId);
-
     setToken(token);
     websocket.setRoomId(roomId);
 
@@ -174,6 +170,13 @@ const fetchUser = (): void => {
  */
 const startGame = (): void => {
   websocket.emit('startGame');
+};
+
+/**
+ * For diller and player: exit from game
+ */
+const userKicked = ():void => {
+  websocket.close();
 };
 
 /**
@@ -242,6 +245,7 @@ const exportData = {
   checkGameId,
   newGame,
   startGame,
+  userKicked,
   leaveGame,
   stopGame,
   startRound,

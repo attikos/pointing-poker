@@ -45,25 +45,11 @@ export const websocket: IWebsocket = {
   },
 
   /**
-     * Connect and sunscribe to chat
-     * Events: close, open, error
-     */
+   * Connect and sunscribe to chat
+   * Events: close, open, error
+   */
   async connect() {
     if ( this.ws ) {
-      // try {
-      //   this.close();
-      //   return new Promise<void>((resolve) => {
-      //     const DELAY_AFTER_CLOSE = 300;
-      //     setTimeout(() => resolve(), DELAY_AFTER_CLOSE);
-      //   });
-      // } catch (error) {
-      //   this.ws.emit('close');
-      //   console.log('error');
-      //   this.ws = null;
-      // }
-
-      // await this.connect();
-
       this.close();
 
       return new Promise( resolve => {
@@ -77,7 +63,6 @@ export const websocket: IWebsocket = {
     // eslint-disable-next-line no-async-promise-executor
     return new Promise( async (resolve, reject) => {
       if (!this.roomId) {
-        console.log(' Can\'t connect, roomId is empty');
         return;
       }
 
@@ -88,13 +73,11 @@ export const websocket: IWebsocket = {
           .connect();
 
         this.ws?.on('close', () => {
-          console.log('close --- close ALLL!!!');
           this.close();
           this.runCallback('close');
         });
 
         this.ws?.on('open', async () => {
-          console.log('connected');
           this.runCallback('open');
 
           await this.subscribe();
@@ -104,7 +87,6 @@ export const websocket: IWebsocket = {
         this.ws?.on('error', () => {
           this.runCallback('error');
           reject();
-          console.log('disconnected');
         });
       } catch (err) {
         console.log(err);
@@ -140,7 +122,6 @@ export const websocket: IWebsocket = {
       }
 
       if (!this.roomId) {
-        console.log(' Can\'t subscribe, roomId is empty');
         return;
       }
 
@@ -155,22 +136,18 @@ export const websocket: IWebsocket = {
       });
 
       this.subscription?.on('all-data', (data) => {
-        console.log('server send allData:', data);
         resolve(data);
       });
 
       this.subscription?.on('user', (data) => {
-        console.log('server send user:', data);
         resolve(data);
       });
 
       this.subscription?.on('error', (e) => {
-        console.log('error', e);
         reject(e);
       });
 
       this.subscription?.on('close', (e) => {
-        console.log('--- subscription close ---');
         this.close();
         reject(e);
       });

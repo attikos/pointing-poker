@@ -1,14 +1,12 @@
 import { IServerData, IUser } from '../interface';
 import { updateAllData, initServerData } from '../store/all-data-redux';
 import { websocket } from '../services/socket';
-import { useDispatch, useSelector } from 'react-redux';
-import { updateUserAC, initialUserState } from '../store/user-redux';
+import { useDispatch } from 'react-redux';
+import { updateUserAC, tryDeleteUser, initialUserState } from '../store/user-redux';
 import api from '../services/api';
-import { RootState } from '../store/store-redux';
 
 const useSubscribe = () => {
   const dispatch = useDispatch();
-  const userData = useSelector((state: RootState) => state.userData);
 
   const subscribe = async ():Promise<boolean> => {
     dispatch(updateAllData(initServerData));
@@ -24,17 +22,8 @@ const useSubscribe = () => {
       dispatch(updateUserAC(data));
     });
 
-    websocket.subscription?.on('user-dropped', (TNiceId) => {
-
-      // TODO - получить доступ к редактсу из обработчика событий. Иначе - userData пустой
-      console.log('user-dropped', TNiceId);
-      console.log('userData.niceId', userData.niceId);
-
-      if (userData.niceId === TNiceId) {
-        websocket.close();
-        dispatch(updateAllData(initServerData));
-        dispatch(updateUserAC(initialUserState));
-      }
+    websocket.subscription?.on('user-dropped', (niceId) => {
+      dispatch(tryDeleteUser(niceId));
     });
 
     websocket.subscription?.on('close', () => {
