@@ -185,9 +185,7 @@ const Lobby = (): JSX.Element => {
         {members.map(
           (
             { firstName, isDiller, isObserver, job, lastName }: IUser,
-            i: number,
-          ) =>
-            !isDiller ? (
+            i: number) => !isDiller ? (
               <div
                 className={cn(s.memberCard, {
                   [s.isObserverCard]: !isDiller && isObserver,
@@ -209,15 +207,16 @@ const Lobby = (): JSX.Element => {
                   <div>{job}</div>
                 </div>
 
-                { user.isDiller ?
-                  (<div
+                {user.isDiller ? (
+                  <div
                     className={s.memberDelete}
                     onClick={() => deleteMember(members[i].niceId)}
                   >
                     <HiBan className={s.iconDel} />
-                  </div>) : null }
+                  </div>
+                ) : null}
               </div>
-            ) : null)}
+          ) : null)}
       </div>
       {user.isDiller ? (
         <div>

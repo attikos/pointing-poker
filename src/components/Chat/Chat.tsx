@@ -33,10 +33,20 @@ const Chat = () => {
     );
   };
 
+  const keyDown = (e: any) => {
+    if (e.code === 'Enter') {
+      sendMessage(e);
+    }
+  };
+
   return (
     <div className={s.chatWrapper}>
       {returnMessages()}
-      <form className={cn('input-group mb-3')} onSubmit={sendMessage}>
+      <form
+        className={cn('input-group mb-3')}
+        onSubmit={sendMessage}
+        onKeyDown={(e) => keyDown(e)}
+      >
         <input
           type='text'
           className={cn('form-control')}
