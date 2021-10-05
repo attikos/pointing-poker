@@ -4,6 +4,7 @@ import { HiOutlineTrash } from 'react-icons/hi';
 import { IIssue } from '../../interface';
 import { shortText } from '../../utils/short-text';
 import s from './IssueCard.module.scss';
+import coffeImg from '../../assets/coffee.png';
 
 interface IProps {
   issue: IIssue;
@@ -21,8 +22,16 @@ const IssueCard = ({
   isDiller,
 }: IProps): JSX.Element => {
   const returnAverage = () => {
-    if (average !== undefined)
+    if (average === 'cof') {
+      return (<div className={s.average}>
+        <img width="36" src={coffeImg} alt='coffee' />
+      </div>);
+    }
+
+    if (average !== undefined) {
       return <div className={s.average}>{average}</div>;
+    }
+
     return null;
   };
 
