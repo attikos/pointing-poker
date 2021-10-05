@@ -23,3 +23,11 @@
 .modalContent {
   padding: 10px;
 }
+
+.codeLine {
+  font-family: monospace;
+
+  &::marker {
+    color: #8b8b8b;
+  }
+}

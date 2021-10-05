@@ -1,9 +1,9 @@
-import React, { useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import cn from 'classnames';
 import { Formik, Field, Form, ErrorMessage, FormikHelpers } from 'formik';
 import * as Yup from 'yup';
 import s from './PoppapToLobby.module.scss';
-import { IUser } from '../../interface';
+import { ICreateUser } from '../../interface';
 import { initialUserState } from '../../store/user-redux';
 import { TNiceId } from '../../types';
 import { useNewGame } from '../../controllers/useNewGame';
@@ -29,7 +29,6 @@ const PoppapToLobby = ({
   userRole,
 }: Props): JSX.Element => {
   const [newGame] = useNewGame();
-
   const [fio, setFio] = useState({ firstName: '', lastName: '' });
 
   const getIinitials = (firstName: string, lastName: string) => {
@@ -46,23 +45,17 @@ const PoppapToLobby = ({
   };
 
   const initFormData = { ...initialUserState };
-  if (userRole === 'player') {
-    initFormData.isObserver = false;
-    initFormData.isDiller = false;
-  }
+  initFormData.isObserver = userRole === 'master';
 
   const initials = getIinitials(fio.firstName, fio.lastName);
 
-  const handleSubmit = async (values: {
-    user: IUser;
-    gameNiceId: TNiceId;
-  }): Promise<void> => {
+  const handleSubmit = async (values: { user: ICreateUser, gameNiceId: TNiceId }): Promise<void> => {
     newGame(values);
   };
 
   const onFormSubmit = (
-    values: IUser,
-    { setSubmitting }: FormikHelpers<IUser>,
+    values: ICreateUser,
+    { setSubmitting }: FormikHelpers<ICreateUser>,
   ) => {
     handleSubmit({
       user: { ...values, ...fio },
@@ -87,6 +80,7 @@ const PoppapToLobby = ({
             initialValues={initFormData}
             validationSchema={SignupSchema}
             onSubmit={onFormSubmit}
+            enableReinitialize={true}
           >
             {({ errors, touched }) => (
               <Form className={s.form}>
@@ -96,7 +90,8 @@ const PoppapToLobby = ({
                       ? 'Create session'
                       : 'Connect to lobby'}
                   </div>
-                  <div className='form-check form-switch' id={s.asObserver}>
+
+                  <div className="form-check form-switch" id={s.asObserver}>
                     <label
                       className='form-check-label'
                       htmlFor='flexSwitchCheckDefault'
@@ -112,32 +107,24 @@ const PoppapToLobby = ({
                     />
                   </div>
                 </div>
+
                 <div className={cn('col-sm-9 mb-3 has-validation')}>
                   <label htmlFor='firstName'>Your First Name </label>
 
                   <Field
-                    id='firstName'
-                    name='firstName'
-                    className={cn('form-control', {
-                      'is-invalid': errors.firstName && touched.firstName,
-                    })}
-                    onInput={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                      setFio({ ...fio, firstName: e.target.value })
-                    }
+                    id="firstName"
+                    name="firstName"
+                    className={cn('form-control mb-3', { 'is-invalid': errors.firstName && touched.firstName })}
+                    onInput={(e: React.ChangeEvent<HTMLSelectElement>) => setFio({ ...fio, firstName: e.target.value })}
                   />
-                  <span className={s.error}>
-                    <ErrorMessage name='firstName' />
-                  </span>
-                  <br />
+                  <span className="invalid-feedback"><ErrorMessage name="firstName" /></span>
 
                   <label htmlFor='lastName'>Your Last Name (optional)</label>
                   <Field
-                    id='lastName'
-                    name='lastName'
-                    className={cn('form-control')}
-                    onInput={(e: React.ChangeEvent<HTMLSelectElement>) =>
-                      setFio({ ...fio, lastName: e.target.value })
-                    }
+                    id="lastName"
+                    name="lastName"
+                    className={cn('form-control mb-3')}
+                    onInput={(e: React.ChangeEvent<HTMLSelectElement>) => setFio({ ...fio, lastName: e.target.value })}
                   />
                   <label htmlFor='job'>Your Job Position (optional)</label>
                   <Field id='job' name='job' className={cn('form-control')} />

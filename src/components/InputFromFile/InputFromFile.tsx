@@ -28,6 +28,8 @@ const InputFromFile = () => {
               priority: issue[1],
               isCurrent: false,
             });
+
+            setFile(null);
           } else console.error('bad priority of issue: ', issue[0]);
         });
       } catch (e) {
@@ -51,7 +53,7 @@ const InputFromFile = () => {
   const modalWindow = () => {
     if (active) {
       return (
-        <div className={s.background} onClick={() => setActive(false)}> 
+        <div className={s.background} onClick={() => setActive(false)}>
           <div className={s.modalWindow} onClick={(e) => e.stopPropagation()}>
               <div className={cn('modal-content', s.modalContent)}>
                 <div className={cn('modal-header')}>
@@ -63,9 +65,16 @@ const InputFromFile = () => {
                   <b>issueName;issuePriority[; issueLink]</b>
                   <br />
                   Example: <br />
-                  develop header; high;
-                  https://ru.reactjs.org/docs/hello-world.html; <br />
-                  develop footer; middle; <br />
+
+                  <div className="alert alert-dark">
+                    <ol>
+                      <li className={s.codeLine}>develop header; high;
+                    https://ru.reactjs.org/docs/hello-world.html; </li>
+                      <li className={s.codeLine}>fix footer; middle; </li>
+                      <li className={s.codeLine}>update cards; low;</li>
+                    </ol>
+                  </div>
+
                   <b>
                     Priority - low/middle/high.
                     <br /> Issues separated by line break (\n) <br />
@@ -73,22 +82,28 @@ const InputFromFile = () => {
                     <br />{' '}
                   </b>
                 </div>
+
                 <div className={cn('input-group mb-3')}>
                   <input
-                    type={'file'}
+                    id="inputFile"
+                    type="file"
                     className={cn('form-control')}
                     accept='.csv,.txt'
-                    onChange={(e) => setFile(e.target.files)}
+                    onChange={(e: React.ChangeEvent<HTMLInputElement>) => setFile(e.target.files)}
                   />
-                   <button
-                  className={cn('btn btn-primary')}
-                  onClick={() => {
-                    setActive(false);
-                    createIssues();
-                  }}
-                >
-                  Upload
-                </button>
+                  <button
+                    className={cn('btn btn-primary')}
+                    onClick={() => {
+                      setActive(false);
+                      createIssues();
+                      const fileInput = (document.getElementById('inputFile') as HTMLInputElement);
+                      if ( fileInput ) {
+                        fileInput.value = '';
+                      }
+                    }}
+                  >
+                    Upload
+                  </button>
                 </div>
             </div>
           </div>
@@ -100,7 +115,7 @@ const InputFromFile = () => {
   return (
     <div>
       <button
-        className={cn('btn btn-primary')}
+        className={cn('btn btn-secondary')}
         onClick={() => setActive(true)}
       >
         Add from file
