@@ -77,16 +77,9 @@ const Result = (): JSX.Element => {
       data = data + `${arr};${parsObj(arrayResults[key])}\r\n`;
     }
 
-    //источник https://gist.github.com/hoonzis/4e22de8697300d3aa3f04489485a9105
-    const createUtf16LeBlob = (csv: string) => {
-      const bom = decodeURIComponent('%EF%BB%BF'); // "\uFEFF\n";
-      csv = bom + csv;
-      const csvA = new Uint16Array(csv.split('').map((k) => k.charCodeAt(0)));
-      const blob = new Blob([csvA], { type: 'text/csv;charset=UTF-16LE;' });
-      return blob;
-    };
-
-    const blob = createUtf16LeBlob(data);
+    const blob = new Blob([decodeURIComponent('%EF%BB%BF') + data], {
+      type: 'text/csv;charset=UTF-8;',
+    });
     const a = document.createElement('a');
     a.download = 'result.csv';
     a.href = URL.createObjectURL(blob);
@@ -100,12 +93,13 @@ const Result = (): JSX.Element => {
         {issues.map((item: IIssue) => item.title.slice(0, 10)).join(', ')}
       </div>
 
-      <div className="alert alert-success">
-          <strong>ATTENTION!</strong><br/>
-          For view results in Excel: click the Data tab, then From
-          Text. Select the CSV file that has the data clustered into one column.
-          Select Delimited, then make sure the File Origin is Unicode UTF-8.
-          Select semicolon(;). Finally, click Finish.
+      <div className='alert alert-success'>
+        <strong>ATTENTION!</strong>
+        <br />
+        For view results in Excel: click the Data tab, then From Text. Select
+        the CSV file that has the data clustered into one column. Select
+        Delimited, then make sure the File Origin is Unicode UTF-8. Select
+        semicolon(;). Finally, click Finish.
       </div>
 
       <div className={cn('my-4', s.controlBtn)}>
@@ -114,13 +108,13 @@ const Result = (): JSX.Element => {
           onClick={() => downloadResults()}
         >
           Save result
-          <HiDocumentDownload className="ms-1 fs-5" />
+          <HiDocumentDownload className='ms-1 fs-5' />
         </button>
 
         <Link to='/'>
           <button className={cn('btn btn-outline-primary')}>
             One more game
-            <HiRefresh className="ms-1 fs-5" />
+            <HiRefresh className='ms-1 fs-5' />
           </button>
         </Link>
       </div>
