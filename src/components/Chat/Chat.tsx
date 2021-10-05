@@ -1,13 +1,13 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import cn from 'classnames';
-import { RootStateOrAny, useSelector } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { RootState } from '../../store/store-redux';
-import PlayerIcon from '../PlayerIcon/PlayerIcon';
 import s from './Chat.module.scss';
 import api from '../../services/api';
-import { IMessage, IUser } from '../../interface';
+import { IUser } from '../../interface';
 
 const Chat = () => {
+  const user = useSelector((state: RootState) => state.userData);
   const members = useSelector((state: RootState) => state.allData.members);
   const messages = useSelector((state: RootState) => state.allData.messages);
 
@@ -17,30 +17,46 @@ const Chat = () => {
     event.preventDefault();
 
     if (message.length > 0) {
-      // TODO отправка на сервер
       api.sendMessage(message);
       setMessage('');
     }
   };
 
-  const findMember = (userId: number) => {
-    return members.find( (user: IUser) => user.id === userId);
+  useEffect(() => {
+    const messageWrapperEl = document.querySelector('.j-message-scroll');
+    messageWrapperEl?.scrollTo(0, 1000);
+  }, [messages]);
+
+  const findMember = (memberId: number) => {
+    return members.find( (member: IUser) => member.id === memberId);
+  };
+
+  const checkIsCurrentPlayer = (memberId: number) => {
+    return user.id === memberId;
   };
 
   const returnMessages = () => {
     return messages.map( (msg) : React.ReactElement => {
-      const member = findMember(msg.userId);
+      const isCurrentPlayer = checkIsCurrentPlayer(msg.userId);
+      const author = findMember(msg.userId);
+      const authorName = `${author?.firstName} ${author?.lastName}`;
 
-      return (<div className={s.rows} key={msg.id}>
-        <div className={s.rowMessage}>
-          <div className={s.message}>
+      return (
+        <div
+          key={msg.id}
+          className={cn(s.rowMessage, {
+            [s.currentRowMessage] : isCurrentPlayer,
+          })}
+        >
+          <div className={cn(s.message, {
+            [s.currentPlayerMessage] : isCurrentPlayer,
+          })}>
+            { !isCurrentPlayer &&
+              <div className={s.authorName}>{ authorName || 'noname' }</div>
+            }
             {msg.message}
-            <div className={s.dateMessage}></div>
           </div>
-
-          { member ? <PlayerIcon item={member} /> : <div>noname</div> }
-        </div>
-      </div>);
+        </div>);
     });
   };
 
@@ -52,7 +68,12 @@ const Chat = () => {
 
   return (
     <div className={s.chatWrapper}>
-      {returnMessages()}
+      <p>Chat</p>
+
+      <div className={cn('j-message-scroll', s.messages)}>
+        {returnMessages()}
+      </div>
+
       <form
         className={cn('input-group mb-3')}
         onSubmit={sendMessage}
@@ -63,6 +84,7 @@ const Chat = () => {
           className={cn('form-control')}
           value={message}
           onChange={(e) => setMessage(e.target.value)}
+          placeholder="type a message"
         />
         <button className={cn('btn btn-primary')} type='submit'>
           Send

@@ -17,8 +17,6 @@ const Footer = (): JSX.Element => {
           <a className={s.link} href='https://github.com/AnnaKoliada'>
             <AiOutlineGithub /> AnnaKoliada
           </a>
-         
-          
         </div>
         <div className={s.year}>2021 ©</div>
         <div className={s.footerLogo}>

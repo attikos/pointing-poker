@@ -1,14 +1,18 @@
 .footer {
   width: 100%;
-  background: #adb5bd;
+  background: #909dab;
   padding: 12px;
+  border-top: 2px solid #717171;
+
   a {
     text-decoration: none;
+
     &:hover {
       cursor: pointer;
     }
   }
 }
+
 .footerContainer {
   display: flex;
   flex-wrap: wrap;
@@ -20,9 +24,11 @@
   max-width: 1000px;
   margin: 0 auto;
 }
+
 .footerLogoImg {
   width: 150px;
 }
+
 .link {
   font-size: 16px;
   font-weight: 400px;
@@ -32,6 +38,7 @@
     cursor: pointer;
   }
 }
+
 .footerLogoSvg {
   width: 45%;
   z-index: -1;
@@ -43,6 +50,7 @@
   color: #222;
   font-weight: bold;
 }
+
 .footerGithub {
   display: flex;
   flex-direction: column;

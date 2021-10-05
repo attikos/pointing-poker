@@ -1,9 +1,13 @@
 .settings {
   max-width: 1000px;
+  width: 70%;
   margin: 0 auto;
   color: #4c414a;
   padding-bottom: 50px;
+  padding-right: 40px;
+  border-right: 1px solid #bdbdbd;
 }
+
 .scramMaster {
   padding: 1rem 0;
 }
@@ -34,7 +38,6 @@
 .scramMasterInfo,
 .memberInfo,
 .issuesInfo {
-  // padding-left: 1rem;
   color: #4c414a;
   font-size: 12px;
   width: 150px;
@@ -106,9 +109,11 @@
   flex-direction: column;
   align-items: flex-start;
 }
+
 .memberDelete {
   width: 50px;
 }
+
 .iconDel {
   width: 20px;
   height: 20px;
@@ -120,11 +125,13 @@
   width: 20px;
   height: 20px;
 }
+
 .issuesChangeIcon:hover,
 .issuesDelIcon:hover,
 .iconDel:hover {
   cursor: pointer;
 }
+
 .issuesInfo {
   display: flex;
   flex-direction: column;
@@ -147,6 +154,7 @@
   line-height: 30px;
   padding-bottom: 10px;
 }
+
 .issuesChange {
   padding: 0 1rem;
 }
@@ -156,17 +164,18 @@
   max-width: 500px;
   text-align: start;
 }
+
 .settingsGameItem {
   max-width: 500px;
   text-align: start;
 }
+
 .settingsGame {
   flex-direction: column;
   justify-content: flex-start;
 }
 .settingsGame:nth-child(2) {
   padding: 1rem;
-  // max-width: 500px;
   text-align: start;
 }
 
@@ -185,6 +194,7 @@
   justify-content: center;
   margin: 0 0.5rem 0 0;
 }
+
 .inputTopic {
   border: none;
   border-bottom: #000 solid 1px;
@@ -193,17 +203,20 @@
   font-family: 'Ruda', sans-serif;
   font-size: 16px;
 }
+
 .topic {
   display: flex;
   align-items: center;
   text-align: center;
   justify-content: center;
 }
+
 .cards {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
 }
+
 .cardItem {
   width: 8rem;
   height: 10rem;
@@ -217,10 +230,12 @@
   font-family: 'Ruda', sans-serif;
   margin: 1rem;
 }
+
 .settingsPlayer {
   display: flex;
   justify-content: flex-end;
 }
+
 .isObserver {
   padding: 0 0 1rem 0;
   display: flex;
@@ -232,10 +247,12 @@
   top: 0;
   right: 0;
 }
+
 .isObserverIcon {
   width: 100%;
   height: 100%;
 }
+
 .isObserverCard {
-  background-color: #98999933;
+  background-color: rgba(153, 153, 153, 0.2);
 }

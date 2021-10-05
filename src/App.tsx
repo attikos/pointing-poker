@@ -22,7 +22,7 @@ function App() {
     <div className={s.wrapper}>
       <Header />
 
-      <div className="container mb-4">
+      <div className="container mb-4 flex-grow-1">
         <Switch>
           <Route exact path="/" render={() => <Main />} />
           <Route exact path="/:gameNiceId" render={() => <PlayGame />} />

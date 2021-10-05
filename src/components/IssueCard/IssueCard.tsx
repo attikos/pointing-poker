@@ -9,8 +9,8 @@ import coffeImg from '../../assets/coffee.png';
 interface IProps {
   issue: IIssue;
   average?: string;
-  onSetIsCurrentIssue?: any;
-  onDeleteIssue?: any;
+  onSetIsCurrentIssue?: () => void;
+  onDeleteIssue?: (issue_id:number) => void;
   isDiller?: boolean;
 }
 
