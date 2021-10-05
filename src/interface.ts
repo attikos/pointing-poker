@@ -23,6 +23,15 @@ export interface ICreateUser {
   niceId?: TNiceId;
 }
 
+export interface IMessage {
+  message: string;
+  userId: number;
+  gameId: number;
+  id?: number;
+  updatedAt?: string;
+  createdAt?: string;
+}
+
 export interface IScore {
   issueId: number;
   userId: number;
@@ -34,6 +43,7 @@ export interface IScore {
 
 export interface IServerData {
   game: IGame | Record<string, never>;
+  messages: IMessage[];
   members: IUser[];
   issues: IIssue[];
   scores: IScore[];

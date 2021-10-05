@@ -151,6 +151,14 @@ const setAsObserver = (flag: boolean): void =>{
 
   websocket.emit('setAsObserver', dataFlag);
 };
+
+const sendMessage = (message: string): void =>{
+  if ( !message ) {
+    return;
+  }
+
+  websocket.emit('sendMessage', message);
+};
 /**
  * Get all game data (without current player profile)
  */
@@ -258,6 +266,7 @@ const exportData = {
   addScore,
   deleteIssue,
   setAsObserver,
+  sendMessage,
 };
 
 export default exportData;

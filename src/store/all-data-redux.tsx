@@ -4,6 +4,7 @@ const UPDATE_ALL_DATA = 'UPDATE_ALL_DATA';
 
 export const initServerData: IServerData = {
   game: {},
+  messages : [],
   members: [
     {
       niceId: 'ABC123',

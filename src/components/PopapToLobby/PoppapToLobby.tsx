@@ -111,13 +111,15 @@ const PoppapToLobby = ({
                 <div className={cn('col-sm-9 mb-3 has-validation')}>
                   <label htmlFor='firstName'>Your First Name </label>
 
-                  <Field
-                    id="firstName"
-                    name="firstName"
-                    className={cn('form-control mb-3', { 'is-invalid': errors.firstName && touched.firstName })}
-                    onInput={(e: React.ChangeEvent<HTMLSelectElement>) => setFio({ ...fio, firstName: e.target.value })}
-                  />
-                  <span className="invalid-feedback"><ErrorMessage name="firstName" /></span>
+                  <div className="mb-3">
+                    <Field
+                      id="firstName"
+                      name="firstName"
+                      className={cn('form-control', { 'is-invalid': errors.firstName && touched.firstName })}
+                      onInput={(e: React.ChangeEvent<HTMLSelectElement>) => setFio({ ...fio, firstName: e.target.value })}
+                    />
+                    <span className="invalid-feedback"><ErrorMessage name="firstName" /></span>
+                  </div>
 
                   <label htmlFor='lastName'>Your Last Name (optional)</label>
                   <Field

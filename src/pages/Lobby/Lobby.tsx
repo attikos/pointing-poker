@@ -132,6 +132,8 @@ const Lobby = (): JSX.Element => {
         </div>
       </div>
 
+      <Chat/>
+
       {user.isDiller ? (
         <div className='row'>
           <div className={cn('col-6', s.linkLobby)}>
