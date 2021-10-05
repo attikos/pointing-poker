@@ -1,18 +1,16 @@
-import { IUser } from '../interface';
+import { ICreateUser, IUser } from '../interface';
 import api from '../services/api';
 import { TNiceId } from '../types';
 
 const UPDATE_USER = 'UPDATE_USER';
 const TRY_DELETE_USER = 'TRY_DELETE_USER';
 
-export const initialUserState: IUser = {
-  isObserver: true,
-  isDiller: true,
+export const initialUserState: ICreateUser = {
   firstName: '',
   lastName: '',
+  isObserver: false,
   job: '',
   foto: '',
-  id: -1,
 };
 
 export const updateUserAC = (value: IUser): { type: string; value: IUser } => ({
@@ -25,10 +23,10 @@ export const tryDeleteUser = (value: TNiceId): { type: string; value: TNiceId } 
   value,
 });
 
-const userReducer = (state: IUser = initialUserState,
+const userReducer = (state: IUser | ICreateUser = initialUserState,
   action: {
     type: string;
-    value: IUser | TNiceId
+    value: ICreateUser | IUser | TNiceId
   }): IUser => {
 
   let stateCopy;
@@ -43,7 +41,7 @@ const userReducer = (state: IUser = initialUserState,
       }
       return state;
     case TRY_DELETE_USER:
-      if ( state.niceId === action.value ) {
+      if ( state.niceId && state.niceId === action.value ) {
         stateCopy = {
           ...initialUserState,
         };

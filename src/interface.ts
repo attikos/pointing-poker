@@ -4,12 +4,12 @@ export interface IUser {
   firstName: string;
   lastName: string;
   job: string;
-  isObserver: boolean;
-  isDiller: boolean;
+  isObserver?: boolean;
+  isDiller?: boolean;
   token?: string;
   foto?: string;
   niceId?: TNiceId;
-  id: number;
+  id?: number;
   updatedAt?: string;
   createdAt?: string;
 }
@@ -20,6 +20,7 @@ export interface ICreateUser {
   job: string;
   isObserver: boolean;
   foto?: string;
+  niceId?: TNiceId;
 }
 
 export interface IScore {

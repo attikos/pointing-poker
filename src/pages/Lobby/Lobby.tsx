@@ -37,7 +37,7 @@ const Lobby = (): JSX.Element => {
     api.deleteUser(i);
   };
 
-  const getInitials = (firstName: string, lastName: string) => {
+  const getInitials = (firstName?: string, lastName?: string) => {
     if (firstName && lastName) {
       return firstName[0].toUpperCase() + lastName[0].toUpperCase();
     }
@@ -114,19 +114,21 @@ const Lobby = (): JSX.Element => {
 
         <div className={s.scramMaster}>
           <h6>Scram master:</h6>
-          <div className={s.scramMasterCard}>
-            <div className={s.noFoto}>
-              {getInitials(diller.firstName, diller.lastName)}
-            </div>
-
-            <div className={s.scramMasterInfo}>
-              <div className={s.scramMasterInfoName}>
-                {shortText(`${diller.firstName} ${diller.lastName}`, 24)}
+          { diller
+            ? (<div className={s.scramMasterCard}>
+              <div className={s.noFoto}>
+                {getInitials(diller.firstName, diller.lastName)}
               </div>
 
-              <div>{diller.job}</div>
-            </div>
-          </div>
+              <div className={s.scramMasterInfo}>
+                <div className={s.scramMasterInfoName}>
+                  {shortText(`${diller.firstName} ${diller.lastName}`, 24)}
+                </div>
+
+                <div>{diller.job}</div>
+              </div>
+            </div>)
+            : '--' }
         </div>
       </div>
 
