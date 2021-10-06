@@ -7,7 +7,11 @@ const defaults = {
   close       : true,
 };
 
-export default function (message, _options = {}) {
+interface IOptions {
+  type?: string;
+}
+
+export default function (message:string | undefined, _options : IOptions = {}):void {
   const { type = 'success' } = _options;
 
   const options = Object.assign({

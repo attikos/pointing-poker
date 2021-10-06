@@ -1,4 +1,5 @@
 import Ws from '@adonisjs/websocket-client';
+import { IUser } from '../interface';
 import { getToken } from './axios';
 
 // eslint-disable-next-line @typescript-eslint/no-var-requires
@@ -21,7 +22,7 @@ export interface IWebsocket {
   subscription: null | ISubscription;
   roomId: string;
   connect: () => Promise<void>;
-  subscribe: () => Promise<void | any>;
+  subscribe: () => Promise<void | boolean | IUser>;
   on: (arg:string, arg1:() => void) => void;
   off: (arg:string) => void;
   setRoomId: (arg:string) => void;

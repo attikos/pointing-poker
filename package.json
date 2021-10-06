@@ -60,6 +60,7 @@
     "@types/bootstrap": "^5.1.4",
     "@types/js-cookie": "^2.2.7",
     "@types/react-router-dom": "^5.1.8",
+    "@types/toastify-js": "^1.9.2",
     "@typescript-eslint/eslint-plugin": "^4.31.2",
     "@typescript-eslint/parser": "^4.31.2",
     "eslint": "^7.32.0",

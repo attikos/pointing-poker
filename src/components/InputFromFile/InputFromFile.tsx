@@ -24,7 +24,7 @@ const InputFromFile = () => {
             if (issue.length > 2 && issue[2] !== '\n') link = issue[2];
             api.addIssue({
               title: issue[0],
-              link: issue[2],
+              link: link,
               priority: issue[1],
               isCurrent: false,
             });

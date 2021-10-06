@@ -147,7 +147,7 @@ const Game = (): JSX.Element => {
   const returnIssuesList = (iss: IIssue[]) => {
     return (
       <div className={s.issuesListWrapper}>
-        
+
         <div className={s.issuesList}>
           {iss.map((issue: IIssue, ind: number) => {
             return (
@@ -173,7 +173,7 @@ const Game = (): JSX.Element => {
           <button
             className={s.pokerCard}
             key={item}
-            onClick={(e) => onSetScore(item)}
+            onClick={() => onSetScore(item)}
           >
             {item}
           </button>

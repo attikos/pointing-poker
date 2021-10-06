@@ -1,4 +1,4 @@
-import { ICreateIssue, ICreateUser, IIssue, IUser } from '../interface';
+import { ICreateIssue, ICreateUser, IIssue } from '../interface';
 import { TNiceId, TScore } from '../types';
 import { axios, getToken, setToken } from './axios';
 import { websocket } from './socket';
