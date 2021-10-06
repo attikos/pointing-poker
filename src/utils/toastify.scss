@@ -1,0 +1,101 @@
+.toastify {
+    position: fixed;
+    z-index: 1101;
+    width: 35%;
+    padding: .75rem 2.5rem .75rem 1.25rem;
+    opacity: 0;
+    transition: all .4s cubic-bezier(.215,.61,.355,1);
+    color: #fff;
+    border: 1px solid transparent;
+    border-radius: 3px;
+    text-decoration: none;
+    box-shadow: 0px 6px 16px rgba(0, 0, 0, 0.25);
+
+    &--success {
+        color: #004891;
+        background-color: #eafdff;
+        border-color: #0084b7;
+    }
+
+    &--danger {
+        color: #772c3a;
+        background-color: #fadde2;
+        border-color: #f7cfd7;
+    }
+
+    &--warning {
+        color: #7b4c3e;
+        background-color: #fbe9e4;
+        border-color: #fae1d9;
+    }
+
+    &.on {
+        opacity: 1;
+    }
+}
+
+.toast-close {
+    position: absolute;
+    top: 9px;
+    right: 15px;
+    opacity: .4;
+    font-size: 0;
+    cursor: pointer;
+
+    &::after {
+        content: '×';
+        font-size: 22px;
+        font-weight: bold;
+        line-height: 1;
+    }
+}
+
+.toastify-right {
+    right: 15px;
+}
+
+.toastify-left {
+    left: 15px;
+}
+
+.toastify-top {
+    top: -150px;
+}
+
+.toastify-bottom {
+    bottom: -150px;
+}
+
+.toastify-rounded {
+    border-radius: 25px;
+}
+
+.toastify-avatar {
+    width: 1.5em;
+    height: 1.5em;
+    margin: -7px 5px;
+    border-radius: 2px;
+}
+
+.toastify-center {
+    margin-left: auto;
+    margin-right: auto;
+    left: 0;
+    right: 0;
+    max-width: -webkit-fit-content;
+    max-width: fit-content;
+    max-width: -moz-fit-content;
+}
+
+@media only screen and (max-width: 360px) {
+  .toastify-left,
+  .toastify-right {
+        margin-left:auto;
+        margin-right: auto;
+        left: 0;
+        right: 0;
+        max-width: -webkit-fit-content;
+        max-width: -moz-fit-content;
+        max-width: fit-content;
+  }
+}

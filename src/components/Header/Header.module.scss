@@ -1,0 +1,16 @@
+.header {
+  font-family: "Roboto", sans-serif;
+}
+
+.logoImg {
+  position: absolute;
+  top: 27px;
+  left: 60px;
+  max-width: 60px;
+  filter: drop-shadow(5px 6px 3px rgba(30, 30, 200, 0.6));
+}
+.headerTop {
+  background: linear-gradient(355deg, #075068, #0d6efd);
+  height: 60px;
+  width: 100%;
+}

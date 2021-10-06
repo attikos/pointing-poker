@@ -1,0 +1,170 @@
+.game {
+  display: flex;
+  margin: 0 auto;
+  color: #4c414a;
+  padding: 0px 38px;
+}
+
+.mainUnit {
+  width: 70%;
+  padding-right: 50px;
+}
+
+.mainUnitTopic {
+  text-align: center;
+  margin-top: 30px;
+  margin-bottom: 55px;
+
+  border: none;
+  border-bottom: #000 solid 1px;
+  text-align: center;
+  font-family: "Ruda", sans-serif;
+  font-size: 16px;
+}
+
+.scramMasterCard {
+  font-size: 12px;
+  line-height: 15px;
+  color: rgba(0, 0, 0, 0.6);
+  border-top-left-radius: 13px;
+  border-bottom-left-radius: 3px;
+}
+
+.score {
+  display: flex;
+  flex-wrap: wrap;
+  font-size: 24px;
+}
+
+.scoreTitle {
+  display: flex;
+  justify-content: space-around;
+  width: 100%;
+  font-weight: bold;
+}
+
+.scoreCont {
+  border-left: 1px solid rgba(0, 0, 0, 0.5);
+  height: auto;
+  max-width: 400px;
+}
+
+.scoreRow {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  grid-column-gap: 10px;
+  margin-bottom: 6px;
+}
+
+.scoreCard {
+  width: 200px;
+  height: 51px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 16px;
+  font-weight: 500;
+  color: #00a600;
+}
+
+.issuesList {
+  max-height: 300px;
+  overflow: auto;
+}
+
+.issuesCont {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.issuesTitle {
+  font-size: 24px;
+  display: flex;
+}
+
+.statisticWrapper {
+  margin-top: 20px;
+  text-align: center;
+
+}
+
+.statisticTitle {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.topSetting {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  margin-bottom: 100px;
+}
+
+.pokerCardWrapper {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.pokerCard {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 48px;
+  width: 83px;
+  height: 127px;
+  border: 1px solid #e1e1e1;
+  background-color: white;
+  border-radius: 12px;
+  margin-right: 16px;
+  margin-bottom: 20px;
+  box-shadow: 1px 2px 5px rgba(0, 0, 0, 0.2);
+  cursor: pointer;
+}
+
+.pokerCard:hover {
+  background-color: #60dabf54;
+}
+
+.pokerCardActive {
+  background-color: #60dabf54;
+}
+
+
+@media (max-width: 960px) {
+  .game {
+    flex-wrap: wrap;
+  }
+  .mainUnit {
+    width: 100%;
+  }
+  .scoreCont {
+    border: none;
+  }
+
+}
+
+@media (max-width: 650px) {
+  .topSetting {
+    flex-direction: column;
+    align-items: center;
+  }
+
+  .scramMasterCard {
+    margin-bottom: 10px;
+  }
+
+  .scoreRow {
+    grid-template-columns: 1fr 2fr;
+    grid-column-gap: 0px;
+  }
+  .scoreCard {
+    width: 100px;
+  }
+
+  .scoreTitle {
+    width: 80%;
+  }
+}
