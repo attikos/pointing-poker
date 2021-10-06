@@ -76,7 +76,8 @@ const Game = (): JSX.Element => {
     }
 
     const score = scores.find(
-      (item) => item.userId === userId && item.issueId === issueId);
+      (item) => item.userId === userId && item.issueId === issueId,
+    );
 
     if (score?.score === 'cof') {
       return (
@@ -147,7 +148,6 @@ const Game = (): JSX.Element => {
   const returnIssuesList = (iss: IIssue[]) => {
     return (
       <div className={s.issuesListWrapper}>
-
         <div className={s.issuesList}>
           {iss.map((issue: IIssue, ind: number) => {
             return (
@@ -200,6 +200,10 @@ const Game = (): JSX.Element => {
     return issues.some((item) => item.isCurrent);
   };
 
+  const allIssuesFinished = (): boolean => {
+    return issues.some((item) => item.status !== 'finished');
+  };
+
   const drawControlRoundBtn = () => {
     if (userData.isDiller) {
       if (checkExistCurrentIssue()) {
@@ -231,12 +235,12 @@ const Game = (): JSX.Element => {
             >
               Run Round
             </button>
-            <button
+            {allIssuesFinished() ?  <button
               className={cn('btn btn-secondary me')}
               onClick={() => selectNextIssue()}
             >
               Next Round
-            </button>
+            </button> : null}
           </div>
         );
       } else return <div>Please select a issue</div>;
@@ -268,7 +272,7 @@ const Game = (): JSX.Element => {
 
         <div className={s.topSetting}>
           <div className={s.scramMasterCard}>
-            <p className="mb-1">Scram master:</p>
+            <p className='mb-1'>Scram master:</p>
             <PlayerIcon item={members.find((item) => item.isDiller)} />
           </div>
 
@@ -291,7 +295,11 @@ const Game = (): JSX.Element => {
 
         <div className={s.issuesTitle}>
           Issues: &nbsp;
-          <AdditionIssue btnAddStyle={'btn btn-outline-primary btn-sm ms-10'}/>
+          {userData.isDiller ? (
+            <AdditionIssue
+              btnAddStyle={'btn btn-outline-primary btn-sm ms-10'}
+            />
+          ) : null}
         </div>
 
         <div className={s.issuesCont}>
