@@ -6,7 +6,7 @@ import s from './Chat.module.scss';
 import api from '../../services/api';
 import { IUser } from '../../interface';
 
-const Chat = ():JSX.Element => {
+const Chat = () => {
   const user = useSelector((state: RootState) => state.userData);
   const members = useSelector((state: RootState) => state.allData.members);
   const messages = useSelector((state: RootState) => state.allData.messages);
@@ -68,7 +68,7 @@ const Chat = ():JSX.Element => {
 
   return (
     <div className={s.chatWrapper}>
-      <p>Chat</p>
+      <p className={s.chatTitle}>Chat</p>
 
       <div className={cn('j-message-scroll', s.messages)}>
         {returnMessages()}

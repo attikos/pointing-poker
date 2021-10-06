@@ -66,10 +66,16 @@
 .linkLobby {
   padding: 1rem 0;
 }
+
+.linkRow {
+  display: flex;
+  flex-wrap: wrap;
+}
 .settingsTopButtons {
   padding: 1rem 0;
   display: flex;
   justify-content: space-between;
+  width: 50%;
 }
 .settingsMembers,
 .settingsIssues,
@@ -255,4 +261,11 @@
 
 .isObserverCard {
   background-color: rgba(153, 153, 153, 0.2);
+}
+
+@media (max-width: 650px) {
+  .linkLobby {
+    width: 100% !important;
+    justify-content: space-around;
+  }
 }

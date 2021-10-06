@@ -131,7 +131,7 @@ const Lobby = (): JSX.Element => {
         </div>
 
         {user.isDiller ? (
-          <div className='row'>
+          <div className={s.linkRow}>
             <div className={cn('col-6', s.linkLobby)}>
               <h3>
                 <i>
@@ -155,7 +155,7 @@ const Lobby = (): JSX.Element => {
             </div>
 
             <div className={cn('col-6 align-self-end', s.linkLobby)}>
-              <div className={cn('w-50 ms-auto', s.settingsTopButtons)}>
+              <div className={cn('ms-auto', s.settingsTopButtons)}>
                 <button
                   className={cn('btn btn-outline-primary')}
                   onClick={onStopGame}
