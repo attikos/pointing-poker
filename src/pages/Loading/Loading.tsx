@@ -1,6 +1,6 @@
 import React from 'react';
 
-const Loading = () => {
+const Loading = ():JSX.Element => {
   return <div>spinner</div>;
 };
 

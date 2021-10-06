@@ -4,7 +4,7 @@ import s from './InputFromFile.module.scss';
 import api from '../../services/api';
 import { HiOutlinePlus } from 'react-icons/hi';
 
-const InputFromFile = () => {
+const InputFromFile = ():JSX.Element => {
   const [active, setActive] = React.useState(false);
   const [files, setFile] = React.useState<FileList | null>();
 

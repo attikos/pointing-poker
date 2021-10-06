@@ -44,24 +44,5 @@
         "*.config.js",
         "node_modules/",
         "dist/"
-    ],
-    "rules": {
-        // "require-jsdoc": "off",
-        // "@typescript-eslint/ban-ts-comment": "off",
-        // "@typescript-eslint/no-explicit-any": "off",
-        // // "semi": [
-        // //     "error",
-        // //     "always"
-        // // ],
-        // // "quotes": [
-        // //     "error",
-        // //     "double"
-        // // ],
-        // "no-use-before-define": "off",
-        // "@typescript-eslint/no-use-before-define": [
-        //     "error"
-        // ],
-        // "@typescript-eslint/ban-types": "off",
-        // "@typescript-eslint/dot-notation": "warn"
-    }
+    ]
 }

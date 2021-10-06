@@ -1,5 +1,4 @@
-import React from 'react';
-import { useState } from 'react';
+import React, { useState } from 'react';
 import { HiOutlinePlus } from 'react-icons/hi';
 import { useSelector } from 'react-redux';
 import { IIssue } from '../../interface';
@@ -14,7 +13,7 @@ interface IProps {
   btnAddText?: string;
 }
 
-const AdditionIssue = ({ btnAddStyle, btnAddText }: IProps) => {
+const AdditionIssue = ({ btnAddStyle, btnAddText }: IProps):JSX.Element => {
   const [popapActive, setPopapActive] = useState(true);
   const [issueStatus, setissueStatus] = useState<TPopupIssueStatus>('create');
   const [dataIssue, setDataIssue] = useState<IIssue>({

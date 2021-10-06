@@ -6,7 +6,7 @@ import s from './Chat.module.scss';
 import api from '../../services/api';
 import { IUser } from '../../interface';
 
-const Chat = () => {
+const Chat = ():JSX.Element => {
   const user = useSelector((state: RootState) => state.userData);
   const members = useSelector((state: RootState) => state.allData.members);
   const messages = useSelector((state: RootState) => state.allData.messages);

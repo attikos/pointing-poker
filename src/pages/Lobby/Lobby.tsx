@@ -50,9 +50,6 @@ const Lobby = (): JSX.Element => {
     return '';
   };
 
-  // const isThisIssue = (issueId: number) => {
-  //   return issues.find(((e: IIssue[], i: number) => e[i].id = issueId));
-  // };
   const isThisIssue = (e: React.MouseEvent<HTMLDivElement, MouseEvent>) => {
     return e.currentTarget.id;
   };
