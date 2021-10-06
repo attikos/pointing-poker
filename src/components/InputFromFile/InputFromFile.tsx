@@ -8,7 +8,7 @@ const InputFromFile = ():JSX.Element => {
   const [active, setActive] = React.useState(false);
   const [files, setFile] = React.useState<FileList | null>();
 
-  const parseFile = async (text: any) => {
+  const parseFile = async (text: string | ArrayBuffer | null) => {
     if (typeof text === 'string') {
       const rows = text.split('\n');
       try {

@@ -14,7 +14,7 @@ const NUMBER_OF_COLUMNS = 3;
 
 const Result = (): JSX.Element => {
   const issues = useSelector((state: RootState) => state.allData.issues);
-  const arrayResults: any = {};
+  const arrayResults: { [TScore: string]: number } = {};
 
   const removeStatusCurrent = () => {
     const currentIssue = issues.find((item) => item.isCurrent);
@@ -41,7 +41,7 @@ const Result = (): JSX.Element => {
             <IssueCard issue={item} onSetIsCurrentIssue={() => null} />
             <StatisticCards
               idCurrentIssue={item.id}
-              returnResult={(issueId: number, results: any) =>
+              returnResult={(issueId: number, results: number) =>
                 (arrayResults[issueForSave(issueId)] = results)
               }
             />
@@ -55,7 +55,7 @@ const Result = (): JSX.Element => {
     return key.split(',');
   };
 
-  const parsObj = (obj: any) => {
+  const parsObj = (obj: any):string => {
     let str = '';
     for (const key in obj) {
       str = `${str} (${key}:${obj[key]}) `;
