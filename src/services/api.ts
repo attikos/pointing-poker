@@ -181,7 +181,7 @@ const startGame = (): void => {
 };
 
 /**
- * For diller and player: exit from game
+ * Run after kick a current player
  */
 const userKicked = ():void => {
   websocket.close();
