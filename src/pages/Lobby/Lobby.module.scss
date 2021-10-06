@@ -40,7 +40,6 @@
 .issuesInfo {
   color: #4c414a;
   font-size: 12px;
-  width: 150px;
 }
 
 .issuesPriority {
@@ -65,17 +64,18 @@
 }
 .linkLobby {
   padding: 1rem 0;
+  width: 50%;
 }
 
 .linkRow {
   display: flex;
   flex-wrap: wrap;
+  width: 100%;
 }
 .settingsTopButtons {
   padding: 1rem 0;
   display: flex;
-  justify-content: space-between;
-  width: 50%;
+  justify-content: flex-end;
 }
 .settingsMembers,
 .settingsIssues,
@@ -267,5 +267,8 @@
   .linkLobby {
     width: 100% !important;
     justify-content: space-around;
+  }
+  .settingsTopButtons {
+    justify-content: space-between;
   }
 }
