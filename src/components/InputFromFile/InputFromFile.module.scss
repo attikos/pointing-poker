@@ -1,0 +1,33 @@
+
+.issuesAddIcon {
+    width: 20px;
+    height: 20px;
+  }
+
+.background {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.678);
+  top: 0;
+  left: 0;
+  opacity: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+  z-index: 100;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modalContent {
+  padding: 10px;
+}
+
+.codeLine {
+  font-family: monospace;
+
+  &::marker {
+    color: #8b8b8b;
+  }
+}

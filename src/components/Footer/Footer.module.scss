@@ -1,0 +1,57 @@
+.footer {
+  width: 100%;
+  background: #909dab;
+  padding: 12px;
+  border-top: 2px solid #717171;
+
+  a {
+    text-decoration: none;
+
+    &:hover {
+      cursor: pointer;
+    }
+  }
+}
+
+.footerContainer {
+  display: flex;
+  flex-wrap: wrap;
+  align-content: center;
+  align-items: center;
+  line-height: 30px;
+  justify-content: space-around;
+  color: #000;
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+.footerLogoImg {
+  width: 150px;
+}
+
+.link {
+  font-size: 16px;
+  font-weight: 400px;
+  color: #000;
+
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.footerLogoSvg {
+  width: 45%;
+  z-index: -1;
+}
+
+.year {
+  font-size: 16px;
+  line-height: 20px;
+  color: #222;
+  font-weight: bold;
+}
+
+.footerGithub {
+  display: flex;
+  flex-direction: column;
+}
